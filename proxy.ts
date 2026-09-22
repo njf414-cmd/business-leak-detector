@@ -13,6 +13,14 @@ export async function proxy(
   const pathname =
     request.nextUrl.pathname;
 
+  // Public production health check
+  if (
+    pathname === "/api/health"
+  ) {
+    return NextResponse.next();
+  }
+
+  // Development-only API routes
   if (
     process.env.NODE_ENV !==
       "production" &&
