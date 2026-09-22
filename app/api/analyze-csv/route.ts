@@ -1,5 +1,6 @@
 import { CSV_CONTEXT_FIELDS, normalizeCsvRows } from "../../lib/business-intelligence/csv-normalizer";
 import { NextResponse } from "next/server";
+import { logger } from "../../lib/observability/logger";
 
 import {
   getDetectorCatalog,
@@ -153,6 +154,9 @@ function parseCsv(csvText: string): {
 export async function POST(
   request: Request
 ) {
+  const startedAt = performance.now();
+  const requestId = crypto.randomUUID();
+
   try {
     const formData =
       await request.formData();
@@ -733,6 +737,48 @@ export async function POST(
     /* RESPONSE */
     /* ================================== */
 
+    logger.info("analysis.completed", {
+      requestId,
+      durationMs: Math.round(
+        performance.now() - startedAt
+      ),
+      previewOnly,
+      analysisPerformed,
+      industry: profile.industry,
+      industrySelection,
+      classificationConfidence:
+        classification.confidence,
+      rowsUploaded: parsed.rows.length,
+      rowsAccepted: detectorRows.length,
+      rowsBlocked: blockedRowIndexes.size,
+      skippedRows: parsed.skippedRows,
+      dataQualityScore: dataQuality.score,
+      mappingSourceFields: parsed.headers.length,
+      trustedMappings:
+        mappingQuality.trustedMappings.length,
+      rejectedMappings:
+        mapping.matches.length -
+        mappingQuality.trustedMappings.length,
+      detectorsSupported:
+        supportedDetectors.length,
+      detectorsRunnable:
+        runnableDetectors.length,
+      detectorsSelected:
+        result.stats.detectorsSelected,
+      detectorsRan:
+        result.stats.detectorsRan,
+      detectorsFailed:
+        result.stats.detectorsFailed,
+      leaksFound:
+        result.stats.leaksFound,
+      totalEstimatedLoss:
+        result.stats.totalEstimatedLoss,
+      totalEstimatedRecovery:
+        result.stats.totalEstimatedRecovery,
+      warnings: result.stats.warnings,
+      errors: result.stats.errors,
+    });
+
     return NextResponse.json({
       success:
         result.success,
@@ -963,6 +1009,17 @@ export async function POST(
       },
     });
   } catch (error) {
+    logger.error("analysis.failed", {
+      requestId,
+      durationMs: Math.round(
+        performance.now() - startedAt
+      ),
+      errorType:
+        error instanceof Error
+          ? error.name
+          : "UnknownError",
+    });
+
     return NextResponse.json(
       {
         success: false,
