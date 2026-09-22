@@ -1,0 +1,3 @@
+Customer Name,Cart,Cart Value,Cart Status,Cart Recovery Status
+Open Customer,CART-1,125,abandoned,pending
+Control,CART-2,250,abandoned,recovered

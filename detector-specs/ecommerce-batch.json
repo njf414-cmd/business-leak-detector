@@ -1,0 +1,307 @@
+[
+  {
+    "number": 76,
+    "id": "ecommerce.abandoned-cart",
+    "exportName": "abandonedCartDetector",
+    "fileName": "abandoned-cart.ts",
+    "name": "Abandoned Cart",
+    "description": "Detects abandoned shopping carts with a documented recoverable cart value.",
+    "industry": "ecommerce",
+    "itemField": "Cart",
+    "amountField": "Cart Value",
+    "statusField": "Cart Status",
+    "billingStatusField": "Cart Recovery Status",
+    "dateField": "Cart Abandoned Date",
+    "positiveStatuses": [
+      "abandoned",
+      "left checkout",
+      "checkout abandoned",
+      "not completed"
+    ],
+    "billedStatuses": [
+      "recovered",
+      "purchased",
+      "converted",
+      "paid"
+    ],
+    "leakType": "Abandoned Cart",
+    "category": "Ecommerce Revenue",
+    "revenueType": "abandoned_cart",
+    "detectionReason": "cart_abandoned_not_recovered",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 77,
+    "id": "ecommerce.failed-checkout-payment",
+    "exportName": "failedCheckoutPaymentDetector",
+    "fileName": "failed-checkout-payment.ts",
+    "name": "Failed Checkout Payment",
+    "description": "Detects failed checkout payment attempts with a documented order value that remains unrecovered.",
+    "industry": "ecommerce",
+    "itemField": "Checkout",
+    "amountField": "Checkout Amount",
+    "statusField": "Checkout Payment Status",
+    "billingStatusField": "Checkout Recovery Status",
+    "dateField": "Checkout Date",
+    "positiveStatuses": [
+      "failed",
+      "declined",
+      "payment failed",
+      "retry needed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "recovered",
+      "collected",
+      "completed"
+    ],
+    "leakType": "Failed Checkout Payment",
+    "category": "Ecommerce Revenue",
+    "revenueType": "checkout_payment",
+    "detectionReason": "checkout_payment_failed_not_recovered",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 78,
+    "id": "ecommerce.unpaid-order",
+    "exportName": "unpaidOrderDetector",
+    "fileName": "unpaid-order.ts",
+    "name": "Unpaid Order",
+    "description": "Detects completed or confirmed customer orders with a documented unpaid balance.",
+    "industry": "ecommerce",
+    "itemField": "Order",
+    "amountField": "Order Balance",
+    "statusField": "Order Status",
+    "billingStatusField": "Order Payment Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "confirmed",
+      "completed",
+      "fulfilled",
+      "shipped"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled"
+    ],
+    "leakType": "Unpaid Order",
+    "category": "Ecommerce Billing",
+    "revenueType": "order_payment",
+    "detectionReason": "order_completed_balance_unpaid",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 79,
+    "id": "ecommerce.unbilled-shipping-charge",
+    "exportName": "unbilledShippingChargeDetector",
+    "fileName": "unbilled-shipping-charge.ts",
+    "name": "Unbilled Shipping Charge",
+    "description": "Detects shipped orders with a documented shipping charge that was not billed.",
+    "industry": "ecommerce",
+    "itemField": "Shipment",
+    "amountField": "Shipping Charge",
+    "statusField": "Shipment Status",
+    "billingStatusField": "Shipping Billing Status",
+    "dateField": "Shipment Date",
+    "positiveStatuses": [
+      "shipped",
+      "fulfilled",
+      "delivered",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "paid",
+      "collected",
+      "included"
+    ],
+    "leakType": "Unbilled Shipping Charge",
+    "category": "Ecommerce Billing",
+    "revenueType": "shipping_charge",
+    "detectionReason": "shipment_completed_shipping_not_billed"
+  },
+  {
+    "number": 80,
+    "id": "ecommerce.unbilled-product-add-on",
+    "exportName": "unbilledEcommerceProductAddOnDetector",
+    "fileName": "unbilled-product-add-on.ts",
+    "name": "Unbilled Product Add-On",
+    "description": "Detects sold product add-ons with a documented add-on amount that has not been billed.",
+    "industry": "ecommerce",
+    "itemField": "Product Add-On",
+    "amountField": "Product Add-On Amount",
+    "statusField": "Product Add-On Status",
+    "billingStatusField": "Product Add-On Billing Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "sold",
+      "added",
+      "fulfilled",
+      "delivered"
+    ],
+    "billedStatuses": [
+      "billed",
+      "paid",
+      "collected",
+      "included"
+    ],
+    "leakType": "Unbilled Product Add-On",
+    "category": "Ecommerce Billing",
+    "revenueType": "product_add_on",
+    "detectionReason": "product_add_on_sold_not_billed"
+  },
+  {
+    "number": 81,
+    "id": "ecommerce.uncollected-restocking-fee",
+    "exportName": "uncollectedRestockingFeeDetector",
+    "fileName": "uncollected-restocking-fee.ts",
+    "name": "Uncollected Restocking Fee",
+    "description": "Detects processed returns where a documented restocking fee remains uncollected.",
+    "industry": "ecommerce",
+    "itemField": "Return",
+    "amountField": "Restocking Fee",
+    "statusField": "Return Status",
+    "billingStatusField": "Restocking Fee Status",
+    "dateField": "Return Date",
+    "positiveStatuses": [
+      "returned",
+      "processed",
+      "approved",
+      "completed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Restocking Fee",
+    "category": "Ecommerce Billing",
+    "revenueType": "restocking_fee",
+    "detectionReason": "return_processed_restocking_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 82,
+    "id": "ecommerce.unbilled-gift-wrap-fee",
+    "exportName": "unbilledGiftWrapFeeDetector",
+    "fileName": "unbilled-gift-wrap-fee.ts",
+    "name": "Unbilled Gift-Wrap Fee",
+    "description": "Detects fulfilled gift-wrap services with a documented fee that was not billed.",
+    "industry": "ecommerce",
+    "itemField": "Gift Wrap",
+    "amountField": "Gift Wrap Fee",
+    "statusField": "Gift Wrap Status",
+    "billingStatusField": "Gift Wrap Billing Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "completed",
+      "provided",
+      "fulfilled",
+      "added"
+    ],
+    "billedStatuses": [
+      "billed",
+      "paid",
+      "collected",
+      "included"
+    ],
+    "leakType": "Unbilled Gift-Wrap Fee",
+    "category": "Ecommerce Billing",
+    "revenueType": "gift_wrap_fee",
+    "detectionReason": "gift_wrap_provided_not_billed"
+  },
+  {
+    "number": 83,
+    "id": "ecommerce.unbilled-expedited-shipping-fee",
+    "exportName": "unbilledExpeditedShippingFeeDetector",
+    "fileName": "unbilled-expedited-shipping-fee.ts",
+    "name": "Unbilled Expedited Shipping Fee",
+    "description": "Detects expedited shipments with a documented premium shipping fee that was not billed.",
+    "industry": "ecommerce",
+    "itemField": "Expedited Shipment",
+    "amountField": "Expedited Shipping Fee",
+    "statusField": "Expedited Shipping Status",
+    "billingStatusField": "Expedited Shipping Billing Status",
+    "dateField": "Shipment Date",
+    "positiveStatuses": [
+      "shipped",
+      "fulfilled",
+      "delivered",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "paid",
+      "collected",
+      "included"
+    ],
+    "leakType": "Unbilled Expedited Shipping Fee",
+    "category": "Ecommerce Billing",
+    "revenueType": "expedited_shipping_fee",
+    "detectionReason": "expedited_shipping_completed_fee_not_billed"
+  },
+  {
+    "number": 84,
+    "id": "ecommerce.unconverted-back-in-stock-opportunity",
+    "exportName": "unconvertedBackInStockOpportunityDetector",
+    "fileName": "unconverted-back-in-stock-opportunity.ts",
+    "name": "Unconverted Back-In-Stock Opportunity",
+    "description": "Detects customers who expressed demand for an out-of-stock product that is now available but have not converted.",
+    "industry": "ecommerce",
+    "itemField": "Back In Stock Product",
+    "amountField": "Opportunity Amount",
+    "statusField": "Back In Stock Status",
+    "billingStatusField": "Conversion Status",
+    "dateField": "Back In Stock Date",
+    "positiveStatuses": [
+      "back in stock",
+      "available",
+      "restocked",
+      "ready"
+    ],
+    "billedStatuses": [
+      "converted",
+      "purchased",
+      "ordered",
+      "paid"
+    ],
+    "leakType": "Unconverted Back-In-Stock Opportunity",
+    "category": "Ecommerce Opportunity",
+    "revenueType": "back_in_stock_opportunity",
+    "detectionReason": "product_restocked_customer_not_converted",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 85,
+    "id": "ecommerce.unrecovered-chargeback",
+    "exportName": "unrecoveredChargebackDetector",
+    "fileName": "unrecovered-chargeback.ts",
+    "name": "Unrecovered Chargeback",
+    "description": "Detects chargebacks with a documented disputed amount that remains unrecovered.",
+    "industry": "ecommerce",
+    "itemField": "Chargeback",
+    "amountField": "Chargeback Amount",
+    "statusField": "Chargeback Status",
+    "billingStatusField": "Chargeback Recovery Status",
+    "dateField": "Chargeback Date",
+    "positiveStatuses": [
+      "open",
+      "lost",
+      "disputed",
+      "needs response"
+    ],
+    "billedStatuses": [
+      "recovered",
+      "won",
+      "reimbursed",
+      "settled"
+    ],
+    "leakType": "Unrecovered Chargeback",
+    "category": "Ecommerce Revenue",
+    "revenueType": "chargeback",
+    "detectionReason": "chargeback_not_recovered",
+    "recommendedActionVerb": "recover"
+  }
+]

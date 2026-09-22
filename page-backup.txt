@@ -1,0 +1,1092 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import {
+  analyzeCSV,
+  type LeakType,
+} from "./lib/leak-engine";
+import {
+  prioritizeLeaks,
+  type PrioritizedLeak,
+} from "./lib/priority-engine";
+import { supabase } from "./lib/supabase";
+
+type LeakStatus =
+  | "Open"
+  | "Contacted"
+  | "Recovered"
+  | "Dismissed";
+
+type TrackedLeak = PrioritizedLeak & {
+  status: LeakStatus;
+  dbId?: string;
+};
+
+function formatMoney(amount: number) {
+  return amount.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  });
+}
+
+export default function Home() {
+  const [fileName, setFileName] = useState("");
+  const [leaks, setLeaks] = useState<TrackedLeak[]>([]);
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+
+  const [filter, setFilter] = useState<
+    "All" | LeakType
+  >("All");
+
+  const [search, setSearch] = useState("");
+  const [selectedLeak, setSelectedLeak] =
+    useState<string | null>(null);
+
+  async function loadLatestAnalysis() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const { data: analysis, error: analysisError } =
+        await supabase
+          .from("analyses")
+          .select(
+            "id, file_name, created_at"
+          )
+          .order("created_at", {
+            ascending: false,
+          })
+          .limit(1)
+          .maybeSingle();
+
+      if (analysisError) {
+        throw analysisError;
+      }
+
+      if (!analysis) {
+        setLeaks([]);
+        setFileName("");
+        setLoading(false);
+        return;
+      }
+
+      const { data: savedLeaks, error: leaksError } =
+        await supabase
+          .from("leaks")
+          .select(
+            "id, customer, type, amount, recovery, severity, reason, action, date, days_open, status, priority_score, priority_level"
+          )
+          .eq("analysis_id", analysis.id)
+          .order("priority_score", {
+            ascending: false,
+          });
+
+      if (leaksError) {
+        throw leaksError;
+      }
+
+      const restoredLeaks: TrackedLeak[] =
+        (savedLeaks || []).map((leak) => ({
+          dbId: leak.id,
+          customer: leak.customer,
+          type: leak.type as LeakType,
+          amount: Number(leak.amount),
+          recovery: Number(leak.recovery),
+          severity: leak.severity,
+          reason: leak.reason,
+          action: leak.action,
+          date: leak.date || undefined,
+          daysOpen:
+            leak.days_open !== null
+              ? Number(leak.days_open)
+              : undefined,
+          status:
+            (leak.status as LeakStatus) ||
+            "Open",
+          priorityScore:
+            Number(leak.priority_score) || 0,
+          priorityLevel:
+            leak.priority_level || "Medium",
+        }));
+
+      setLeaks(restoredLeaks);
+      setFileName(
+        analysis.file_name || "Saved analysis"
+      );
+      setSaved(true);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        "We couldn't load the saved analysis."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadLatestAnalysis();
+  }, []);
+
+  async function saveAnalysis(
+    file: File,
+    detectedLeaks: TrackedLeak[]
+  ) {
+    setSaving(true);
+    setSaved(false);
+    setError("");
+
+    try {
+      const {
+        data: existingBusiness,
+        error: businessLookupError,
+      } = await supabase
+        .from("businesses")
+        .select("id")
+        .eq("name", "Demo Business")
+        .limit(1)
+        .maybeSingle();
+
+      if (businessLookupError) {
+        throw businessLookupError;
+      }
+
+      let businessId =
+        existingBusiness?.id;
+
+      if (!businessId) {
+        const {
+          data: newBusiness,
+          error: businessInsertError,
+        } = await supabase
+          .from("businesses")
+          .insert({
+            name: "Demo Business",
+          })
+          .select("id")
+          .single();
+
+        if (businessInsertError) {
+          throw businessInsertError;
+        }
+
+        businessId = newBusiness.id;
+      }
+
+      const totalLeakage =
+        detectedLeaks.reduce(
+          (total, leak) =>
+            total + leak.amount,
+          0
+        );
+
+      const estimatedRecovery =
+        detectedLeaks.reduce(
+          (total, leak) =>
+            total + leak.recovery,
+          0
+        );
+
+      const {
+        data: analysis,
+        error: analysisError,
+      } = await supabase
+        .from("analyses")
+        .insert({
+          business_id: businessId,
+          file_name: file.name,
+          total_leakage: totalLeakage,
+          estimated_recovery:
+            estimatedRecovery,
+        })
+        .select("id")
+        .single();
+
+      if (analysisError) {
+        throw analysisError;
+      }
+
+      const leakRows =
+        detectedLeaks.map((leak) => ({
+          analysis_id: analysis.id,
+          customer: leak.customer,
+          type: leak.type,
+          amount: leak.amount,
+          recovery: leak.recovery,
+          severity: leak.severity,
+          reason: leak.reason,
+          action: leak.action,
+          date: leak.date ?? null,
+          days_open:
+            leak.daysOpen ?? null,
+          status: leak.status,
+          priority_score:
+            leak.priorityScore,
+          priority_level:
+            leak.priorityLevel,
+        }));
+
+      if (leakRows.length > 0) {
+        const { error: leaksError } =
+          await supabase
+            .from("leaks")
+            .insert(leakRows);
+
+        if (leaksError) {
+          throw leaksError;
+        }
+      }
+
+      await loadLatestAnalysis();
+      setSaved(true);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        "The analysis was completed, but we couldn't save it to the database."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function analyzeFile(file: File) {
+    setFileName(file.name);
+    setError("");
+    setSaved(false);
+    setSelectedLeak(null);
+
+    const reader = new FileReader();
+
+    reader.onload = async (event) => {
+      try {
+        const text = String(
+          event.target?.result || ""
+        );
+
+        const results = analyzeCSV(text);
+
+        const prioritized =
+          prioritizeLeaks(results);
+
+        const tracked: TrackedLeak[] =
+          prioritized.map((leak) => ({
+            ...leak,
+            status: "Open",
+          }));
+
+        setLeaks(tracked);
+
+        await saveAnalysis(
+          file,
+          tracked
+        );
+      } catch (err) {
+        console.error(err);
+
+        setLeaks([]);
+
+        setError(
+          "Something went wrong while analyzing this CSV."
+        );
+      }
+    };
+
+    reader.readAsText(file);
+  }
+
+  async function updateLeakStatus(
+    leak: TrackedLeak,
+    status: LeakStatus
+  ) {
+    setLeaks((current) =>
+      current.map((item) =>
+        item.dbId === leak.dbId
+          ? {
+              ...item,
+              status,
+            }
+          : item
+      )
+    );
+
+    if (leak.dbId) {
+      const { error: updateError } =
+        await supabase
+          .from("leaks")
+          .update({
+            status,
+          })
+          .eq("id", leak.dbId);
+
+      if (updateError) {
+        console.error(updateError);
+
+        setError(
+          "The status changed on screen, but we couldn't save the change."
+        );
+      }
+    }
+
+    if (
+      status === "Recovered" ||
+      status === "Dismissed"
+    ) {
+      setSelectedLeak(null);
+    }
+  }
+
+  const openLeaks = useMemo(() => {
+    return leaks.filter(
+      (leak) =>
+        leak.status !== "Recovered" &&
+        leak.status !== "Dismissed"
+    );
+  }, [leaks]);
+
+  const totalLeakage = useMemo(() => {
+    return openLeaks.reduce(
+      (total, leak) =>
+        total + leak.amount,
+      0
+    );
+  }, [openLeaks]);
+
+  const estimatedRecovery = useMemo(() => {
+    return openLeaks.reduce(
+      (total, leak) =>
+        total + leak.recovery,
+      0
+    );
+  }, [openLeaks]);
+
+  const recoveredAmount = useMemo(() => {
+    return leaks
+      .filter(
+        (leak) =>
+          leak.status === "Recovered"
+      )
+      .reduce(
+        (total, leak) =>
+          total + leak.amount,
+        0
+      );
+  }, [leaks]);
+
+  const estimates = openLeaks.filter(
+    (leak) =>
+      leak.type ===
+      "Unfollowed Estimate"
+  );
+
+  const leads = openLeaks.filter(
+    (leak) =>
+      leak.type === "Unbooked Lead"
+  );
+
+  const invoices = openLeaks.filter(
+    (leak) =>
+      leak.type === "Unpaid Invoice"
+  );
+
+  const topActions =
+    openLeaks.slice(0, 5);
+
+  const filteredLeaks =
+    openLeaks.filter((leak) => {
+      const matchesFilter =
+        filter === "All" ||
+        leak.type === filter;
+
+      const matchesSearch =
+        leak.customer
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
+
+      return (
+        matchesFilter &&
+        matchesSearch
+      );
+    });
+
+  return (
+    <main className="min-h-screen bg-slate-950 p-6 text-white md:p-10">
+      <div className="mx-auto max-w-7xl">
+
+        {/* HEADER */}
+
+        <div>
+          <p className="text-sm font-bold tracking-widest text-blue-400">
+            BUSINESS LEAK DETECTOR
+          </p>
+
+          <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
+            Find the money your business is losing.
+          </h1>
+
+          <p className="mt-4 max-w-2xl text-slate-400">
+            Upload your business data and uncover
+            missed revenue, unpaid money, and
+            customers that slipped through the cracks.
+          </p>
+        </div>
+
+        {/* LOADING */}
+
+        {loading && (
+          <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
+            <p className="text-slate-400">
+              Loading saved business data...
+            </p>
+          </div>
+        )}
+
+        {/* METRICS */}
+
+        {!loading && (
+          <div className="mt-10 grid gap-5 md:grid-cols-4">
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-7">
+              <p className="text-sm text-slate-400">
+                Revenue at Risk
+              </p>
+
+              <h2 className="mt-3 text-4xl font-bold">
+                ${formatMoney(totalLeakage)}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Current unresolved leak value
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-7">
+              <p className="text-sm text-slate-400">
+                Estimated Recovery
+              </p>
+
+              <h2 className="mt-3 text-4xl font-bold text-green-400">
+                ${formatMoney(estimatedRecovery)}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Estimated recoverable value
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-7">
+              <p className="text-sm text-slate-400">
+                Open Leaks
+              </p>
+
+              <h2 className="mt-3 text-4xl font-bold">
+                {openLeaks.length}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Opportunities requiring action
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-7">
+              <p className="text-sm text-slate-400">
+                Recovered
+              </p>
+
+              <h2 className="mt-3 text-4xl font-bold text-green-400">
+                ${formatMoney(recoveredAmount)}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Revenue marked recovered
+              </p>
+            </div>
+
+          </div>
+        )}
+
+        {/* ACTION CENTER */}
+
+        {!loading &&
+          leaks.length > 0 && (
+            <div className="mt-6 rounded-2xl border border-blue-500/20 bg-slate-900 p-6 md:p-8">
+
+              <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+
+                <div>
+                  <p className="text-sm font-bold tracking-widest text-blue-400">
+                    ACTION CENTER
+                  </p>
+
+                  <h2 className="mt-2 text-2xl font-bold">
+                    Start recovering revenue.
+                  </h2>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    Work through the highest-priority
+                    opportunities first.
+                  </p>
+                </div>
+
+                <div className="text-left md:text-right">
+                  <p className="text-sm text-slate-500">
+                    Currently at risk
+                  </p>
+
+                  <p className="text-2xl font-bold">
+                    ${formatMoney(totalLeakage)}
+                  </p>
+                </div>
+
+              </div>
+
+              <div className="mt-6 space-y-3">
+
+                {topActions.map(
+                  (leak, index) => {
+                    const leakKey =
+                      leak.dbId ||
+                      `${leak.customer}-${leak.amount}`;
+
+                    return (
+                      <div
+                        key={`priority-${leakKey}`}
+                        className="rounded-xl border border-slate-800 bg-slate-950 p-5"
+                      >
+
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+                          <div className="flex gap-4">
+
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-sm font-bold text-blue-400">
+                              {index + 1}
+                            </div>
+
+                            <div>
+
+                              <div className="flex flex-wrap items-center gap-2">
+
+                                <h3 className="font-semibold">
+                                  {leak.customer}
+                                </h3>
+
+                                <span
+                                  className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                                    leak.priorityLevel === "Critical"
+                                      ? "bg-red-500/10 text-red-400"
+                                      : leak.priorityLevel === "High"
+                                      ? "bg-yellow-500/10 text-yellow-400"
+                                      : "bg-slate-800 text-slate-400"
+                                  }`}
+                                >
+                                  {leak.priorityLevel}
+                                </span>
+
+                                <span className="rounded-full bg-slate-800 px-2.5 py-1 text-xs text-slate-400">
+                                  {leak.status}
+                                </span>
+
+                              </div>
+
+                              <p className="mt-1 text-sm text-slate-500">
+                                {leak.type}
+                                {leak.daysOpen !== undefined &&
+                                  ` • ${leak.daysOpen} days open`}
+                              </p>
+
+                            </div>
+
+                          </div>
+
+                          <div className="flex flex-col gap-3 md:items-end">
+
+                            <div className="md:text-right">
+                              <p className="text-xl font-bold">
+                                ${formatMoney(leak.amount)}
+                              </p>
+
+                              <p className="mt-1 text-sm text-slate-400">
+                                {leak.action}
+                              </p>
+                            </div>
+
+                            <button
+                              onClick={() =>
+                                setSelectedLeak(
+                                  leakKey
+                                )
+                              }
+                              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500"
+                            >
+                              Open
+                            </button>
+
+                          </div>
+
+                        </div>
+
+                        {selectedLeak ===
+                          leakKey && (
+                          <div className="mt-5 border-t border-slate-800 pt-5">
+
+                            <div className="grid gap-4 md:grid-cols-2">
+
+                              <div className="rounded-xl bg-slate-900 p-4">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                  Why we found it
+                                </p>
+
+                                <p className="mt-2 text-sm text-slate-300">
+                                  {leak.reason}
+                                </p>
+                              </div>
+
+                              <div className="rounded-xl bg-slate-900 p-4">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                  Recommended Action
+                                </p>
+
+                                <p className="mt-2 text-sm text-slate-300">
+                                  {leak.action}
+                                </p>
+                              </div>
+
+                            </div>
+
+                            <div className="mt-5 flex flex-wrap gap-3">
+
+                              <button
+                                onClick={() =>
+                                  updateLeakStatus(
+                                    leak,
+                                    "Contacted"
+                                  )
+                                }
+                                className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold transition hover:bg-slate-800"
+                              >
+                                Mark Contacted
+                              </button>
+
+                              <button
+                                onClick={() =>
+                                  updateLeakStatus(
+                                    leak,
+                                    "Recovered"
+                                  )
+                                }
+                                className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold transition hover:bg-green-500"
+                              >
+                                Mark Recovered
+                              </button>
+
+                              <button
+                                onClick={() =>
+                                  updateLeakStatus(
+                                    leak,
+                                    "Dismissed"
+                                  )
+                                }
+                                className="rounded-lg border border-red-500/30 px-4 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500/10"
+                              >
+                                Dismiss
+                              </button>
+
+                              <button
+                                onClick={() =>
+                                  setSelectedLeak(
+                                    null
+                                  )
+                                }
+                                className="rounded-lg px-4 py-2 text-sm text-slate-500 hover:text-white"
+                              >
+                                Close
+                              </button>
+
+                            </div>
+
+                          </div>
+                        )}
+
+                      </div>
+                    );
+                  }
+                )}
+
+              </div>
+
+              {topActions.length ===
+                0 && (
+                <div className="mt-6 rounded-xl bg-slate-950 p-8 text-center">
+                  <p className="text-lg font-semibold text-green-400">
+                    No open leaks.
+                  </p>
+
+                  <p className="mt-2 text-sm text-slate-500">
+                    You've worked through every detected opportunity.
+                  </p>
+                </div>
+              )}
+
+              {openLeaks.length > 5 && (
+                <p className="mt-5 text-center text-sm text-slate-500">
+                  Showing the 5 highest-priority open opportunities.
+                </p>
+              )}
+
+            </div>
+          )}
+
+        {/* LEAK SUMMARY */}
+
+        {!loading && (
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
+
+            <button
+              onClick={() =>
+                setFilter(
+                  "Unfollowed Estimate"
+                )
+              }
+              className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-blue-500"
+            >
+              <p className="text-slate-400">
+                Unfollowed Estimates
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold">
+                {estimates.length}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                ${formatMoney(
+                  estimates.reduce(
+                    (sum, leak) =>
+                      sum + leak.amount,
+                    0
+                  )
+                )}
+              </p>
+            </button>
+
+            <button
+              onClick={() =>
+                setFilter(
+                  "Unbooked Lead"
+                )
+              }
+              className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-blue-500"
+            >
+              <p className="text-slate-400">
+                Unbooked Leads
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold">
+                {leads.length}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                ${formatMoney(
+                  leads.reduce(
+                    (sum, leak) =>
+                      sum + leak.amount,
+                    0
+                  )
+                )}
+              </p>
+            </button>
+
+            <button
+              onClick={() =>
+                setFilter(
+                  "Unpaid Invoice"
+                )
+              }
+              className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-blue-500"
+            >
+              <p className="text-slate-400">
+                Unpaid Invoices
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold">
+                {invoices.length}
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                ${formatMoney(
+                  invoices.reduce(
+                    (sum, leak) =>
+                      sum + leak.amount,
+                    0
+                  )
+                )}
+              </p>
+            </button>
+
+          </div>
+        )}
+
+        {/* UPLOAD */}
+
+        {!loading && (
+          <div className="mt-6 rounded-2xl border border-dashed border-slate-700 bg-slate-900 p-10 text-center">
+
+            <h2 className="text-xl font-semibold">
+              Analyze your business
+            </h2>
+
+            <p className="mt-2 text-slate-400">
+              Upload a CSV export from your business software.
+            </p>
+
+            <label className="mt-6 inline-block cursor-pointer rounded-xl bg-blue-600 px-7 py-3 font-semibold transition hover:bg-blue-500">
+              Upload CSV
+
+              <input
+                type="file"
+                accept=".csv"
+                className="hidden"
+                onChange={(event) => {
+                  const file =
+                    event.target.files?.[0];
+
+                  if (file) {
+                    analyzeFile(file);
+                  }
+                }}
+              />
+            </label>
+
+            {fileName && (
+              <p className="mt-4 text-sm text-green-400">
+                ✓ {fileName} loaded
+              </p>
+            )}
+
+            {saving && (
+              <p className="mt-4 text-sm text-blue-400">
+                Saving analysis to database...
+              </p>
+            )}
+
+            {saved && !saving && (
+              <p className="mt-4 text-sm text-green-400">
+                ✓ Analysis saved to database
+              </p>
+            )}
+
+            {error && (
+              <p className="mt-4 text-sm text-red-400">
+                {error}
+              </p>
+            )}
+
+          </div>
+        )}
+
+        {/* RESULTS */}
+
+        {!loading &&
+          leaks.length > 0 && (
+            <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6 md:p-8">
+
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+                <div>
+                  <h2 className="text-2xl font-semibold">
+                    Detected Revenue Leaks
+                  </h2>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    Review each opportunity and take action.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() =>
+                    setFilter("All")
+                  }
+                  className="rounded-lg border border-slate-700 px-4 py-2 text-sm hover:bg-slate-800"
+                >
+                  Show All
+                </button>
+
+              </div>
+
+              {/* SEARCH */}
+
+              <div className="mt-6 flex flex-col gap-3 md:flex-row">
+
+                <input
+                  value={search}
+                  onChange={(event) =>
+                    setSearch(
+                      event.target.value
+                    )
+                  }
+                  placeholder="Search customer..."
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm outline-none placeholder:text-slate-600 focus:border-blue-500"
+                />
+
+                <select
+                  value={filter}
+                  onChange={(event) =>
+                    setFilter(
+                      event.target.value as
+                        | "All"
+                        | LeakType
+                    )
+                  }
+                  className="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm outline-none"
+                >
+                  <option value="All">
+                    All Leak Types
+                  </option>
+
+                  <option value="Unfollowed Estimate">
+                    Unfollowed Estimates
+                  </option>
+
+                  <option value="Unbooked Lead">
+                    Unbooked Leads
+                  </option>
+
+                  <option value="Unpaid Invoice">
+                    Unpaid Invoices
+                  </option>
+                </select>
+
+              </div>
+
+              {/* LEAK CARDS */}
+
+              <div className="mt-6 space-y-4">
+
+                {filteredLeaks.map(
+                  (leak, index) => (
+                    <div
+                      key={
+                        leak.dbId ||
+                        `${leak.customer}-${index}`
+                      }
+                      className="rounded-2xl border border-slate-800 bg-slate-950 p-6"
+                    >
+
+                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+
+                        <div>
+
+                          <div className="flex flex-wrap items-center gap-2">
+
+                            <p className="text-sm font-bold text-blue-400">
+                              {leak.type}
+                            </p>
+
+                            <span
+                              className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                                leak.severity ===
+                                "High"
+                                  ? "bg-red-500/10 text-red-400"
+                                  : leak.severity ===
+                                    "Medium"
+                                  ? "bg-yellow-500/10 text-yellow-400"
+                                  : "bg-slate-800 text-slate-400"
+                              }`}
+                            >
+                              {leak.severity} Priority
+                            </span>
+
+                            <span className="rounded-full bg-slate-800 px-2.5 py-1 text-xs text-slate-400">
+                              {leak.status}
+                            </span>
+
+                          </div>
+
+                          <h3 className="mt-2 text-xl font-semibold">
+                            {leak.customer}
+                          </h3>
+
+                        </div>
+
+                        <div className="md:text-right">
+
+                          <p className="text-2xl font-bold">
+                            ${formatMoney(leak.amount)}
+                          </p>
+
+                          <p className="mt-1 text-sm text-green-400">
+                            ~$
+                            {formatMoney(
+                              leak.recovery
+                            )}{" "}
+                            estimated recovery
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <div className="mt-5 grid gap-4 md:grid-cols-2">
+
+                        <div className="rounded-xl bg-slate-900 p-4">
+
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Why we found it
+                          </p>
+
+                          <p className="mt-2 text-sm text-slate-300">
+                            {leak.reason}
+                          </p>
+
+                        </div>
+
+                        <div className="rounded-xl bg-slate-900 p-4">
+
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Recommended Action
+                          </p>
+
+                          <p className="mt-2 text-sm text-slate-300">
+                            {leak.action}
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                  )
+                )}
+
+              </div>
+
+              {filteredLeaks.length ===
+                0 && (
+                <div className="py-10 text-center text-slate-500">
+                  No leaks match your search.
+                </div>
+              )}
+
+            </div>
+          )}
+
+        {/* EMPTY STATE */}
+
+        {!loading &&
+          !fileName &&
+          leaks.length === 0 && (
+            <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
+              <p className="text-slate-500">
+                No business data analyzed yet.
+              </p>
+            </div>
+          )}
+
+      </div>
+    </main>
+  );
+}

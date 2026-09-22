@@ -1,0 +1,13 @@
+Account,Pipeline Stage,Deal Value,Reached,Created On,Last Called,Cash Received,Record Type,Rep,Internal Notes
+Account 001,New,"$4,850",No,9/1/26,9/2/26,,Estimate,Representative,
+Account 002,Estimate Sent,"$1,275",Yes,09-03-2026,09-05-2026,,Quote,Representative,
+Account 003,Won,"$3,200",Yes,2026-08-28,2026-09-01,"$3,200",Job,Representative,
+Account 004,No Response,$950,No,8/15/26,8/16/26,,Lead,Representative,
+Account 005,Invoice Open,"$7,600",Yes,08/20/2026,09/10/2026,"$2,000",Invoice,Representative,
+Account 006,Scheduled,$680,Yes,2026/09/12,2026/09/13,,Appointment,Representative,
+Account 007,Estimate Sent,"$12,400",No,9-01-26,9-03-26,,Proposal,Representative,
+Account 008,Lost,"$2,150",Yes,2026-08-05,2026-08-10,,Quote,Representative,
+Account 009,Overdue,"$5,900",Yes,08/01/26,08/18/26,"$1,500",Invoice,Representative,
+Account 010,New,$425,No,9/15/2026,,,Lead,Representative,
+Account 011,Completed,"$18,750",Yes,2026-07-20,2026-08-01,"$18,750",Project,Representative,
+Account 012,No Show,$300,Yes,09-14-26,09-14-26,,Booking,Representative,

@@ -1,0 +1,307 @@
+[
+  {
+    "number": 116,
+    "id": "healthcare.uncollected-consultation-fee",
+    "exportName": "uncollectedHealthcareConsultationFeeDetector",
+    "fileName": "uncollected-consultation-fee.ts",
+    "name": "Uncollected Consultation Fee",
+    "description": "Detects completed billable healthcare consultations with a documented fee that remains uncollected.",
+    "industry": "healthcare",
+    "itemField": "Consultation",
+    "amountField": "Consultation Fee",
+    "statusField": "Consultation Status",
+    "billingStatusField": "Consultation Payment Status",
+    "dateField": "Consultation Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "billable",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Consultation Fee",
+    "category": "Healthcare Billing",
+    "revenueType": "consultation_fee",
+    "detectionReason": "consultation_completed_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 117,
+    "id": "healthcare.unbilled-procedure-add-on",
+    "exportName": "unbilledHealthcareProcedureAddOnDetector",
+    "fileName": "unbilled-procedure-add-on.ts",
+    "name": "Unbilled Procedure Add-On",
+    "description": "Detects completed healthcare procedure add-ons with a documented charge that has not been billed.",
+    "industry": "healthcare",
+    "itemField": "Procedure Add-On",
+    "amountField": "Procedure Add-On Amount",
+    "statusField": "Procedure Add-On Status",
+    "billingStatusField": "Procedure Add-On Billing Status",
+    "dateField": "Procedure Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "provided",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Procedure Add-On",
+    "category": "Healthcare Billing",
+    "revenueType": "procedure_add_on",
+    "detectionReason": "procedure_add_on_completed_not_billed"
+  },
+  {
+    "number": 118,
+    "id": "healthcare.uncollected-treatment-deposit",
+    "exportName": "uncollectedTreatmentDepositDetector",
+    "fileName": "uncollected-treatment-deposit.ts",
+    "name": "Uncollected Treatment Deposit",
+    "description": "Detects approved or scheduled treatments with a documented required deposit that remains uncollected.",
+    "industry": "healthcare",
+    "itemField": "Treatment",
+    "amountField": "Treatment Deposit Amount",
+    "statusField": "Treatment Status",
+    "billingStatusField": "Treatment Deposit Status",
+    "dateField": "Treatment Date",
+    "positiveStatuses": [
+      "approved",
+      "scheduled",
+      "booked",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Treatment Deposit",
+    "category": "Healthcare Billing",
+    "revenueType": "treatment_deposit",
+    "detectionReason": "treatment_approved_deposit_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 119,
+    "id": "healthcare.unbilled-lab-fee",
+    "exportName": "unbilledHealthcareLabFeeDetector",
+    "fileName": "unbilled-lab-fee.ts",
+    "name": "Unbilled Lab Fee",
+    "description": "Detects completed or processed lab work with a documented lab fee that has not been billed.",
+    "industry": "healthcare",
+    "itemField": "Lab Work",
+    "amountField": "Lab Fee Amount",
+    "statusField": "Lab Status",
+    "billingStatusField": "Lab Billing Status",
+    "dateField": "Lab Date",
+    "positiveStatuses": [
+      "completed",
+      "processed",
+      "performed",
+      "resulted"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Lab Fee",
+    "category": "Healthcare Billing",
+    "revenueType": "lab_fee",
+    "detectionReason": "lab_completed_fee_not_billed"
+  },
+  {
+    "number": 120,
+    "id": "healthcare.unbilled-supply-material-fee",
+    "exportName": "unbilledHealthcareSupplyMaterialFeeDetector",
+    "fileName": "unbilled-supply-material-fee.ts",
+    "name": "Unbilled Supply / Material Fee",
+    "description": "Detects used billable healthcare supplies or materials with a documented charge that has not been billed.",
+    "industry": "healthcare",
+    "itemField": "Supply Or Material",
+    "amountField": "Supply Material Amount",
+    "statusField": "Supply Material Status",
+    "billingStatusField": "Supply Material Billing Status",
+    "dateField": "Supply Material Date",
+    "positiveStatuses": [
+      "used",
+      "provided",
+      "consumed",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Supply / Material Fee",
+    "category": "Healthcare Billing",
+    "revenueType": "supply_material_fee",
+    "detectionReason": "supply_material_used_not_billed"
+  },
+  {
+    "number": 121,
+    "id": "healthcare.uncollected-cancellation-fee",
+    "exportName": "uncollectedHealthcareCancellationFeeDetector",
+    "fileName": "uncollected-cancellation-fee.ts",
+    "name": "Uncollected Cancellation Fee",
+    "description": "Detects cancelled healthcare appointments or procedures with a documented cancellation fee that remains uncollected.",
+    "industry": "healthcare",
+    "itemField": "Cancelled Appointment",
+    "amountField": "Cancellation Fee Amount",
+    "statusField": "Cancellation Status",
+    "billingStatusField": "Cancellation Fee Status",
+    "dateField": "Cancellation Date",
+    "positiveStatuses": [
+      "cancelled",
+      "canceled",
+      "late cancellation",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Cancellation Fee",
+    "category": "Healthcare Billing",
+    "revenueType": "cancellation_fee",
+    "detectionReason": "healthcare_cancellation_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 122,
+    "id": "healthcare.unbilled-follow-up-procedure",
+    "exportName": "unbilledFollowUpProcedureDetector",
+    "fileName": "unbilled-follow-up-procedure.ts",
+    "name": "Unbilled Follow-Up Procedure",
+    "description": "Detects completed billable follow-up procedures with a documented amount that has not been billed.",
+    "industry": "healthcare",
+    "itemField": "Follow-Up Procedure",
+    "amountField": "Follow-Up Procedure Amount",
+    "statusField": "Follow-Up Procedure Status",
+    "billingStatusField": "Follow-Up Procedure Billing Status",
+    "dateField": "Follow-Up Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "provided",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Follow-Up Procedure",
+    "category": "Healthcare Billing",
+    "revenueType": "follow_up_procedure",
+    "detectionReason": "follow_up_procedure_completed_not_billed"
+  },
+  {
+    "number": 123,
+    "id": "healthcare.uncollected-membership-payment",
+    "exportName": "uncollectedHealthcareMembershipPaymentDetector",
+    "fileName": "uncollected-membership-payment.ts",
+    "name": "Uncollected Membership Payment",
+    "description": "Detects active healthcare or med-spa memberships with a documented payment amount that remains uncollected.",
+    "industry": "healthcare",
+    "itemField": "Membership",
+    "amountField": "Membership Payment Amount",
+    "statusField": "Membership Status",
+    "billingStatusField": "Membership Payment Status",
+    "dateField": "Membership Payment Date",
+    "positiveStatuses": [
+      "active",
+      "payment due",
+      "past due",
+      "delinquent"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Membership Payment",
+    "category": "Healthcare Billing",
+    "revenueType": "membership_payment",
+    "detectionReason": "healthcare_membership_payment_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 124,
+    "id": "healthcare.unbilled-cosmetic-upgrade",
+    "exportName": "unbilledCosmeticUpgradeDetector",
+    "fileName": "unbilled-cosmetic-upgrade.ts",
+    "name": "Unbilled Cosmetic Upgrade",
+    "description": "Detects completed cosmetic treatment upgrades with a documented additional amount that has not been billed.",
+    "industry": "healthcare",
+    "itemField": "Cosmetic Upgrade",
+    "amountField": "Cosmetic Upgrade Amount",
+    "statusField": "Cosmetic Upgrade Status",
+    "billingStatusField": "Cosmetic Upgrade Billing Status",
+    "dateField": "Treatment Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "provided",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Cosmetic Upgrade",
+    "category": "Healthcare Billing",
+    "revenueType": "cosmetic_upgrade",
+    "detectionReason": "cosmetic_upgrade_completed_not_billed"
+  },
+  {
+    "number": 125,
+    "id": "healthcare.uncollected-final-treatment-balance",
+    "exportName": "uncollectedFinalTreatmentBalanceDetector",
+    "fileName": "uncollected-final-treatment-balance.ts",
+    "name": "Uncollected Final Treatment Balance",
+    "description": "Detects completed treatment plans with a documented final balance that remains uncollected.",
+    "industry": "healthcare",
+    "itemField": "Treatment Plan",
+    "amountField": "Final Treatment Balance",
+    "statusField": "Treatment Completion Status",
+    "billingStatusField": "Final Treatment Payment Status",
+    "dateField": "Treatment Completion Date",
+    "positiveStatuses": [
+      "completed",
+      "complete",
+      "finished",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Final Treatment Balance",
+    "category": "Healthcare Billing",
+    "revenueType": "final_treatment_balance",
+    "detectionReason": "treatment_completed_final_balance_not_collected",
+    "recommendedActionVerb": "collect"
+  }
+]

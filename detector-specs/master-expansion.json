@@ -1,0 +1,1802 @@
+[
+  {
+    "number": 136,
+    "id": "beauty.uncollected-consultation-fee",
+    "exportName": "uncollectedBeautyConsultationFeeDetector",
+    "fileName": "uncollected-consultation-fee.ts",
+    "name": "Uncollected Consultation Fee",
+    "description": "Detects documented uncollected consultation fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Consultation",
+    "amountField": "Consultation Fee",
+    "statusField": "Consultation Status",
+    "billingStatusField": "Consultation Payment Status",
+    "dateField": "Consultation Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "attended",
+      "billable"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Consultation Fee",
+    "category": "Beauty Billing",
+    "revenueType": "consultation_fee",
+    "detectionReason": "beauty_consultation_completed_fee_not_collected"
+  },
+  {
+    "number": 137,
+    "id": "beauty.unbilled-service-upgrade",
+    "exportName": "unbilledBeautyServiceUpgradeDetector",
+    "fileName": "unbilled-service-upgrade.ts",
+    "name": "Unbilled Service Upgrade",
+    "description": "Detects documented unbilled service upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Service Upgrade",
+    "amountField": "Service Upgrade Amount",
+    "statusField": "Service Upgrade Status",
+    "billingStatusField": "Service Upgrade Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "completed",
+      "provided",
+      "performed",
+      "upgraded"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Service Upgrade",
+    "category": "Beauty Billing",
+    "revenueType": "service_upgrade",
+    "detectionReason": "beauty_service_upgrade_not_billed"
+  },
+  {
+    "number": 138,
+    "id": "beauty.unbilled-product-add-on",
+    "exportName": "unbilledBeautyProductAddOnDetector",
+    "fileName": "unbilled-product-add-on.ts",
+    "name": "Unbilled Product Add-On",
+    "description": "Detects documented unbilled product add-on opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Product Add-On",
+    "amountField": "Product Add-On Amount",
+    "statusField": "Product Add-On Status",
+    "billingStatusField": "Product Add-On Billing Status",
+    "dateField": "Sale Date",
+    "positiveStatuses": [
+      "sold",
+      "provided",
+      "added",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Product Add-On",
+    "category": "Beauty Billing",
+    "revenueType": "product_add_on",
+    "detectionReason": "beauty_product_add_on_not_billed"
+  },
+  {
+    "number": 139,
+    "id": "beauty.uncollected-no-show-fee",
+    "exportName": "uncollectedBeautyNoShowFeeDetector",
+    "fileName": "uncollected-no-show-fee.ts",
+    "name": "Uncollected No-Show Fee",
+    "description": "Detects documented uncollected no-show fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "No-Show Appointment",
+    "amountField": "No-Show Fee Amount",
+    "statusField": "Appointment Status",
+    "billingStatusField": "No-Show Fee Status",
+    "dateField": "Appointment Date",
+    "positiveStatuses": [
+      "no show",
+      "missed",
+      "absent",
+      "did not attend"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected No-Show Fee",
+    "category": "Beauty Billing",
+    "revenueType": "no_show_fee",
+    "detectionReason": "beauty_no_show_fee_not_collected"
+  },
+  {
+    "number": 140,
+    "id": "beauty.uncollected-late-cancellation-fee",
+    "exportName": "uncollectedBeautyLateCancellationFeeDetector",
+    "fileName": "uncollected-late-cancellation-fee.ts",
+    "name": "Uncollected Late Cancellation Fee",
+    "description": "Detects documented uncollected late cancellation fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Late Cancellation",
+    "amountField": "Late Cancellation Fee",
+    "statusField": "Cancellation Status",
+    "billingStatusField": "Cancellation Fee Status",
+    "dateField": "Cancellation Date",
+    "positiveStatuses": [
+      "late cancellation",
+      "cancelled late",
+      "canceled late",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Late Cancellation Fee",
+    "category": "Beauty Billing",
+    "revenueType": "late_cancellation_fee",
+    "detectionReason": "beauty_late_cancellation_fee_not_collected"
+  },
+  {
+    "number": 141,
+    "id": "beauty.unbilled-premium-treatment",
+    "exportName": "unbilledBeautyPremiumTreatmentDetector",
+    "fileName": "unbilled-premium-treatment.ts",
+    "name": "Unbilled Premium Treatment",
+    "description": "Detects documented unbilled premium treatment opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Premium Treatment",
+    "amountField": "Premium Treatment Amount",
+    "statusField": "Treatment Status",
+    "billingStatusField": "Treatment Billing Status",
+    "dateField": "Treatment Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "provided",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Premium Treatment",
+    "category": "Beauty Billing",
+    "revenueType": "premium_treatment",
+    "detectionReason": "beauty_premium_treatment_not_billed"
+  },
+  {
+    "number": 142,
+    "id": "beauty.uncollected-membership-payment",
+    "exportName": "uncollectedBeautyMembershipPaymentDetector",
+    "fileName": "uncollected-membership-payment.ts",
+    "name": "Uncollected Membership Payment",
+    "description": "Detects documented uncollected membership payment opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Membership",
+    "amountField": "Membership Payment Amount",
+    "statusField": "Membership Status",
+    "billingStatusField": "Membership Payment Status",
+    "dateField": "Payment Due Date",
+    "positiveStatuses": [
+      "active",
+      "payment due",
+      "past due",
+      "delinquent"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Membership Payment",
+    "category": "Beauty Billing",
+    "revenueType": "membership_payment",
+    "detectionReason": "beauty_membership_payment_not_collected"
+  },
+  {
+    "number": 143,
+    "id": "beauty.unbilled-extension-time",
+    "exportName": "unbilledBeautyExtensionTimeDetector",
+    "fileName": "unbilled-extension-time.ts",
+    "name": "Unbilled Extended Service Time",
+    "description": "Detects documented unbilled extended service time opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Extended Service",
+    "amountField": "Extended Service Amount",
+    "statusField": "Extended Service Status",
+    "billingStatusField": "Extended Service Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "completed",
+      "extended",
+      "performed",
+      "provided"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Extended Service Time",
+    "category": "Beauty Billing",
+    "revenueType": "extended_service_time",
+    "detectionReason": "beauty_extended_service_time_not_billed"
+  },
+  {
+    "number": 144,
+    "id": "beauty.uncollected-package-renewal",
+    "exportName": "uncollectedBeautyPackageRenewalDetector",
+    "fileName": "uncollected-package-renewal.ts",
+    "name": "Uncollected Package Renewal",
+    "description": "Detects documented uncollected package renewal opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Package Renewal",
+    "amountField": "Package Renewal Amount",
+    "statusField": "Package Renewal Status",
+    "billingStatusField": "Package Renewal Payment Status",
+    "dateField": "Renewal Date",
+    "positiveStatuses": [
+      "renewed",
+      "approved",
+      "active",
+      "renewal due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Package Renewal",
+    "category": "Beauty Billing",
+    "revenueType": "package_renewal",
+    "detectionReason": "beauty_package_renewal_not_collected"
+  },
+  {
+    "number": 145,
+    "id": "beauty.uncollected-final-client-balance",
+    "exportName": "uncollectedBeautyFinalClientBalanceDetector",
+    "fileName": "uncollected-final-client-balance.ts",
+    "name": "Uncollected Final Client Balance",
+    "description": "Detects documented uncollected final client balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "beauty",
+    "itemField": "Client Account",
+    "amountField": "Final Client Balance",
+    "statusField": "Service Completion Status",
+    "billingStatusField": "Final Balance Status",
+    "dateField": "Completion Date",
+    "positiveStatuses": [
+      "completed",
+      "finished",
+      "closed",
+      "finalized"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Client Balance",
+    "category": "Beauty Billing",
+    "revenueType": "final_client_balance",
+    "detectionReason": "beauty_final_client_balance_not_collected"
+  },
+  {
+    "number": 146,
+    "id": "hospitality.uncollected-room-balance",
+    "exportName": "uncollectedHospitalityRoomBalanceDetector",
+    "fileName": "uncollected-room-balance.ts",
+    "name": "Uncollected Room Balance",
+    "description": "Detects documented uncollected room balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Stay",
+    "amountField": "Room Balance",
+    "statusField": "Stay Status",
+    "billingStatusField": "Room Payment Status",
+    "dateField": "Checkout Date",
+    "positiveStatuses": [
+      "completed",
+      "checked out",
+      "departed",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Room Balance",
+    "category": "Hospitality Billing",
+    "revenueType": "room_balance",
+    "detectionReason": "hospitality_room_balance_not_collected"
+  },
+  {
+    "number": 147,
+    "id": "hospitality.unbilled-room-upgrade",
+    "exportName": "unbilledHospitalityRoomUpgradeDetector",
+    "fileName": "unbilled-room-upgrade.ts",
+    "name": "Unbilled Room Upgrade",
+    "description": "Detects documented unbilled room upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Room Upgrade",
+    "amountField": "Room Upgrade Amount",
+    "statusField": "Room Upgrade Status",
+    "billingStatusField": "Room Upgrade Billing Status",
+    "dateField": "Upgrade Date",
+    "positiveStatuses": [
+      "upgraded",
+      "provided",
+      "completed",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Room Upgrade",
+    "category": "Hospitality Billing",
+    "revenueType": "room_upgrade",
+    "detectionReason": "hospitality_room_upgrade_not_billed"
+  },
+  {
+    "number": 148,
+    "id": "hospitality.unbilled-minibar-charge",
+    "exportName": "unbilledHospitalityMinibarChargeDetector",
+    "fileName": "unbilled-minibar-charge.ts",
+    "name": "Unbilled Minibar Charge",
+    "description": "Detects documented unbilled minibar charge opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Minibar Usage",
+    "amountField": "Minibar Charge",
+    "statusField": "Minibar Status",
+    "billingStatusField": "Minibar Billing Status",
+    "dateField": "Usage Date",
+    "positiveStatuses": [
+      "used",
+      "consumed",
+      "recorded",
+      "confirmed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Minibar Charge",
+    "category": "Hospitality Billing",
+    "revenueType": "minibar_charge",
+    "detectionReason": "hospitality_minibar_charge_not_billed"
+  },
+  {
+    "number": 149,
+    "id": "hospitality.unbilled-room-service-charge",
+    "exportName": "unbilledHospitalityRoomServiceChargeDetector",
+    "fileName": "unbilled-room-service-charge.ts",
+    "name": "Unbilled Room Service Charge",
+    "description": "Detects documented unbilled room service charge opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Room Service",
+    "amountField": "Room Service Amount",
+    "statusField": "Room Service Status",
+    "billingStatusField": "Room Service Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "delivered",
+      "completed",
+      "served",
+      "provided"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Room Service Charge",
+    "category": "Hospitality Billing",
+    "revenueType": "room_service_charge",
+    "detectionReason": "hospitality_room_service_not_billed"
+  },
+  {
+    "number": 150,
+    "id": "hospitality.uncollected-resort-fee",
+    "exportName": "uncollectedHospitalityResortFeeDetector",
+    "fileName": "uncollected-resort-fee.ts",
+    "name": "Uncollected Resort Fee",
+    "description": "Detects documented uncollected resort fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Stay",
+    "amountField": "Resort Fee Amount",
+    "statusField": "Stay Status",
+    "billingStatusField": "Resort Fee Status",
+    "dateField": "Stay Date",
+    "positiveStatuses": [
+      "active",
+      "completed",
+      "checked out",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "included",
+      "waived"
+    ],
+    "leakType": "Uncollected Resort Fee",
+    "category": "Hospitality Billing",
+    "revenueType": "resort_fee",
+    "detectionReason": "hospitality_resort_fee_not_collected"
+  },
+  {
+    "number": 151,
+    "id": "hospitality.unbilled-parking-charge",
+    "exportName": "unbilledHospitalityParkingChargeDetector",
+    "fileName": "unbilled-parking-charge.ts",
+    "name": "Unbilled Parking Charge",
+    "description": "Detects documented unbilled parking charge opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Parking",
+    "amountField": "Parking Charge",
+    "statusField": "Parking Status",
+    "billingStatusField": "Parking Billing Status",
+    "dateField": "Parking Date",
+    "positiveStatuses": [
+      "used",
+      "active",
+      "parked",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Parking Charge",
+    "category": "Hospitality Billing",
+    "revenueType": "parking_charge",
+    "detectionReason": "hospitality_parking_charge_not_billed"
+  },
+  {
+    "number": 152,
+    "id": "hospitality.uncollected-late-checkout-fee",
+    "exportName": "uncollectedHospitalityLateCheckoutFeeDetector",
+    "fileName": "uncollected-late-checkout-fee.ts",
+    "name": "Uncollected Late Checkout Fee",
+    "description": "Detects documented uncollected late checkout fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Late Checkout",
+    "amountField": "Late Checkout Fee",
+    "statusField": "Checkout Status",
+    "billingStatusField": "Late Checkout Fee Status",
+    "dateField": "Checkout Date",
+    "positiveStatuses": [
+      "late checkout",
+      "extended",
+      "fee due",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Late Checkout Fee",
+    "category": "Hospitality Billing",
+    "revenueType": "late_checkout_fee",
+    "detectionReason": "hospitality_late_checkout_fee_not_collected"
+  },
+  {
+    "number": 153,
+    "id": "hospitality.uncollected-damage-fee",
+    "exportName": "uncollectedHospitalityDamageFeeDetector",
+    "fileName": "uncollected-damage-fee.ts",
+    "name": "Uncollected Damage Fee",
+    "description": "Detects documented uncollected damage fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Damage Charge",
+    "amountField": "Damage Fee Amount",
+    "statusField": "Damage Status",
+    "billingStatusField": "Damage Fee Status",
+    "dateField": "Assessment Date",
+    "positiveStatuses": [
+      "assessed",
+      "confirmed",
+      "approved",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Damage Fee",
+    "category": "Hospitality Billing",
+    "revenueType": "damage_fee",
+    "detectionReason": "hospitality_damage_fee_not_collected"
+  },
+  {
+    "number": 154,
+    "id": "hospitality.unbilled-event-space-fee",
+    "exportName": "unbilledHospitalityEventSpaceFeeDetector",
+    "fileName": "unbilled-event-space-fee.ts",
+    "name": "Unbilled Event Space Fee",
+    "description": "Detects documented unbilled event space fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Event Space",
+    "amountField": "Event Space Fee",
+    "statusField": "Event Status",
+    "billingStatusField": "Event Space Billing Status",
+    "dateField": "Event Date",
+    "positiveStatuses": [
+      "completed",
+      "held",
+      "hosted",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Event Space Fee",
+    "category": "Hospitality Billing",
+    "revenueType": "event_space_fee",
+    "detectionReason": "hospitality_event_space_not_billed"
+  },
+  {
+    "number": 155,
+    "id": "hospitality.uncollected-final-guest-balance",
+    "exportName": "uncollectedHospitalityFinalGuestBalanceDetector",
+    "fileName": "uncollected-final-guest-balance.ts",
+    "name": "Uncollected Final Guest Balance",
+    "description": "Detects documented uncollected final guest balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "hospitality",
+    "itemField": "Guest Account",
+    "amountField": "Final Guest Balance",
+    "statusField": "Stay Completion Status",
+    "billingStatusField": "Final Guest Balance Status",
+    "dateField": "Checkout Date",
+    "positiveStatuses": [
+      "completed",
+      "checked out",
+      "closed",
+      "departed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Guest Balance",
+    "category": "Hospitality Billing",
+    "revenueType": "final_guest_balance",
+    "detectionReason": "hospitality_final_guest_balance_not_collected"
+  },
+  {
+    "number": 156,
+    "id": "retail.unpaid-special-order",
+    "exportName": "unpaidRetailSpecialOrderDetector",
+    "fileName": "unpaid-special-order.ts",
+    "name": "Unpaid Special Order",
+    "description": "Detects documented unpaid special order opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Special Order",
+    "amountField": "Special Order Amount",
+    "statusField": "Special Order Status",
+    "billingStatusField": "Special Order Payment Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "ordered",
+      "ready",
+      "fulfilled",
+      "completed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "refunded"
+    ],
+    "leakType": "Unpaid Special Order",
+    "category": "Retail Billing",
+    "revenueType": "special_order",
+    "detectionReason": "retail_special_order_not_paid"
+  },
+  {
+    "number": 157,
+    "id": "retail.unbilled-delivery-fee",
+    "exportName": "unbilledRetailDeliveryFeeDetector",
+    "fileName": "unbilled-delivery-fee.ts",
+    "name": "Unbilled Delivery Fee",
+    "description": "Detects documented unbilled delivery fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Delivery",
+    "amountField": "Delivery Fee",
+    "statusField": "Delivery Status",
+    "billingStatusField": "Delivery Billing Status",
+    "dateField": "Delivery Date",
+    "positiveStatuses": [
+      "delivered",
+      "completed",
+      "fulfilled",
+      "shipped"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Delivery Fee",
+    "category": "Retail Billing",
+    "revenueType": "delivery_fee",
+    "detectionReason": "retail_delivery_fee_not_billed"
+  },
+  {
+    "number": 158,
+    "id": "retail.unbilled-installation-fee",
+    "exportName": "unbilledRetailInstallationFeeDetector",
+    "fileName": "unbilled-installation-fee.ts",
+    "name": "Unbilled Installation Fee",
+    "description": "Detects documented unbilled installation fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Installation",
+    "amountField": "Installation Fee",
+    "statusField": "Installation Status",
+    "billingStatusField": "Installation Billing Status",
+    "dateField": "Installation Date",
+    "positiveStatuses": [
+      "installed",
+      "completed",
+      "performed",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Installation Fee",
+    "category": "Retail Billing",
+    "revenueType": "installation_fee",
+    "detectionReason": "retail_installation_fee_not_billed"
+  },
+  {
+    "number": 159,
+    "id": "retail.unbilled-warranty-upgrade",
+    "exportName": "unbilledRetailWarrantyUpgradeDetector",
+    "fileName": "unbilled-warranty-upgrade.ts",
+    "name": "Unbilled Warranty Upgrade",
+    "description": "Detects documented unbilled warranty upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Warranty Upgrade",
+    "amountField": "Warranty Upgrade Amount",
+    "statusField": "Warranty Status",
+    "billingStatusField": "Warranty Billing Status",
+    "dateField": "Warranty Date",
+    "positiveStatuses": [
+      "activated",
+      "upgraded",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Warranty Upgrade",
+    "category": "Retail Billing",
+    "revenueType": "warranty_upgrade",
+    "detectionReason": "retail_warranty_upgrade_not_billed"
+  },
+  {
+    "number": 160,
+    "id": "retail.uncollected-restocking-fee",
+    "exportName": "uncollectedRetailRestockingFeeDetector",
+    "fileName": "uncollected-restocking-fee.ts",
+    "name": "Uncollected Restocking Fee",
+    "description": "Detects documented uncollected restocking fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Return",
+    "amountField": "Restocking Fee",
+    "statusField": "Return Status",
+    "billingStatusField": "Restocking Fee Status",
+    "dateField": "Return Date",
+    "positiveStatuses": [
+      "returned",
+      "processed",
+      "restocked",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Restocking Fee",
+    "category": "Retail Billing",
+    "revenueType": "restocking_fee",
+    "detectionReason": "retail_restocking_fee_not_collected"
+  },
+  {
+    "number": 161,
+    "id": "retail.unbilled-customization-fee",
+    "exportName": "unbilledRetailCustomizationFeeDetector",
+    "fileName": "unbilled-customization-fee.ts",
+    "name": "Unbilled Customization Fee",
+    "description": "Detects documented unbilled customization fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Customization",
+    "amountField": "Customization Fee",
+    "statusField": "Customization Status",
+    "billingStatusField": "Customization Billing Status",
+    "dateField": "Customization Date",
+    "positiveStatuses": [
+      "completed",
+      "customized",
+      "performed",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Customization Fee",
+    "category": "Retail Billing",
+    "revenueType": "customization_fee",
+    "detectionReason": "retail_customization_fee_not_billed"
+  },
+  {
+    "number": 162,
+    "id": "retail.uncollected-layaway-balance",
+    "exportName": "uncollectedRetailLayawayBalanceDetector",
+    "fileName": "uncollected-layaway-balance.ts",
+    "name": "Uncollected Layaway Balance",
+    "description": "Detects documented uncollected layaway balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Layaway",
+    "amountField": "Layaway Balance",
+    "statusField": "Layaway Status",
+    "billingStatusField": "Layaway Payment Status",
+    "dateField": "Due Date",
+    "positiveStatuses": [
+      "due",
+      "ready",
+      "completed",
+      "pickup ready"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "cancelled"
+    ],
+    "leakType": "Uncollected Layaway Balance",
+    "category": "Retail Billing",
+    "revenueType": "layaway_balance",
+    "detectionReason": "retail_layaway_balance_not_collected"
+  },
+  {
+    "number": 163,
+    "id": "retail.unbilled-gift-wrap-fee",
+    "exportName": "unbilledRetailGiftWrapFeeDetector",
+    "fileName": "unbilled-gift-wrap-fee.ts",
+    "name": "Unbilled Gift Wrap Fee",
+    "description": "Detects documented unbilled gift wrap fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Gift Wrap",
+    "amountField": "Gift Wrap Fee",
+    "statusField": "Gift Wrap Status",
+    "billingStatusField": "Gift Wrap Billing Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "completed",
+      "wrapped",
+      "provided",
+      "fulfilled"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Gift Wrap Fee",
+    "category": "Retail Billing",
+    "revenueType": "gift_wrap_fee",
+    "detectionReason": "retail_gift_wrap_fee_not_billed"
+  },
+  {
+    "number": 164,
+    "id": "retail.unbilled-expedited-service-fee",
+    "exportName": "unbilledRetailExpeditedServiceFeeDetector",
+    "fileName": "unbilled-expedited-service-fee.ts",
+    "name": "Unbilled Expedited Service Fee",
+    "description": "Detects documented unbilled expedited service fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Expedited Service",
+    "amountField": "Expedited Service Fee",
+    "statusField": "Expedited Service Status",
+    "billingStatusField": "Expedited Service Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "completed",
+      "expedited",
+      "fulfilled",
+      "provided"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Expedited Service Fee",
+    "category": "Retail Billing",
+    "revenueType": "expedited_service_fee",
+    "detectionReason": "retail_expedited_service_not_billed"
+  },
+  {
+    "number": 165,
+    "id": "retail.uncollected-final-order-balance",
+    "exportName": "uncollectedRetailFinalOrderBalanceDetector",
+    "fileName": "uncollected-final-order-balance.ts",
+    "name": "Uncollected Final Order Balance",
+    "description": "Detects documented uncollected final order balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "retail",
+    "itemField": "Order",
+    "amountField": "Final Order Balance",
+    "statusField": "Order Status",
+    "billingStatusField": "Final Order Payment Status",
+    "dateField": "Order Date",
+    "positiveStatuses": [
+      "completed",
+      "fulfilled",
+      "ready",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "refunded"
+    ],
+    "leakType": "Uncollected Final Order Balance",
+    "category": "Retail Billing",
+    "revenueType": "final_order_balance",
+    "detectionReason": "retail_final_order_balance_not_collected"
+  },
+  {
+    "number": 166,
+    "id": "software.uncollected-implementation-fee",
+    "exportName": "uncollectedSoftwareImplementationFeeDetector",
+    "fileName": "uncollected-implementation-fee.ts",
+    "name": "Uncollected Implementation Fee",
+    "description": "Detects documented uncollected implementation fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Implementation",
+    "amountField": "Implementation Fee",
+    "statusField": "Implementation Status",
+    "billingStatusField": "Implementation Payment Status",
+    "dateField": "Implementation Date",
+    "positiveStatuses": [
+      "completed",
+      "launched",
+      "implemented",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Implementation Fee",
+    "category": "Software Billing",
+    "revenueType": "implementation_fee",
+    "detectionReason": "software_implementation_fee_not_collected"
+  },
+  {
+    "number": 167,
+    "id": "software.unbilled-seat-upgrade",
+    "exportName": "unbilledSoftwareSeatUpgradeDetector",
+    "fileName": "unbilled-seat-upgrade.ts",
+    "name": "Unbilled Seat Upgrade",
+    "description": "Detects documented unbilled seat upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Seat Upgrade",
+    "amountField": "Seat Upgrade Amount",
+    "statusField": "Seat Upgrade Status",
+    "billingStatusField": "Seat Upgrade Billing Status",
+    "dateField": "Upgrade Date",
+    "positiveStatuses": [
+      "activated",
+      "added",
+      "upgraded",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Seat Upgrade",
+    "category": "Software Billing",
+    "revenueType": "seat_upgrade",
+    "detectionReason": "software_seat_upgrade_not_billed"
+  },
+  {
+    "number": 168,
+    "id": "software.unbilled-usage-overage",
+    "exportName": "unbilledSoftwareUsageOverageDetector",
+    "fileName": "unbilled-usage-overage.ts",
+    "name": "Unbilled Usage Overage",
+    "description": "Detects documented unbilled usage overage opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Usage Overage",
+    "amountField": "Usage Overage Amount",
+    "statusField": "Usage Status",
+    "billingStatusField": "Overage Billing Status",
+    "dateField": "Usage Date",
+    "positiveStatuses": [
+      "exceeded",
+      "used",
+      "confirmed",
+      "billable"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Usage Overage",
+    "category": "Software Billing",
+    "revenueType": "usage_overage",
+    "detectionReason": "software_usage_overage_not_billed"
+  },
+  {
+    "number": 169,
+    "id": "software.unbilled-premium-feature",
+    "exportName": "unbilledSoftwarePremiumFeatureDetector",
+    "fileName": "unbilled-premium-feature.ts",
+    "name": "Unbilled Premium Feature",
+    "description": "Detects documented unbilled premium feature opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Premium Feature",
+    "amountField": "Premium Feature Amount",
+    "statusField": "Feature Status",
+    "billingStatusField": "Premium Feature Billing Status",
+    "dateField": "Activation Date",
+    "positiveStatuses": [
+      "enabled",
+      "activated",
+      "active",
+      "added"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Premium Feature",
+    "category": "Software Billing",
+    "revenueType": "premium_feature",
+    "detectionReason": "software_premium_feature_not_billed"
+  },
+  {
+    "number": 170,
+    "id": "software.uncollected-onboarding-fee",
+    "exportName": "uncollectedSoftwareOnboardingFeeDetector",
+    "fileName": "uncollected-onboarding-fee.ts",
+    "name": "Uncollected Onboarding Fee",
+    "description": "Detects documented uncollected onboarding fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Onboarding",
+    "amountField": "Onboarding Fee",
+    "statusField": "Onboarding Status",
+    "billingStatusField": "Onboarding Payment Status",
+    "dateField": "Onboarding Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "finished",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Onboarding Fee",
+    "category": "Software Billing",
+    "revenueType": "onboarding_fee",
+    "detectionReason": "software_onboarding_fee_not_collected"
+  },
+  {
+    "number": 171,
+    "id": "software.unbilled-support-upgrade",
+    "exportName": "unbilledSoftwareSupportUpgradeDetector",
+    "fileName": "unbilled-support-upgrade.ts",
+    "name": "Unbilled Support Upgrade",
+    "description": "Detects documented unbilled support upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Support Upgrade",
+    "amountField": "Support Upgrade Amount",
+    "statusField": "Support Status",
+    "billingStatusField": "Support Billing Status",
+    "dateField": "Upgrade Date",
+    "positiveStatuses": [
+      "activated",
+      "upgraded",
+      "active",
+      "provided"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Support Upgrade",
+    "category": "Software Billing",
+    "revenueType": "support_upgrade",
+    "detectionReason": "software_support_upgrade_not_billed"
+  },
+  {
+    "number": 172,
+    "id": "software.unbilled-api-usage",
+    "exportName": "unbilledSoftwareApiUsageDetector",
+    "fileName": "unbilled-api-usage.ts",
+    "name": "Unbilled API Usage",
+    "description": "Detects documented unbilled api usage opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "API Usage",
+    "amountField": "API Usage Amount",
+    "statusField": "API Usage Status",
+    "billingStatusField": "API Billing Status",
+    "dateField": "Usage Date",
+    "positiveStatuses": [
+      "used",
+      "exceeded",
+      "billable",
+      "confirmed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled API Usage",
+    "category": "Software Billing",
+    "revenueType": "api_usage",
+    "detectionReason": "software_api_usage_not_billed"
+  },
+  {
+    "number": 173,
+    "id": "software.uncollected-renewal-balance",
+    "exportName": "uncollectedSoftwareRenewalBalanceDetector",
+    "fileName": "uncollected-renewal-balance.ts",
+    "name": "Uncollected Renewal Balance",
+    "description": "Detects documented uncollected renewal balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Subscription Renewal",
+    "amountField": "Renewal Balance",
+    "statusField": "Renewal Status",
+    "billingStatusField": "Renewal Payment Status",
+    "dateField": "Renewal Date",
+    "positiveStatuses": [
+      "renewed",
+      "active",
+      "renewal due",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Renewal Balance",
+    "category": "Software Billing",
+    "revenueType": "renewal_balance",
+    "detectionReason": "software_renewal_balance_not_collected"
+  },
+  {
+    "number": 174,
+    "id": "software.unbilled-data-storage-overage",
+    "exportName": "unbilledSoftwareStorageOverageDetector",
+    "fileName": "unbilled-data-storage-overage.ts",
+    "name": "Unbilled Data Storage Overage",
+    "description": "Detects documented unbilled data storage overage opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Storage Overage",
+    "amountField": "Storage Overage Amount",
+    "statusField": "Storage Usage Status",
+    "billingStatusField": "Storage Overage Billing Status",
+    "dateField": "Usage Date",
+    "positiveStatuses": [
+      "exceeded",
+      "used",
+      "billable",
+      "confirmed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Data Storage Overage",
+    "category": "Software Billing",
+    "revenueType": "storage_overage",
+    "detectionReason": "software_storage_overage_not_billed"
+  },
+  {
+    "number": 175,
+    "id": "software.uncollected-final-account-balance",
+    "exportName": "uncollectedSoftwareFinalAccountBalanceDetector",
+    "fileName": "uncollected-final-account-balance.ts",
+    "name": "Uncollected Final Account Balance",
+    "description": "Detects documented uncollected final account balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "software",
+    "itemField": "Customer Account",
+    "amountField": "Final Account Balance",
+    "statusField": "Account Status",
+    "billingStatusField": "Final Account Payment Status",
+    "dateField": "Account End Date",
+    "positiveStatuses": [
+      "cancelled",
+      "canceled",
+      "closed",
+      "terminated"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Account Balance",
+    "category": "Software Billing",
+    "revenueType": "final_account_balance",
+    "detectionReason": "software_final_account_balance_not_collected"
+  },
+  {
+    "number": 176,
+    "id": "education.uncollected-enrollment-fee",
+    "exportName": "uncollectedEducationEnrollmentFeeDetector",
+    "fileName": "uncollected-enrollment-fee.ts",
+    "name": "Uncollected Enrollment Fee",
+    "description": "Detects documented uncollected enrollment fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Enrollment",
+    "amountField": "Enrollment Fee",
+    "statusField": "Enrollment Status",
+    "billingStatusField": "Enrollment Payment Status",
+    "dateField": "Enrollment Date",
+    "positiveStatuses": [
+      "enrolled",
+      "accepted",
+      "active",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Enrollment Fee",
+    "category": "Education Billing",
+    "revenueType": "enrollment_fee",
+    "detectionReason": "education_enrollment_fee_not_collected"
+  },
+  {
+    "number": 177,
+    "id": "education.uncollected-tuition-balance",
+    "exportName": "uncollectedEducationTuitionBalanceDetector",
+    "fileName": "uncollected-tuition-balance.ts",
+    "name": "Uncollected Tuition Balance",
+    "description": "Detects documented uncollected tuition balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Student Account",
+    "amountField": "Tuition Balance",
+    "statusField": "Enrollment Status",
+    "billingStatusField": "Tuition Payment Status",
+    "dateField": "Tuition Due Date",
+    "positiveStatuses": [
+      "active",
+      "enrolled",
+      "attending",
+      "payment due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Tuition Balance",
+    "category": "Education Billing",
+    "revenueType": "tuition_balance",
+    "detectionReason": "education_tuition_balance_not_collected"
+  },
+  {
+    "number": 178,
+    "id": "education.unbilled-private-session",
+    "exportName": "unbilledEducationPrivateSessionDetector",
+    "fileName": "unbilled-private-session.ts",
+    "name": "Unbilled Private Session",
+    "description": "Detects documented unbilled private session opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Private Session",
+    "amountField": "Private Session Amount",
+    "statusField": "Session Status",
+    "billingStatusField": "Session Billing Status",
+    "dateField": "Session Date",
+    "positiveStatuses": [
+      "completed",
+      "attended",
+      "performed",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Private Session",
+    "category": "Education Billing",
+    "revenueType": "private_session",
+    "detectionReason": "education_private_session_not_billed"
+  },
+  {
+    "number": 179,
+    "id": "education.unbilled-material-fee",
+    "exportName": "unbilledEducationMaterialFeeDetector",
+    "fileName": "unbilled-material-fee.ts",
+    "name": "Unbilled Material Fee",
+    "description": "Detects documented unbilled material fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Course Material",
+    "amountField": "Material Fee",
+    "statusField": "Material Status",
+    "billingStatusField": "Material Billing Status",
+    "dateField": "Material Date",
+    "positiveStatuses": [
+      "provided",
+      "issued",
+      "delivered",
+      "used"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Material Fee",
+    "category": "Education Billing",
+    "revenueType": "material_fee",
+    "detectionReason": "education_material_fee_not_billed"
+  },
+  {
+    "number": 180,
+    "id": "education.uncollected-registration-fee",
+    "exportName": "uncollectedEducationRegistrationFeeDetector",
+    "fileName": "uncollected-registration-fee.ts",
+    "name": "Uncollected Registration Fee",
+    "description": "Detects documented uncollected registration fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Registration",
+    "amountField": "Registration Fee",
+    "statusField": "Registration Status",
+    "billingStatusField": "Registration Payment Status",
+    "dateField": "Registration Date",
+    "positiveStatuses": [
+      "registered",
+      "approved",
+      "confirmed",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Registration Fee",
+    "category": "Education Billing",
+    "revenueType": "registration_fee",
+    "detectionReason": "education_registration_fee_not_collected"
+  },
+  {
+    "number": 181,
+    "id": "education.unbilled-exam-fee",
+    "exportName": "unbilledEducationExamFeeDetector",
+    "fileName": "unbilled-exam-fee.ts",
+    "name": "Unbilled Exam Fee",
+    "description": "Detects documented unbilled exam fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Exam",
+    "amountField": "Exam Fee",
+    "statusField": "Exam Status",
+    "billingStatusField": "Exam Billing Status",
+    "dateField": "Exam Date",
+    "positiveStatuses": [
+      "completed",
+      "taken",
+      "administered",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Exam Fee",
+    "category": "Education Billing",
+    "revenueType": "exam_fee",
+    "detectionReason": "education_exam_fee_not_billed"
+  },
+  {
+    "number": 182,
+    "id": "education.unbilled-certification-fee",
+    "exportName": "unbilledEducationCertificationFeeDetector",
+    "fileName": "unbilled-certification-fee.ts",
+    "name": "Unbilled Certification Fee",
+    "description": "Detects documented unbilled certification fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Certification",
+    "amountField": "Certification Fee",
+    "statusField": "Certification Status",
+    "billingStatusField": "Certification Billing Status",
+    "dateField": "Certification Date",
+    "positiveStatuses": [
+      "completed",
+      "issued",
+      "approved",
+      "earned"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Certification Fee",
+    "category": "Education Billing",
+    "revenueType": "certification_fee",
+    "detectionReason": "education_certification_fee_not_billed"
+  },
+  {
+    "number": 183,
+    "id": "education.uncollected-late-payment-fee",
+    "exportName": "uncollectedEducationLatePaymentFeeDetector",
+    "fileName": "uncollected-late-payment-fee.ts",
+    "name": "Uncollected Late Payment Fee",
+    "description": "Detects documented uncollected late payment fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Late Payment",
+    "amountField": "Late Payment Fee",
+    "statusField": "Late Payment Status",
+    "billingStatusField": "Late Fee Payment Status",
+    "dateField": "Assessment Date",
+    "positiveStatuses": [
+      "due",
+      "assessed",
+      "applied",
+      "past due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Late Payment Fee",
+    "category": "Education Billing",
+    "revenueType": "late_payment_fee",
+    "detectionReason": "education_late_payment_fee_not_collected"
+  },
+  {
+    "number": 184,
+    "id": "education.unbilled-course-upgrade",
+    "exportName": "unbilledEducationCourseUpgradeDetector",
+    "fileName": "unbilled-course-upgrade.ts",
+    "name": "Unbilled Course Upgrade",
+    "description": "Detects documented unbilled course upgrade opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Course Upgrade",
+    "amountField": "Course Upgrade Amount",
+    "statusField": "Course Upgrade Status",
+    "billingStatusField": "Course Upgrade Billing Status",
+    "dateField": "Upgrade Date",
+    "positiveStatuses": [
+      "upgraded",
+      "activated",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Course Upgrade",
+    "category": "Education Billing",
+    "revenueType": "course_upgrade",
+    "detectionReason": "education_course_upgrade_not_billed"
+  },
+  {
+    "number": 185,
+    "id": "education.uncollected-final-student-balance",
+    "exportName": "uncollectedEducationFinalStudentBalanceDetector",
+    "fileName": "uncollected-final-student-balance.ts",
+    "name": "Uncollected Final Student Balance",
+    "description": "Detects documented uncollected final student balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "education",
+    "itemField": "Student Account",
+    "amountField": "Final Student Balance",
+    "statusField": "Program Status",
+    "billingStatusField": "Final Student Payment Status",
+    "dateField": "Program End Date",
+    "positiveStatuses": [
+      "completed",
+      "graduated",
+      "withdrawn",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Student Balance",
+    "category": "Education Billing",
+    "revenueType": "final_student_balance",
+    "detectionReason": "education_final_student_balance_not_collected"
+  },
+  {
+    "number": 186,
+    "id": "agency.uncollected-retainer-payment",
+    "exportName": "uncollectedAgencyRetainerPaymentDetector",
+    "fileName": "uncollected-retainer-payment.ts",
+    "name": "Uncollected Retainer Payment",
+    "description": "Detects documented uncollected retainer payment opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Retainer",
+    "amountField": "Retainer Amount",
+    "statusField": "Retainer Status",
+    "billingStatusField": "Retainer Payment Status",
+    "dateField": "Retainer Due Date",
+    "positiveStatuses": [
+      "active",
+      "due",
+      "renewed",
+      "service active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Retainer Payment",
+    "category": "Agency Billing",
+    "revenueType": "retainer_payment",
+    "detectionReason": "agency_retainer_payment_not_collected"
+  },
+  {
+    "number": 187,
+    "id": "agency.unbilled-scope-expansion",
+    "exportName": "unbilledAgencyScopeExpansionDetector",
+    "fileName": "unbilled-scope-expansion.ts",
+    "name": "Unbilled Scope Expansion",
+    "description": "Detects documented unbilled scope expansion opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Scope Expansion",
+    "amountField": "Scope Expansion Amount",
+    "statusField": "Scope Expansion Status",
+    "billingStatusField": "Scope Expansion Billing Status",
+    "dateField": "Scope Change Date",
+    "positiveStatuses": [
+      "approved",
+      "completed",
+      "delivered",
+      "performed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Scope Expansion",
+    "category": "Agency Billing",
+    "revenueType": "scope_expansion",
+    "detectionReason": "agency_scope_expansion_not_billed"
+  },
+  {
+    "number": 188,
+    "id": "agency.unbilled-ad-spend-management-fee",
+    "exportName": "unbilledAgencyAdSpendManagementFeeDetector",
+    "fileName": "unbilled-ad-spend-management-fee.ts",
+    "name": "Unbilled Ad Spend Management Fee",
+    "description": "Detects documented unbilled ad spend management fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Ad Management",
+    "amountField": "Ad Management Fee",
+    "statusField": "Ad Management Status",
+    "billingStatusField": "Ad Management Billing Status",
+    "dateField": "Management Date",
+    "positiveStatuses": [
+      "managed",
+      "active",
+      "completed",
+      "delivered"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Ad Spend Management Fee",
+    "category": "Agency Billing",
+    "revenueType": "ad_management_fee",
+    "detectionReason": "agency_ad_management_fee_not_billed"
+  },
+  {
+    "number": 189,
+    "id": "agency.unbilled-rush-fee",
+    "exportName": "unbilledAgencyRushFeeDetector",
+    "fileName": "unbilled-rush-fee.ts",
+    "name": "Unbilled Rush Fee",
+    "description": "Detects documented unbilled rush fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Rush Work",
+    "amountField": "Rush Fee",
+    "statusField": "Rush Work Status",
+    "billingStatusField": "Rush Fee Billing Status",
+    "dateField": "Delivery Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "expedited",
+      "performed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Rush Fee",
+    "category": "Agency Billing",
+    "revenueType": "rush_fee",
+    "detectionReason": "agency_rush_fee_not_billed"
+  },
+  {
+    "number": 190,
+    "id": "agency.unbilled-revision-fee",
+    "exportName": "unbilledAgencyRevisionFeeDetector",
+    "fileName": "unbilled-revision-fee.ts",
+    "name": "Unbilled Revision Fee",
+    "description": "Detects documented unbilled revision fee opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Revision",
+    "amountField": "Revision Fee",
+    "statusField": "Revision Status",
+    "billingStatusField": "Revision Billing Status",
+    "dateField": "Revision Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "approved",
+      "performed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Revision Fee",
+    "category": "Agency Billing",
+    "revenueType": "revision_fee",
+    "detectionReason": "agency_revision_fee_not_billed"
+  },
+  {
+    "number": 191,
+    "id": "agency.unbilled-content-production",
+    "exportName": "unbilledAgencyContentProductionDetector",
+    "fileName": "unbilled-content-production.ts",
+    "name": "Unbilled Content Production",
+    "description": "Detects documented unbilled content production opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Content Production",
+    "amountField": "Content Production Amount",
+    "statusField": "Content Status",
+    "billingStatusField": "Content Billing Status",
+    "dateField": "Content Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "published",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Content Production",
+    "category": "Agency Billing",
+    "revenueType": "content_production",
+    "detectionReason": "agency_content_production_not_billed"
+  },
+  {
+    "number": 192,
+    "id": "agency.unbilled-strategy-session",
+    "exportName": "unbilledAgencyStrategySessionDetector",
+    "fileName": "unbilled-strategy-session.ts",
+    "name": "Unbilled Strategy Session",
+    "description": "Detects documented unbilled strategy session opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Strategy Session",
+    "amountField": "Strategy Session Fee",
+    "statusField": "Strategy Session Status",
+    "billingStatusField": "Strategy Session Billing Status",
+    "dateField": "Session Date",
+    "positiveStatuses": [
+      "completed",
+      "attended",
+      "performed",
+      "delivered"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Strategy Session",
+    "category": "Agency Billing",
+    "revenueType": "strategy_session",
+    "detectionReason": "agency_strategy_session_not_billed"
+  },
+  {
+    "number": 193,
+    "id": "agency.uncollected-project-deposit",
+    "exportName": "uncollectedAgencyProjectDepositDetector",
+    "fileName": "uncollected-project-deposit.ts",
+    "name": "Uncollected Project Deposit",
+    "description": "Detects documented uncollected project deposit opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Project",
+    "amountField": "Project Deposit Amount",
+    "statusField": "Project Status",
+    "billingStatusField": "Project Deposit Status",
+    "dateField": "Project Start Date",
+    "positiveStatuses": [
+      "approved",
+      "scheduled",
+      "signed",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Project Deposit",
+    "category": "Agency Billing",
+    "revenueType": "project_deposit",
+    "detectionReason": "agency_project_deposit_not_collected"
+  },
+  {
+    "number": 194,
+    "id": "agency.unbilled-reporting-add-on",
+    "exportName": "unbilledAgencyReportingAddOnDetector",
+    "fileName": "unbilled-reporting-add-on.ts",
+    "name": "Unbilled Reporting Add-On",
+    "description": "Detects documented unbilled reporting add-on opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Reporting Add-On",
+    "amountField": "Reporting Add-On Amount",
+    "statusField": "Reporting Status",
+    "billingStatusField": "Reporting Billing Status",
+    "dateField": "Report Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "provided",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Reporting Add-On",
+    "category": "Agency Billing",
+    "revenueType": "reporting_add_on",
+    "detectionReason": "agency_reporting_add_on_not_billed"
+  },
+  {
+    "number": 195,
+    "id": "agency.uncollected-final-project-balance",
+    "exportName": "uncollectedAgencyFinalProjectBalanceDetector",
+    "fileName": "uncollected-final-project-balance.ts",
+    "name": "Uncollected Final Project Balance",
+    "description": "Detects documented uncollected final project balance opportunities where revenue is due or earned but has not been properly billed or collected.",
+    "industry": "agency",
+    "itemField": "Project",
+    "amountField": "Final Project Balance",
+    "statusField": "Project Completion Status",
+    "billingStatusField": "Final Project Payment Status",
+    "dateField": "Project Completion Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "closed",
+      "finished"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Project Balance",
+    "category": "Agency Billing",
+    "revenueType": "final_project_balance",
+    "detectionReason": "agency_final_project_balance_not_collected"
+  }
+]

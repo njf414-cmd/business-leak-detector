@@ -1,0 +1,30 @@
+{
+  "number": 109,
+  "id": "real-estate.uncollected-late-fee",
+  "exportName": "uncollectedRealEstateLateFeeDetector",
+  "fileName": "uncollected-late-fee.ts",
+  "name": "Uncollected Late Fee",
+  "description": "Detects documented tenant late fees that became due but have not been collected.",
+  "industry": "real_estate",
+  "itemField": "Late Payment",
+  "amountField": "Late Fee Amount",
+  "statusField": "Late Fee Status",
+  "billingStatusField": "Late Fee Collection Status",
+  "dateField": "Late Fee Date",
+  "positiveStatuses": [
+    "due",
+    "assessed",
+    "applied",
+    "approved"
+  ],
+  "billedStatuses": [
+    "paid",
+    "collected",
+    "settled",
+    "waived"
+  ],
+  "leakType": "Uncollected Late Fee",
+  "category": "Real Estate Billing",
+  "revenueType": "late_fee",
+  "detectionReason": "late_fee_due_not_collected"
+}

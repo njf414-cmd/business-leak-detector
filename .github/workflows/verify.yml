@@ -1,0 +1,52 @@
+name: Leak Detector Verification
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start development server
+        run: |
+          npm run dev > /tmp/leak-detector-server.log 2>&1 &
+          echo $! > /tmp/leak-detector-server.pid
+
+      - name: Wait for server
+        run: |
+          for i in {1..60}; do
+            if curl -s http://localhost:3000 >/dev/null 2>&1; then
+              echo "Server ready"
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          echo "Server failed to start"
+          cat /tmp/leak-detector-server.log
+          exit 1
+
+      - name: Run full verification
+        run: npm run verify
+
+      - name: Show server log on failure
+        if: failure()
+        run: |
+          cat /tmp/leak-detector-server.log || true

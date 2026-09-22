@@ -1,0 +1,304 @@
+[
+  {
+    "number": 86,
+    "id": "professional-services.unbilled-consultation",
+    "exportName": "unbilledProfessionalConsultationDetector",
+    "fileName": "unbilled-consultation.ts",
+    "name": "Unbilled Consultation",
+    "description": "Detects completed billable consultations with a documented fee that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Consultation",
+    "amountField": "Consultation Fee",
+    "statusField": "Consultation Status",
+    "billingStatusField": "Consultation Billing Status",
+    "dateField": "Consultation Date",
+    "positiveStatuses": [
+      "completed",
+      "complete",
+      "performed",
+      "billable"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Consultation",
+    "category": "Professional Services Billing",
+    "revenueType": "consultation_fee",
+    "detectionReason": "completed_consultation_not_billed"
+  },
+  {
+    "number": 87,
+    "id": "professional-services.unbilled-project-milestone",
+    "exportName": "unbilledProfessionalProjectMilestoneDetector",
+    "fileName": "unbilled-project-milestone.ts",
+    "name": "Unbilled Project Milestone",
+    "description": "Detects completed project milestones with a documented milestone payment that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Project Milestone",
+    "amountField": "Milestone Amount",
+    "statusField": "Milestone Status",
+    "billingStatusField": "Milestone Billing Status",
+    "dateField": "Milestone Date",
+    "positiveStatuses": [
+      "completed",
+      "approved",
+      "achieved",
+      "ready to bill"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Project Milestone",
+    "category": "Professional Services Billing",
+    "revenueType": "project_milestone",
+    "detectionReason": "project_milestone_completed_not_billed"
+  },
+  {
+    "number": 88,
+    "id": "professional-services.unbilled-retainer-work",
+    "exportName": "unbilledRetainerWorkDetector",
+    "fileName": "unbilled-retainer-work.ts",
+    "name": "Unbilled Retainer Work",
+    "description": "Detects completed billable work performed beyond an included retainer amount that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Retainer Work",
+    "amountField": "Retainer Overage Amount",
+    "statusField": "Retainer Work Status",
+    "billingStatusField": "Retainer Overage Billing Status",
+    "dateField": "Retainer Work Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "approved",
+      "billable"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Retainer Work",
+    "category": "Professional Services Billing",
+    "revenueType": "retainer_overage",
+    "detectionReason": "retainer_overage_completed_not_billed"
+  },
+  {
+    "number": 89,
+    "id": "professional-services.unbilled-scope-expansion",
+    "exportName": "unbilledScopeExpansionDetector",
+    "fileName": "unbilled-scope-expansion.ts",
+    "name": "Unbilled Scope Expansion",
+    "description": "Detects approved or completed out-of-scope work with a documented additional amount that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Scope Expansion",
+    "amountField": "Scope Expansion Amount",
+    "statusField": "Scope Expansion Status",
+    "billingStatusField": "Scope Expansion Billing Status",
+    "dateField": "Scope Expansion Date",
+    "positiveStatuses": [
+      "approved",
+      "completed",
+      "performed",
+      "accepted"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Scope Expansion",
+    "category": "Professional Services Billing",
+    "revenueType": "scope_expansion",
+    "detectionReason": "scope_expansion_completed_not_billed"
+  },
+  {
+    "number": 90,
+    "id": "professional-services.unbilled-rush-fee",
+    "exportName": "unbilledProfessionalRushFeeDetector",
+    "fileName": "unbilled-rush-fee.ts",
+    "name": "Unbilled Rush Fee",
+    "description": "Detects completed rush or expedited professional work with a documented rush fee that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Rush Service",
+    "amountField": "Rush Fee",
+    "statusField": "Rush Service Status",
+    "billingStatusField": "Rush Fee Billing Status",
+    "dateField": "Rush Service Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "delivered",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Rush Fee",
+    "category": "Professional Services Billing",
+    "revenueType": "rush_fee",
+    "detectionReason": "rush_service_completed_fee_not_billed"
+  },
+  {
+    "number": 91,
+    "id": "professional-services.uncollected-deposit",
+    "exportName": "uncollectedProfessionalDepositDetector",
+    "fileName": "uncollected-deposit.ts",
+    "name": "Uncollected Deposit",
+    "description": "Detects approved or started professional engagements with a documented required deposit that remains uncollected.",
+    "industry": "professional_services",
+    "itemField": "Engagement Deposit",
+    "amountField": "Deposit Amount",
+    "statusField": "Engagement Status",
+    "billingStatusField": "Deposit Status",
+    "dateField": "Engagement Date",
+    "positiveStatuses": [
+      "approved",
+      "started",
+      "scheduled",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Deposit",
+    "category": "Professional Services Billing",
+    "revenueType": "engagement_deposit",
+    "detectionReason": "engagement_started_deposit_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 92,
+    "id": "professional-services.unbilled-revision-fee",
+    "exportName": "unbilledRevisionFeeDetector",
+    "fileName": "unbilled-revision-fee.ts",
+    "name": "Unbilled Revision Fee",
+    "description": "Detects completed billable revisions with a documented revision fee that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Revision",
+    "amountField": "Revision Fee",
+    "statusField": "Revision Status",
+    "billingStatusField": "Revision Billing Status",
+    "dateField": "Revision Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "approved",
+      "delivered"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Revision Fee",
+    "category": "Professional Services Billing",
+    "revenueType": "revision_fee",
+    "detectionReason": "revision_completed_not_billed"
+  },
+  {
+    "number": 93,
+    "id": "professional-services.unbilled-research-fee",
+    "exportName": "unbilledResearchFeeDetector",
+    "fileName": "unbilled-research-fee.ts",
+    "name": "Unbilled Research Fee",
+    "description": "Detects completed billable research work with a documented research fee that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Research Work",
+    "amountField": "Research Fee",
+    "statusField": "Research Status",
+    "billingStatusField": "Research Billing Status",
+    "dateField": "Research Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "delivered",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Research Fee",
+    "category": "Professional Services Billing",
+    "revenueType": "research_fee",
+    "detectionReason": "research_completed_not_billed"
+  },
+  {
+    "number": 94,
+    "id": "professional-services.unbilled-travel-expense",
+    "exportName": "unbilledProfessionalTravelExpenseDetector",
+    "fileName": "unbilled-travel-expense.ts",
+    "name": "Unbilled Travel Expense",
+    "description": "Detects reimbursable professional travel expenses with a documented amount that has not been billed.",
+    "industry": "professional_services",
+    "itemField": "Travel Expense",
+    "amountField": "Travel Expense Amount",
+    "statusField": "Travel Expense Status",
+    "billingStatusField": "Travel Expense Billing Status",
+    "dateField": "Travel Date",
+    "positiveStatuses": [
+      "incurred",
+      "approved",
+      "reimbursable",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Travel Expense",
+    "category": "Professional Services Billing",
+    "revenueType": "travel_expense",
+    "detectionReason": "reimbursable_travel_expense_not_billed"
+  },
+  {
+    "number": 95,
+    "id": "professional-services.uncollected-final-payment",
+    "exportName": "uncollectedProfessionalFinalPaymentDetector",
+    "fileName": "uncollected-final-payment.ts",
+    "name": "Uncollected Final Payment",
+    "description": "Detects completed professional engagements with a documented final payment that remains uncollected.",
+    "industry": "professional_services",
+    "itemField": "Final Payment",
+    "amountField": "Final Payment Amount",
+    "statusField": "Project Completion Status",
+    "billingStatusField": "Final Payment Status",
+    "dateField": "Completion Date",
+    "positiveStatuses": [
+      "completed",
+      "complete",
+      "delivered",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Final Payment",
+    "category": "Professional Services Billing",
+    "revenueType": "final_payment",
+    "detectionReason": "project_completed_final_payment_not_collected",
+    "recommendedActionVerb": "collect"
+  }
+]

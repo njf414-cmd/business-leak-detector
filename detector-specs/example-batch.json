@@ -1,0 +1,39 @@
+[
+  {
+    "number": 56,
+    "id": "example.unbilled-example-payment",
+    "exportName": "unbilledExamplePaymentDetector",
+    "fileName": "unbilled-example-payment.ts",
+    "name": "Unbilled Example Payment",
+    "description": "Example detector spec for the generator.",
+    "industry": "example",
+    "customerField": "Customer Name",
+    "projectField": "Project Name",
+    "itemField": "Example Item",
+    "amountField": "Example Amount",
+    "statusField": "Example Status",
+    "billingStatusField": "Example Billing Status",
+    "dateField": "Example Date",
+    "positiveStatuses": [
+      "complete",
+      "completed",
+      "approved",
+      "ready to bill"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "invoice sent",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Example Payment",
+    "category": "Example Billing",
+    "revenueType": "example_payment",
+    "detectionReason": "example_complete_not_billed",
+    "recommendedActionVerb": "invoice",
+    "recoveryRate": 0.9,
+    "severityMedium": 7500,
+    "severityHigh": 25000
+  }
+]

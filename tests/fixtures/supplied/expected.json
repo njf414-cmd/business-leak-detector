@@ -1,0 +1,428 @@
+[
+  {
+    "file": "hvac_test_data.csv",
+    "rows": 8,
+    "leaks": [
+      {
+        "rowIndex": 0,
+        "customerName": "Customer 001",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1200.0
+      },
+      {
+        "rowIndex": 2,
+        "customerName": "Customer 003",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 800.0
+      },
+      {
+        "rowIndex": 3,
+        "customerName": "Customer 004",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 1500.0
+      },
+      {
+        "rowIndex": 5,
+        "customerName": "Customer 006",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 2200.0
+      },
+      {
+        "rowIndex": 6,
+        "customerName": "Customer 007",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 875.0
+      },
+      {
+        "rowIndex": 7,
+        "customerName": "Customer 008",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 650.0
+      }
+    ]
+  },
+  {
+    "file": "hvac_realistic_test_data.csv",
+    "rows": 50,
+    "leaks": [
+      {
+        "rowIndex": 0,
+        "customerName": "Customer 001",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1850.0
+      },
+      {
+        "rowIndex": 1,
+        "customerName": "Customer 002",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 7200.0
+      },
+      {
+        "rowIndex": 2,
+        "customerName": "Customer 003",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 3200.0
+      },
+      {
+        "rowIndex": 7,
+        "customerName": "Customer 008",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1500.0
+      },
+      {
+        "rowIndex": 8,
+        "customerName": "Customer 009",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 875.0
+      },
+      {
+        "rowIndex": 9,
+        "customerName": "Customer 010",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 2100.0
+      },
+      {
+        "rowIndex": 10,
+        "customerName": "Customer 011",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 650.0
+      },
+      {
+        "rowIndex": 11,
+        "customerName": "Customer 012",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1100.0
+      },
+      {
+        "rowIndex": 12,
+        "customerName": "Customer 013",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 900.0
+      },
+      {
+        "rowIndex": 15,
+        "customerName": "Customer 016",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 1450.0
+      },
+      {
+        "rowIndex": 16,
+        "customerName": "Customer 017",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 875.0
+      },
+      {
+        "rowIndex": 17,
+        "customerName": "Customer 018",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 3200.0
+      },
+      {
+        "rowIndex": 18,
+        "customerName": "Customer 019",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 640.0
+      },
+      {
+        "rowIndex": 20,
+        "customerName": "Customer 021",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 2250.0
+      },
+      {
+        "rowIndex": 21,
+        "customerName": "Customer 022",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 495.0
+      },
+      {
+        "rowIndex": 24,
+        "customerName": "Customer 025",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 9800.0
+      },
+      {
+        "rowIndex": 25,
+        "customerName": "Customer 026",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 2750.0
+      },
+      {
+        "rowIndex": 26,
+        "customerName": "Customer 027",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1250.0
+      },
+      {
+        "rowIndex": 27,
+        "customerName": "Customer 028",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 890.0
+      },
+      {
+        "rowIndex": 28,
+        "customerName": "Customer 029",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1650.0
+      },
+      {
+        "rowIndex": 29,
+        "customerName": "Customer 030",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 2100.0
+      },
+      {
+        "rowIndex": 30,
+        "customerName": "Customer 031",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1300.0
+      },
+      {
+        "rowIndex": 31,
+        "customerName": "Customer 032",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 775.0
+      },
+      {
+        "rowIndex": 32,
+        "customerName": "Customer 033",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 2400.0
+      },
+      {
+        "rowIndex": 33,
+        "customerName": "Customer 034",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 900.0
+      },
+      {
+        "rowIndex": 37,
+        "customerName": "Customer 038",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 2100.0
+      },
+      {
+        "rowIndex": 38,
+        "customerName": "Customer 039",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 680.0
+      },
+      {
+        "rowIndex": 39,
+        "customerName": "Customer 040",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 1550.0
+      },
+      {
+        "rowIndex": 42,
+        "customerName": "Customer 043",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 1750.0
+      },
+      {
+        "rowIndex": 43,
+        "customerName": "Customer 044",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 500.0
+      },
+      {
+        "rowIndex": 45,
+        "customerName": "Customer 046",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 4300.0
+      },
+      {
+        "rowIndex": 46,
+        "customerName": "Customer 047",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 2950.0
+      },
+      {
+        "rowIndex": 47,
+        "customerName": "Customer 048",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1800.0
+      }
+    ]
+  },
+  {
+    "file": "hvac_adversarial_test_50.csv",
+    "rows": 50,
+    "leaks": [
+      {
+        "rowIndex": 0,
+        "customerName": "Customer 001",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1800.0
+      },
+      {
+        "rowIndex": 4,
+        "customerName": "Customer 005",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 6400.0
+      },
+      {
+        "rowIndex": 6,
+        "customerName": "Customer 007",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 975.0
+      },
+      {
+        "rowIndex": 7,
+        "customerName": "Customer 008",
+        "leakType": "Expired Estimate",
+        "estimatedLoss": 2800.0
+      },
+      {
+        "rowIndex": 8,
+        "customerName": "Customer 009",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 3100.0
+      },
+      {
+        "rowIndex": 10,
+        "customerName": "Customer 011",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1200.0
+      },
+      {
+        "rowIndex": 11,
+        "customerName": "Customer 012",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 850.0
+      },
+      {
+        "rowIndex": 14,
+        "customerName": "Customer 015",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 2100.0
+      },
+      {
+        "rowIndex": 15,
+        "customerName": "Customer 016",
+        "leakType": "Lost Lead",
+        "estimatedLoss": 900.0
+      },
+      {
+        "rowIndex": 16,
+        "customerName": "Customer 017",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1450.0
+      },
+      {
+        "rowIndex": 17,
+        "customerName": "Customer 018",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 2750.0
+      },
+      {
+        "rowIndex": 18,
+        "customerName": "Customer 019",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 1100.0
+      },
+      {
+        "rowIndex": 20,
+        "customerName": "Customer 021",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 1850.0
+      },
+      {
+        "rowIndex": 21,
+        "customerName": "Customer 022",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 760.0
+      },
+      {
+        "rowIndex": 24,
+        "customerName": "Customer 025",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 540.0
+      },
+      {
+        "rowIndex": 25,
+        "customerName": "Customer 026",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 1250.0
+      },
+      {
+        "rowIndex": 26,
+        "customerName": "Customer 027",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 4100.0
+      },
+      {
+        "rowIndex": 29,
+        "customerName": "Customer 030",
+        "leakType": "Unpaid Invoice",
+        "estimatedLoss": 680.0
+      },
+      {
+        "rowIndex": 36,
+        "customerName": "Customer 037",
+        "leakType": "Cancelled Job",
+        "estimatedLoss": 2800.0
+      },
+      {
+        "rowIndex": 40,
+        "customerName": "Customer 041",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1499.0
+      },
+      {
+        "rowIndex": 41,
+        "customerName": "Customer 042",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 1500.0
+      },
+      {
+        "rowIndex": 42,
+        "customerName": "Customer 043",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 749.0
+      },
+      {
+        "rowIndex": 43,
+        "customerName": "Customer 044",
+        "leakType": "Unfollowed Estimate",
+        "estimatedLoss": 750.0
+      },
+      {
+        "rowIndex": 44,
+        "customerName": "Customer 045",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 749.0
+      },
+      {
+        "rowIndex": 45,
+        "customerName": "Customer 046",
+        "leakType": "Unbooked Lead",
+        "estimatedLoss": 750.0
+      },
+      {
+        "rowIndex": 46,
+        "customerName": "Customer 047",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 499.0
+      },
+      {
+        "rowIndex": 47,
+        "customerName": "Customer 048",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 500.0
+      },
+      {
+        "rowIndex": 48,
+        "customerName": "Customer 049",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 999.0
+      },
+      {
+        "rowIndex": 49,
+        "customerName": "Customer 050",
+        "leakType": "Overdue Invoice",
+        "estimatedLoss": 1000.0
+      }
+    ]
+  }
+]

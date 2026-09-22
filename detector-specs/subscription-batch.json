@@ -1,0 +1,308 @@
+[
+  {
+    "number": 66,
+    "id": "subscription-services.failed-subscription-payment",
+    "exportName": "failedSubscriptionPaymentDetector",
+    "fileName": "failed-subscription-payment.ts",
+    "name": "Failed Subscription Payment",
+    "description": "Detects failed recurring subscription payments with a documented amount that remains uncollected.",
+    "industry": "subscription-services",
+    "itemField": "Subscription",
+    "amountField": "Subscription Payment Amount",
+    "statusField": "Subscription Payment Status",
+    "billingStatusField": "Subscription Collection Status",
+    "dateField": "Payment Attempt Date",
+    "positiveStatuses": [
+      "failed",
+      "declined",
+      "payment failed",
+      "retry needed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "recovered",
+      "settled"
+    ],
+    "leakType": "Failed Subscription Payment",
+    "category": "Subscription Revenue",
+    "revenueType": "subscription_payment",
+    "detectionReason": "failed_subscription_payment_not_collected",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 67,
+    "id": "subscription-services.past-due-subscription",
+    "exportName": "pastDueSubscriptionDetector",
+    "fileName": "past-due-subscription.ts",
+    "name": "Past-Due Subscription",
+    "description": "Detects past-due subscription balances that remain outstanding.",
+    "industry": "subscription-services",
+    "itemField": "Subscription",
+    "amountField": "Past Due Amount",
+    "statusField": "Subscription Status",
+    "billingStatusField": "Past Due Collection Status",
+    "dateField": "Past Due Date",
+    "positiveStatuses": [
+      "past due",
+      "overdue",
+      "delinquent",
+      "payment due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "resolved"
+    ],
+    "leakType": "Past-Due Subscription",
+    "category": "Subscription Revenue",
+    "revenueType": "past_due_subscription",
+    "detectionReason": "subscription_past_due_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 68,
+    "id": "subscription-services.unbilled-subscription-upgrade",
+    "exportName": "unbilledSubscriptionUpgradeDetector",
+    "fileName": "unbilled-subscription-upgrade.ts",
+    "name": "Unbilled Subscription Upgrade",
+    "description": "Detects subscription upgrades that were activated but whose documented upgrade amount has not been billed.",
+    "industry": "subscription-services",
+    "itemField": "Subscription Upgrade",
+    "amountField": "Subscription Upgrade Amount",
+    "statusField": "Subscription Upgrade Status",
+    "billingStatusField": "Subscription Upgrade Billing Status",
+    "dateField": "Subscription Upgrade Date",
+    "positiveStatuses": [
+      "upgraded",
+      "activated",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Subscription Upgrade",
+    "category": "Subscription Billing",
+    "revenueType": "subscription_upgrade",
+    "detectionReason": "subscription_upgrade_activated_not_billed"
+  },
+  {
+    "number": 69,
+    "id": "subscription-services.unbilled-subscription-add-on",
+    "exportName": "unbilledSubscriptionAddOnDetector",
+    "fileName": "unbilled-subscription-add-on.ts",
+    "name": "Unbilled Subscription Add-On",
+    "description": "Detects activated subscription add-ons with a documented charge that has not been billed.",
+    "industry": "subscription-services",
+    "itemField": "Subscription Add-On",
+    "amountField": "Subscription Add-On Amount",
+    "statusField": "Subscription Add-On Status",
+    "billingStatusField": "Subscription Add-On Billing Status",
+    "dateField": "Subscription Add-On Date",
+    "positiveStatuses": [
+      "activated",
+      "active",
+      "added",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Subscription Add-On",
+    "category": "Subscription Billing",
+    "revenueType": "subscription_add_on",
+    "detectionReason": "subscription_add_on_active_not_billed"
+  },
+  {
+    "number": 70,
+    "id": "subscription-services.unrenewed-membership",
+    "exportName": "unrenewedMembershipDetector",
+    "fileName": "unrenewed-membership.ts",
+    "name": "Unrenewed Membership",
+    "description": "Detects memberships that reached renewal and have not been renewed or collected.",
+    "industry": "subscription-services",
+    "itemField": "Membership",
+    "amountField": "Membership Renewal Amount",
+    "statusField": "Membership Renewal Status",
+    "billingStatusField": "Membership Renewal Billing Status",
+    "dateField": "Membership Renewal Date",
+    "positiveStatuses": [
+      "renewal due",
+      "not renewed",
+      "expired",
+      "lapsed"
+    ],
+    "billedStatuses": [
+      "renewed",
+      "paid",
+      "collected",
+      "active"
+    ],
+    "leakType": "Unrenewed Membership",
+    "category": "Membership Revenue",
+    "revenueType": "membership_renewal",
+    "detectionReason": "membership_due_not_renewed",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 71,
+    "id": "subscription-services.lapsed-membership",
+    "exportName": "lapsedMembershipDetector",
+    "fileName": "lapsed-membership.ts",
+    "name": "Lapsed Membership",
+    "description": "Detects lapsed memberships with a documented recoverable renewal amount.",
+    "industry": "subscription-services",
+    "itemField": "Membership",
+    "amountField": "Lapsed Membership Amount",
+    "statusField": "Membership Status",
+    "billingStatusField": "Membership Recovery Status",
+    "dateField": "Membership Lapsed Date",
+    "positiveStatuses": [
+      "lapsed",
+      "expired",
+      "inactive",
+      "cancelled"
+    ],
+    "billedStatuses": [
+      "reactivated",
+      "renewed",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Lapsed Membership",
+    "category": "Membership Revenue",
+    "revenueType": "lapsed_membership",
+    "detectionReason": "membership_lapsed_not_recovered",
+    "recommendedActionVerb": "recover"
+  },
+  {
+    "number": 72,
+    "id": "subscription-services.uncollected-membership-setup-fee",
+    "exportName": "uncollectedMembershipSetupFeeDetector",
+    "fileName": "uncollected-membership-setup-fee.ts",
+    "name": "Uncollected Membership Setup Fee",
+    "description": "Detects completed membership setup or activation events with a documented setup fee that has not been collected.",
+    "industry": "subscription-services",
+    "itemField": "Membership Setup",
+    "amountField": "Membership Setup Fee",
+    "statusField": "Membership Setup Status",
+    "billingStatusField": "Membership Setup Fee Status",
+    "dateField": "Membership Setup Date",
+    "positiveStatuses": [
+      "completed",
+      "activated",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "billed",
+      "invoiced"
+    ],
+    "leakType": "Uncollected Membership Setup Fee",
+    "category": "Membership Billing",
+    "revenueType": "membership_setup_fee",
+    "detectionReason": "membership_setup_completed_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 73,
+    "id": "subscription-services.unbilled-plan-change",
+    "exportName": "unbilledPlanChangeDetector",
+    "fileName": "unbilled-plan-change.ts",
+    "name": "Unbilled Plan Change",
+    "description": "Detects billable subscription plan changes that were completed without billing the documented plan-change amount.",
+    "industry": "subscription-services",
+    "itemField": "Plan Change",
+    "amountField": "Plan Change Amount",
+    "statusField": "Plan Change Status",
+    "billingStatusField": "Plan Change Billing Status",
+    "dateField": "Plan Change Date",
+    "positiveStatuses": [
+      "completed",
+      "changed",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Plan Change",
+    "category": "Subscription Billing",
+    "revenueType": "plan_change",
+    "detectionReason": "plan_change_completed_not_billed"
+  },
+  {
+    "number": 74,
+    "id": "subscription-services.uncollected-cancellation-fee",
+    "exportName": "uncollectedSubscriptionCancellationFeeDetector",
+    "fileName": "uncollected-cancellation-fee.ts",
+    "name": "Uncollected Subscription Cancellation Fee",
+    "description": "Detects subscription cancellations where a documented cancellation fee was earned but not collected.",
+    "industry": "subscription-services",
+    "itemField": "Subscription Cancellation",
+    "amountField": "Cancellation Fee Amount",
+    "statusField": "Cancellation Status",
+    "billingStatusField": "Cancellation Fee Status",
+    "dateField": "Cancellation Date",
+    "positiveStatuses": [
+      "cancelled",
+      "canceled",
+      "terminated",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Subscription Cancellation Fee",
+    "category": "Subscription Billing",
+    "revenueType": "cancellation_fee",
+    "detectionReason": "subscription_cancelled_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 75,
+    "id": "subscription-services.unbilled-reactivation-fee",
+    "exportName": "unbilledReactivationFeeDetector",
+    "fileName": "unbilled-reactivation-fee.ts",
+    "name": "Unbilled Reactivation Fee",
+    "description": "Detects reactivated subscriptions or memberships with a documented reactivation fee that has not been billed.",
+    "industry": "subscription-services",
+    "itemField": "Reactivation",
+    "amountField": "Reactivation Fee Amount",
+    "statusField": "Reactivation Status",
+    "billingStatusField": "Reactivation Billing Status",
+    "dateField": "Reactivation Date",
+    "positiveStatuses": [
+      "reactivated",
+      "activated",
+      "restored",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Reactivation Fee",
+    "category": "Subscription Billing",
+    "revenueType": "reactivation_fee",
+    "detectionReason": "subscription_reactivated_fee_not_billed"
+  }
+]

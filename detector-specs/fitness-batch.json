@@ -1,0 +1,309 @@
+[
+  {
+    "number": 126,
+    "id": "health-fitness.uncollected-membership-enrollment-fee",
+    "exportName": "uncollectedFitnessMembershipEnrollmentFeeDetector",
+    "fileName": "uncollected-membership-enrollment-fee.ts",
+    "name": "Uncollected Membership Enrollment Fee",
+    "description": "Detects activated gym or fitness memberships with a documented enrollment fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Membership Enrollment",
+    "amountField": "Enrollment Fee Amount",
+    "statusField": "Membership Enrollment Status",
+    "billingStatusField": "Enrollment Fee Status",
+    "dateField": "Enrollment Date",
+    "positiveStatuses": [
+      "activated",
+      "active",
+      "approved",
+      "completed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Membership Enrollment Fee",
+    "category": "Fitness Billing",
+    "revenueType": "membership_enrollment_fee",
+    "detectionReason": "membership_activated_enrollment_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 127,
+    "id": "health-fitness.uncollected-personal-training-fee",
+    "exportName": "uncollectedPersonalTrainingFeeDetector",
+    "fileName": "uncollected-personal-training-fee.ts",
+    "name": "Uncollected Personal Training Session Fee",
+    "description": "Detects completed personal training sessions with a documented fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Personal Training Session",
+    "amountField": "Personal Training Fee",
+    "statusField": "Personal Training Status",
+    "billingStatusField": "Personal Training Payment Status",
+    "dateField": "Training Date",
+    "positiveStatuses": [
+      "completed",
+      "performed",
+      "attended",
+      "finished"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "included"
+    ],
+    "leakType": "Uncollected Personal Training Session Fee",
+    "category": "Fitness Billing",
+    "revenueType": "personal_training_fee",
+    "detectionReason": "personal_training_completed_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 128,
+    "id": "health-fitness.unbilled-class-package-upgrade",
+    "exportName": "unbilledClassPackageUpgradeDetector",
+    "fileName": "unbilled-class-package-upgrade.ts",
+    "name": "Unbilled Class Package Upgrade",
+    "description": "Detects activated or completed fitness class package upgrades with a documented upgrade amount that has not been billed.",
+    "industry": "health_fitness",
+    "itemField": "Class Package Upgrade",
+    "amountField": "Class Package Upgrade Amount",
+    "statusField": "Class Package Upgrade Status",
+    "billingStatusField": "Class Package Upgrade Billing Status",
+    "dateField": "Upgrade Date",
+    "positiveStatuses": [
+      "upgraded",
+      "activated",
+      "approved",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Class Package Upgrade",
+    "category": "Fitness Billing",
+    "revenueType": "class_package_upgrade",
+    "detectionReason": "class_package_upgraded_not_billed"
+  },
+  {
+    "number": 129,
+    "id": "health-fitness.uncollected-late-cancellation-fee",
+    "exportName": "uncollectedFitnessLateCancellationFeeDetector",
+    "fileName": "uncollected-late-cancellation-fee.ts",
+    "name": "Uncollected Late Cancellation Fee",
+    "description": "Detects late-cancelled fitness sessions or classes with a documented cancellation fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Late Cancellation",
+    "amountField": "Late Cancellation Fee Amount",
+    "statusField": "Cancellation Status",
+    "billingStatusField": "Late Cancellation Fee Status",
+    "dateField": "Cancellation Date",
+    "positiveStatuses": [
+      "late cancellation",
+      "cancelled late",
+      "canceled late",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected Late Cancellation Fee",
+    "category": "Fitness Billing",
+    "revenueType": "late_cancellation_fee",
+    "detectionReason": "fitness_late_cancellation_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 130,
+    "id": "health-fitness.uncollected-no-show-fee",
+    "exportName": "uncollectedFitnessNoShowFeeDetector",
+    "fileName": "uncollected-no-show-fee.ts",
+    "name": "Uncollected No-Show Fee",
+    "description": "Detects missed fitness sessions or classes with a documented no-show fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "No-Show Session",
+    "amountField": "No-Show Fee Amount",
+    "statusField": "Attendance Status",
+    "billingStatusField": "No-Show Fee Status",
+    "dateField": "Session Date",
+    "positiveStatuses": [
+      "no show",
+      "missed",
+      "absent",
+      "did not attend"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected No-Show Fee",
+    "category": "Fitness Billing",
+    "revenueType": "no_show_fee",
+    "detectionReason": "fitness_no_show_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 131,
+    "id": "health-fitness.unbilled-nutrition-coaching-add-on",
+    "exportName": "unbilledNutritionCoachingAddOnDetector",
+    "fileName": "unbilled-nutrition-coaching-add-on.ts",
+    "name": "Unbilled Nutrition Coaching Add-On",
+    "description": "Detects provided nutrition coaching add-ons with a documented charge that has not been billed.",
+    "industry": "health_fitness",
+    "itemField": "Nutrition Coaching Add-On",
+    "amountField": "Nutrition Coaching Amount",
+    "statusField": "Nutrition Coaching Status",
+    "billingStatusField": "Nutrition Coaching Billing Status",
+    "dateField": "Coaching Date",
+    "positiveStatuses": [
+      "provided",
+      "completed",
+      "performed",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Nutrition Coaching Add-On",
+    "category": "Fitness Billing",
+    "revenueType": "nutrition_coaching_add_on",
+    "detectionReason": "nutrition_coaching_provided_not_billed"
+  },
+  {
+    "number": 132,
+    "id": "health-fitness.uncollected-locker-rental-fee",
+    "exportName": "uncollectedLockerRentalFeeDetector",
+    "fileName": "uncollected-locker-rental-fee.ts",
+    "name": "Uncollected Locker Rental Fee",
+    "description": "Detects active locker rentals with a documented rental fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Locker Rental",
+    "amountField": "Locker Rental Fee",
+    "statusField": "Locker Rental Status",
+    "billingStatusField": "Locker Rental Payment Status",
+    "dateField": "Locker Rental Start Date",
+    "positiveStatuses": [
+      "active",
+      "assigned",
+      "rented",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "billed",
+      "included"
+    ],
+    "leakType": "Uncollected Locker Rental Fee",
+    "category": "Fitness Billing",
+    "revenueType": "locker_rental_fee",
+    "detectionReason": "locker_rental_active_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 133,
+    "id": "health-fitness.unbilled-premium-amenity-fee",
+    "exportName": "unbilledFitnessPremiumAmenityFeeDetector",
+    "fileName": "unbilled-premium-amenity-fee.ts",
+    "name": "Unbilled Premium Amenity Fee",
+    "description": "Detects activated premium fitness amenities with a documented fee that has not been billed.",
+    "industry": "health_fitness",
+    "itemField": "Premium Amenity",
+    "amountField": "Premium Amenity Fee",
+    "statusField": "Premium Amenity Status",
+    "billingStatusField": "Premium Amenity Billing Status",
+    "dateField": "Amenity Start Date",
+    "positiveStatuses": [
+      "active",
+      "activated",
+      "provided",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Premium Amenity Fee",
+    "category": "Fitness Billing",
+    "revenueType": "premium_amenity_fee",
+    "detectionReason": "premium_amenity_active_not_billed"
+  },
+  {
+    "number": 134,
+    "id": "health-fitness.uncollected-membership-freeze-fee",
+    "exportName": "uncollectedMembershipFreezeFeeDetector",
+    "fileName": "uncollected-membership-freeze-fee.ts",
+    "name": "Uncollected Membership Freeze / Hold Fee",
+    "description": "Detects frozen or paused memberships with a documented hold fee that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Membership Freeze",
+    "amountField": "Membership Freeze Fee",
+    "statusField": "Membership Freeze Status",
+    "billingStatusField": "Membership Freeze Fee Status",
+    "dateField": "Freeze Start Date",
+    "positiveStatuses": [
+      "frozen",
+      "paused",
+      "on hold",
+      "freeze active"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "included"
+    ],
+    "leakType": "Uncollected Membership Freeze / Hold Fee",
+    "category": "Fitness Billing",
+    "revenueType": "membership_freeze_fee",
+    "detectionReason": "membership_frozen_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 135,
+    "id": "health-fitness.uncollected-final-membership-balance",
+    "exportName": "uncollectedFinalFitnessMembershipBalanceDetector",
+    "fileName": "uncollected-final-membership-balance.ts",
+    "name": "Uncollected Final Membership Balance",
+    "description": "Detects ended or cancelled fitness memberships with a documented final balance that remains uncollected.",
+    "industry": "health_fitness",
+    "itemField": "Final Membership Account",
+    "amountField": "Final Membership Balance",
+    "statusField": "Membership End Status",
+    "billingStatusField": "Final Membership Balance Status",
+    "dateField": "Membership End Date",
+    "positiveStatuses": [
+      "cancelled",
+      "canceled",
+      "ended",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Membership Balance",
+    "category": "Fitness Billing",
+    "revenueType": "final_membership_balance",
+    "detectionReason": "membership_ended_final_balance_not_collected",
+    "recommendedActionVerb": "collect"
+  }
+]

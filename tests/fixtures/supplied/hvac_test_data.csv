@@ -1,0 +1,9 @@
+Customer,Status,Quote,Follow Up,Invoice
+Customer 001,Quoted,1200,No,
+Customer 002,Booked,950,Yes,950
+Customer 003,Lead,800,,
+Customer 004,Unpaid,,No,1500
+Customer 005,Completed,1200,Yes,1200
+Customer 006,Estimate,2200,None,
+Customer 007,Overdue,,Yes,875
+Customer 008,Lost,650,No,

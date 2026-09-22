@@ -1,0 +1,146 @@
+[
+  {
+    "name": "automotive-payments",
+    "file": "automotive-payments.csv",
+    "description": "Auto repair mechanic vehicle detailing",
+    "industry": "automotive",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "home_services-payments",
+    "file": "home_services-payments.csv",
+    "description": "HVAC heating cooling plumbing",
+    "industry": "home_services",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "construction-payments",
+    "file": "construction-payments.csv",
+    "description": "Construction contractor remodeling",
+    "industry": "construction",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "restaurant-payments",
+    "file": "restaurant-payments.csv",
+    "description": "Restaurant cafe catering",
+    "industry": "restaurant",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "retail-payments",
+    "file": "retail-payments.csv",
+    "description": "Retail store boutique shop",
+    "industry": "retail",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "ecommerce-payments",
+    "file": "ecommerce-payments.csv",
+    "description": "Ecommerce online store shopping cart",
+    "industry": "ecommerce",
+    "rows": 2,
+    "leaks": {
+      "universal.partial-payment": 1000
+    },
+    "mapping": {
+      "Invoice Total": "Invoice Amount",
+      "Paid Amount": "Amount Paid"
+    }
+  },
+  {
+    "name": "hvac-estimate",
+    "file": "hvac-estimate.csv",
+    "description": "HVAC heating cooling plumbing",
+    "industry": "home_services",
+    "rows": 2,
+    "leaks": {
+      "home-services.unscheduled-approved-estimate": 6500
+    }
+  },
+  {
+    "name": "construction-milestone",
+    "file": "construction-milestone.csv",
+    "description": "Construction contractor remodeling",
+    "industry": "construction",
+    "rows": 2,
+    "leaks": {
+      "construction.unbilled-progress-payment": 12000
+    }
+  },
+  {
+    "name": "restaurant-catering",
+    "file": "restaurant-catering.csv",
+    "description": "Restaurant cafe catering",
+    "industry": "restaurant",
+    "rows": 2,
+    "leaks": {
+      "restaurant.unpaid-catering-invoice": 750
+    }
+  },
+  {
+    "name": "ecommerce-cart",
+    "file": "ecommerce-cart.csv",
+    "description": "Ecommerce online store shopping cart",
+    "industry": "ecommerce",
+    "rows": 2,
+    "leaks": {
+      "ecommerce.abandoned-cart": 125
+    }
+  },
+  {
+    "name": "retail-shrinkage",
+    "file": "retail-shrinkage.csv",
+    "description": "Retail store boutique shop",
+    "industry": "retail",
+    "rows": 2,
+    "leaks": {
+      "deep.inventory-shrinkage": 75
+    }
+  },
+  {
+    "name": "automotive-service",
+    "file": "automotive-service.csv",
+    "description": "Auto repair mechanic",
+    "industry": "automotive",
+    "rows": 2,
+    "leaks": {
+      "automotive.unperformed-recommended-service": 450
+    }
+  }
+]

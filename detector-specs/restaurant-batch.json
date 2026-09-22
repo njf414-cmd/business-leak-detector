@@ -1,0 +1,306 @@
+[
+  {
+    "number": 96,
+    "id": "restaurant.unpaid-catering-invoice",
+    "exportName": "unpaidCateringInvoiceDetector",
+    "fileName": "unpaid-catering-invoice.ts",
+    "name": "Unpaid Catering Invoice",
+    "description": "Detects completed catering jobs with a documented unpaid balance.",
+    "industry": "restaurant",
+    "itemField": "Catering Job",
+    "amountField": "Catering Balance",
+    "statusField": "Catering Status",
+    "billingStatusField": "Catering Payment Status",
+    "dateField": "Catering Date",
+    "positiveStatuses": [
+      "completed",
+      "delivered",
+      "fulfilled",
+      "served"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "received"
+    ],
+    "leakType": "Unpaid Catering Invoice",
+    "category": "Restaurant Billing",
+    "revenueType": "catering_invoice",
+    "detectionReason": "catering_completed_balance_unpaid",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 97,
+    "id": "restaurant.unbilled-delivery-fee",
+    "exportName": "unbilledDeliveryFeeDetector",
+    "fileName": "unbilled-delivery-fee.ts",
+    "name": "Unbilled Delivery Fee",
+    "description": "Detects completed delivery orders with a documented delivery fee that was not billed.",
+    "industry": "restaurant",
+    "itemField": "Delivery Order",
+    "amountField": "Delivery Fee",
+    "statusField": "Delivery Status",
+    "billingStatusField": "Delivery Fee Billing Status",
+    "dateField": "Delivery Date",
+    "positiveStatuses": [
+      "delivered",
+      "completed",
+      "fulfilled",
+      "closed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "included",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Delivery Fee",
+    "category": "Restaurant Billing",
+    "revenueType": "delivery_fee",
+    "detectionReason": "delivery_completed_fee_not_billed"
+  },
+  {
+    "number": 98,
+    "id": "restaurant.unbilled-service-charge",
+    "exportName": "unbilledRestaurantServiceChargeDetector",
+    "fileName": "unbilled-service-charge.ts",
+    "name": "Unbilled Service Charge",
+    "description": "Detects completed restaurant checks or events with a documented service charge that was not billed.",
+    "industry": "restaurant",
+    "itemField": "Service Charge",
+    "amountField": "Service Charge Amount",
+    "statusField": "Service Charge Status",
+    "billingStatusField": "Service Charge Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "completed",
+      "earned",
+      "applicable",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "included",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Service Charge",
+    "category": "Restaurant Billing",
+    "revenueType": "service_charge",
+    "detectionReason": "service_charge_earned_not_billed"
+  },
+  {
+    "number": 99,
+    "id": "restaurant.unbilled-private-event-fee",
+    "exportName": "unbilledPrivateEventFeeDetector",
+    "fileName": "unbilled-private-event-fee.ts",
+    "name": "Unbilled Private Event Fee",
+    "description": "Detects completed private dining or restaurant events with a documented event fee that has not been billed.",
+    "industry": "restaurant",
+    "itemField": "Private Event",
+    "amountField": "Private Event Fee",
+    "statusField": "Private Event Status",
+    "billingStatusField": "Private Event Billing Status",
+    "dateField": "Private Event Date",
+    "positiveStatuses": [
+      "completed",
+      "held",
+      "served",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Private Event Fee",
+    "category": "Restaurant Billing",
+    "revenueType": "private_event_fee",
+    "detectionReason": "private_event_completed_fee_not_billed"
+  },
+  {
+    "number": 100,
+    "id": "restaurant.uncollected-reservation-deposit",
+    "exportName": "uncollectedReservationDepositDetector",
+    "fileName": "uncollected-reservation-deposit.ts",
+    "name": "Uncollected Reservation Deposit",
+    "description": "Detects confirmed reservations or events with a documented required deposit that remains uncollected.",
+    "industry": "restaurant",
+    "itemField": "Reservation",
+    "amountField": "Reservation Deposit",
+    "statusField": "Reservation Status",
+    "billingStatusField": "Reservation Deposit Status",
+    "dateField": "Reservation Date",
+    "positiveStatuses": [
+      "confirmed",
+      "booked",
+      "reserved",
+      "scheduled"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Reservation Deposit",
+    "category": "Restaurant Billing",
+    "revenueType": "reservation_deposit",
+    "detectionReason": "reservation_confirmed_deposit_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 101,
+    "id": "restaurant.uncollected-no-show-fee",
+    "exportName": "uncollectedNoShowFeeDetector",
+    "fileName": "uncollected-no-show-fee.ts",
+    "name": "Uncollected No-Show Fee",
+    "description": "Detects restaurant reservations marked as no-shows with a documented fee that remains uncollected.",
+    "industry": "restaurant",
+    "itemField": "No-Show Reservation",
+    "amountField": "No-Show Fee",
+    "statusField": "Reservation Attendance Status",
+    "billingStatusField": "No-Show Fee Status",
+    "dateField": "Reservation Date",
+    "positiveStatuses": [
+      "no show",
+      "missed",
+      "absent",
+      "did not arrive"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "waived",
+      "settled"
+    ],
+    "leakType": "Uncollected No-Show Fee",
+    "category": "Restaurant Billing",
+    "revenueType": "no_show_fee",
+    "detectionReason": "reservation_no_show_fee_not_collected",
+    "recommendedActionVerb": "collect"
+  },
+  {
+    "number": 102,
+    "id": "restaurant.unbilled-room-rental-fee",
+    "exportName": "unbilledRoomRentalFeeDetector",
+    "fileName": "unbilled-room-rental-fee.ts",
+    "name": "Unbilled Room Rental Fee",
+    "description": "Detects completed private-room rentals with a documented room fee that was not billed.",
+    "industry": "restaurant",
+    "itemField": "Room Rental",
+    "amountField": "Room Rental Fee",
+    "statusField": "Room Rental Status",
+    "billingStatusField": "Room Rental Billing Status",
+    "dateField": "Room Rental Date",
+    "positiveStatuses": [
+      "completed",
+      "used",
+      "held",
+      "finished"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Room Rental Fee",
+    "category": "Restaurant Billing",
+    "revenueType": "room_rental_fee",
+    "detectionReason": "room_rental_completed_fee_not_billed"
+  },
+  {
+    "number": 103,
+    "id": "restaurant.unbilled-menu-upgrade",
+    "exportName": "unbilledMenuUpgradeDetector",
+    "fileName": "unbilled-menu-upgrade.ts",
+    "name": "Unbilled Menu Upgrade",
+    "description": "Detects premium menu upgrades or event package upgrades with a documented amount that has not been billed.",
+    "industry": "restaurant",
+    "itemField": "Menu Upgrade",
+    "amountField": "Menu Upgrade Amount",
+    "statusField": "Menu Upgrade Status",
+    "billingStatusField": "Menu Upgrade Billing Status",
+    "dateField": "Service Date",
+    "positiveStatuses": [
+      "provided",
+      "served",
+      "completed",
+      "approved"
+    ],
+    "billedStatuses": [
+      "billed",
+      "included",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Menu Upgrade",
+    "category": "Restaurant Billing",
+    "revenueType": "menu_upgrade",
+    "detectionReason": "menu_upgrade_provided_not_billed"
+  },
+  {
+    "number": 104,
+    "id": "restaurant.unbilled-equipment-rental",
+    "exportName": "unbilledRestaurantEquipmentRentalDetector",
+    "fileName": "unbilled-equipment-rental.ts",
+    "name": "Unbilled Equipment Rental",
+    "description": "Detects catering or event equipment rentals with a documented rental amount that was not billed.",
+    "industry": "restaurant",
+    "itemField": "Equipment Rental",
+    "amountField": "Equipment Rental Amount",
+    "statusField": "Equipment Rental Status",
+    "billingStatusField": "Equipment Rental Billing Status",
+    "dateField": "Rental Date",
+    "positiveStatuses": [
+      "rented",
+      "provided",
+      "used",
+      "completed"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Equipment Rental",
+    "category": "Restaurant Billing",
+    "revenueType": "equipment_rental",
+    "detectionReason": "restaurant_equipment_rental_not_billed"
+  },
+  {
+    "number": 105,
+    "id": "restaurant.uncollected-final-event-balance",
+    "exportName": "uncollectedFinalEventBalanceDetector",
+    "fileName": "uncollected-final-event-balance.ts",
+    "name": "Uncollected Final Event Balance",
+    "description": "Detects completed catering or private events with a documented final balance that remains uncollected.",
+    "industry": "restaurant",
+    "itemField": "Event Final Balance",
+    "amountField": "Final Event Balance",
+    "statusField": "Event Completion Status",
+    "billingStatusField": "Final Event Payment Status",
+    "dateField": "Event Date",
+    "positiveStatuses": [
+      "completed",
+      "finished",
+      "served",
+      "closed"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "settled"
+    ],
+    "leakType": "Uncollected Final Event Balance",
+    "category": "Restaurant Billing",
+    "revenueType": "final_event_balance",
+    "detectionReason": "event_completed_final_balance_not_collected",
+    "recommendedActionVerb": "collect"
+  }
+]

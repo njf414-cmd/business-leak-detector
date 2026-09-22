@@ -1,0 +1,302 @@
+[
+  {
+    "number": 106,
+    "id": "real-estate.unpaid-application-fee",
+    "exportName": "unpaidApplicationFeeDetector",
+    "fileName": "unpaid-application-fee.ts",
+    "name": "Unpaid Application Fee",
+    "description": "Detects documented real estate application fees that became due but have not been collected.",
+    "industry": "real_estate",
+    "itemField": "Application",
+    "amountField": "Application Fee",
+    "statusField": "Application Status",
+    "billingStatusField": "Application Fee Status",
+    "dateField": "Application Date",
+    "positiveStatuses": [
+      "approved",
+      "processed",
+      "accepted",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Unpaid Application Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "application_fee",
+    "detectionReason": "application_fee_due_not_collected"
+  },
+  {
+    "number": 107,
+    "id": "real-estate.uncollected-security-deposit",
+    "exportName": "uncollectedSecurityDepositDetector",
+    "fileName": "uncollected-security-deposit.ts",
+    "name": "Uncollected Security Deposit",
+    "description": "Detects approved leases or move-ins with documented security deposits that have not been collected.",
+    "industry": "real_estate",
+    "itemField": "Lease",
+    "amountField": "Security Deposit Amount",
+    "statusField": "Lease Status",
+    "billingStatusField": "Security Deposit Status",
+    "dateField": "Lease Start Date",
+    "positiveStatuses": [
+      "approved",
+      "signed",
+      "active",
+      "move in scheduled"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Security Deposit",
+    "category": "Real Estate Billing",
+    "revenueType": "security_deposit",
+    "detectionReason": "security_deposit_due_not_collected"
+  },
+  {
+    "number": 108,
+    "id": "real-estate.unbilled-lease-renewal-fee",
+    "exportName": "unbilledLeaseRenewalFeeDetector",
+    "fileName": "unbilled-lease-renewal-fee.ts",
+    "name": "Unbilled Lease Renewal Fee",
+    "description": "Detects completed or approved lease renewals with documented renewal fees that have not been billed.",
+    "industry": "real_estate",
+    "itemField": "Lease Renewal",
+    "amountField": "Lease Renewal Fee",
+    "statusField": "Lease Renewal Status",
+    "billingStatusField": "Lease Renewal Billing Status",
+    "dateField": "Lease Renewal Date",
+    "positiveStatuses": [
+      "renewed",
+      "approved",
+      "signed",
+      "active"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Lease Renewal Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "lease_renewal_fee",
+    "detectionReason": "lease_renewed_fee_not_billed"
+  },
+  {
+    "number": 109,
+    "id": "real-estate.uncollected-late-fee",
+    "exportName": "uncollectedRealEstateLateFeeDetector",
+    "fileName": "uncollected-late-fee.ts",
+    "name": "Uncollected Late Fee",
+    "description": "Detects documented tenant late fees that became due but have not been collected.",
+    "industry": "real_estate",
+    "itemField": "Late Payment",
+    "amountField": "Late Fee Amount",
+    "statusField": "Late Fee Status",
+    "billingStatusField": "Late Fee Collection Status",
+    "dateField": "Late Fee Date",
+    "positiveStatuses": [
+      "due",
+      "assessed",
+      "applied",
+      "approved"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Late Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "late_fee",
+    "detectionReason": "late_fee_due_not_collected"
+  },
+  {
+    "number": 110,
+    "id": "real-estate.unbilled-pet-fee",
+    "exportName": "unbilledPetFeeDetector",
+    "fileName": "unbilled-pet-fee.ts",
+    "name": "Unbilled Pet Fee",
+    "description": "Detects approved tenant pet fees with documented amounts that have not been billed.",
+    "industry": "real_estate",
+    "itemField": "Pet",
+    "amountField": "Pet Fee Amount",
+    "statusField": "Pet Status",
+    "billingStatusField": "Pet Fee Billing Status",
+    "dateField": "Pet Approval Date",
+    "positiveStatuses": [
+      "approved",
+      "registered",
+      "active",
+      "added"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Pet Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "pet_fee",
+    "detectionReason": "approved_pet_fee_not_billed"
+  },
+  {
+    "number": 111,
+    "id": "real-estate.unbilled-parking-fee",
+    "exportName": "unbilledParkingFeeDetector",
+    "fileName": "unbilled-parking-fee.ts",
+    "name": "Unbilled Parking Fee",
+    "description": "Detects assigned or active paid parking with documented charges that have not been billed.",
+    "industry": "real_estate",
+    "itemField": "Parking Space",
+    "amountField": "Parking Fee Amount",
+    "statusField": "Parking Status",
+    "billingStatusField": "Parking Billing Status",
+    "dateField": "Parking Start Date",
+    "positiveStatuses": [
+      "assigned",
+      "active",
+      "approved",
+      "occupied"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Parking Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "parking_fee",
+    "detectionReason": "active_parking_fee_not_billed"
+  },
+  {
+    "number": 112,
+    "id": "real-estate.uncollected-move-in-fee",
+    "exportName": "uncollectedMoveInFeeDetector",
+    "fileName": "uncollected-move-in-fee.ts",
+    "name": "Uncollected Move-In Fee",
+    "description": "Detects approved or completed tenant move-ins with documented move-in fees that have not been collected.",
+    "industry": "real_estate",
+    "itemField": "Move-In",
+    "amountField": "Move-In Fee Amount",
+    "statusField": "Move-In Status",
+    "billingStatusField": "Move-In Fee Status",
+    "dateField": "Move-In Date",
+    "positiveStatuses": [
+      "approved",
+      "scheduled",
+      "completed",
+      "moved in"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "received",
+      "waived"
+    ],
+    "leakType": "Uncollected Move-In Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "move_in_fee",
+    "detectionReason": "move_in_fee_due_not_collected"
+  },
+  {
+    "number": 113,
+    "id": "real-estate.unbilled-amenity-fee",
+    "exportName": "unbilledAmenityFeeDetector",
+    "fileName": "unbilled-amenity-fee.ts",
+    "name": "Unbilled Amenity Fee",
+    "description": "Detects activated or approved paid amenities with documented fees that have not been billed.",
+    "industry": "real_estate",
+    "itemField": "Amenity",
+    "amountField": "Amenity Fee Amount",
+    "statusField": "Amenity Status",
+    "billingStatusField": "Amenity Billing Status",
+    "dateField": "Amenity Start Date",
+    "positiveStatuses": [
+      "active",
+      "approved",
+      "activated",
+      "provided"
+    ],
+    "billedStatuses": [
+      "billed",
+      "invoiced",
+      "paid",
+      "collected"
+    ],
+    "leakType": "Unbilled Amenity Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "amenity_fee",
+    "detectionReason": "active_amenity_fee_not_billed"
+  },
+  {
+    "number": 114,
+    "id": "real-estate.uncollected-lease-break-fee",
+    "exportName": "uncollectedLeaseBreakFeeDetector",
+    "fileName": "uncollected-lease-break-fee.ts",
+    "name": "Uncollected Lease-Break Fee",
+    "description": "Detects documented early lease termination fees that became due but have not been collected.",
+    "industry": "real_estate",
+    "itemField": "Lease Termination",
+    "amountField": "Lease Break Fee Amount",
+    "statusField": "Lease Termination Status",
+    "billingStatusField": "Lease Break Fee Status",
+    "dateField": "Lease Termination Date",
+    "positiveStatuses": [
+      "terminated",
+      "early termination",
+      "lease broken",
+      "fee due"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Lease-Break Fee",
+    "category": "Real Estate Billing",
+    "revenueType": "lease_break_fee",
+    "detectionReason": "lease_break_fee_due_not_collected"
+  },
+  {
+    "number": 115,
+    "id": "real-estate.uncollected-final-tenant-balance",
+    "exportName": "uncollectedFinalTenantBalanceDetector",
+    "fileName": "uncollected-final-tenant-balance.ts",
+    "name": "Uncollected Final Tenant Balance",
+    "description": "Detects documented final tenant balances remaining after move-out or lease completion.",
+    "industry": "real_estate",
+    "itemField": "Final Tenant Account",
+    "amountField": "Final Tenant Balance",
+    "statusField": "Move-Out Status",
+    "billingStatusField": "Final Balance Status",
+    "dateField": "Move-Out Date",
+    "positiveStatuses": [
+      "moved out",
+      "completed",
+      "closed",
+      "finalized"
+    ],
+    "billedStatuses": [
+      "paid",
+      "collected",
+      "settled",
+      "waived"
+    ],
+    "leakType": "Uncollected Final Tenant Balance",
+    "category": "Real Estate Billing",
+    "revenueType": "final_tenant_balance",
+    "detectionReason": "final_tenant_balance_not_collected"
+  }
+]

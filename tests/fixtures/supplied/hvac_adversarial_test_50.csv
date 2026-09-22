@@ -1,0 +1,51 @@
+Customer,Status,Quote,Follow Up,Invoice,Service
+Customer 001,Estimate Sent,1800,No,,AC replacement
+Customer 002,Estimate Sent,2200,Yes,,Furnace replacement
+Customer 003,Estimate Cancelled,3500,No,,Heat pump
+Customer 004,Not an Estimate,1900,No,,AC repair
+Customer 005,Proposal Sent,6400,None,,Boiler replacement
+Customer 006,Proposal Accepted,7200,No,,Furnace replacement
+Customer 007,Quote Sent,975,Not Contacted,,AC repair
+Customer 008,Estimate Expired,2800,No,,Heat pump
+Customer 009,Waiting on Customer,3100,No,,Central AC
+Customer 010,Estimate Followed Up,1600,Yes,,Furnace repair
+Customer 011,New Lead,1200,,,AC replacement
+Customer 012,Lead,850,,,AC service
+Customer 013,Lead - Booked,2400,Yes,2400,Heat pump
+Customer 014,Lead Closed Won,1800,Yes,1800,Furnace repair
+Customer 015,Lost,2100,No,,Boiler replacement
+Customer 016,Lost Lead,900,No,,AC repair
+Customer 017,Not Booked,1450,No,,Heat pump
+Customer 018,Missed Lead,2750,No,,AC replacement
+Customer 019,Contacted,1100,Yes,,Furnace repair
+Customer 020,Contacted - Scheduled,1300,Yes,1300,AC service
+Customer 021,Overdue,0,Yes,1850,AC replacement
+Customer 022,Past Due,0,Yes,760,Furnace repair
+Customer 023,Invoice Paid,0,Yes,2400,Heat pump
+Customer 024,Paid in Full,0,Yes,3200,Boiler replacement
+Customer 025,Payment Pending,0,Yes,540,AC repair
+Customer 026,Balance Due,0,Yes,1250,Furnace repair
+Customer 027,Outstanding,0,Yes,4100,Central AC
+Customer 028,Cancelled Invoice,0,Yes,900,AC service
+Customer 029,Invoice Sent,0,Yes,1750,Heat pump
+Customer 030,Awaiting Payment,0,Yes,680,Furnace repair
+Customer 031,Completed,2500,No,2500,Furnace replacement
+Customer 032,Booked,1900,No,,AC replacement
+Customer 033,Estimate Sent,0,No,,Service call
+Customer 034,Lead,0,,,Diagnostic
+Customer 035,Overdue,0,No,0,AC service
+Customer 036,Lost,0,No,,Furnace repair
+Customer 037,Cancelled,2800,No,,Heat pump
+Customer 038,Scheduled,3000,No,,Boiler replacement
+Customer 039,In Progress,4200,No,,Commercial HVAC
+Customer 040,Invoice Paid,0,No,0,AC repair
+Customer 041, estimate sent ,1499, NO ,,AC repair
+Customer 042,ESTIMATE SENT,1500,NO,,Furnace repair
+Customer 043,Proposal Sent,749,none,,AC service
+Customer 044,Proposal Sent,750,none,,Heat pump
+Customer 045,Lead,749,,,AC repair
+Customer 046,Lead,750,,,Furnace repair
+Customer 047,Overdue,0,Yes,499,AC service
+Customer 048,Overdue,0,Yes,500,Furnace repair
+Customer 049,Overdue,0,Yes,999,Heat pump
+Customer 050,Overdue,0,Yes,1000,Boiler repair
