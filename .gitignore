@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Automated verification reports
 /test-results/
+
+# Sentry Config File
+.env.sentry-build-plugin
