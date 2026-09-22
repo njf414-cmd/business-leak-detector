@@ -5,12 +5,13 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   return NextResponse.json(
     {
-      status: "ok",
+      status: "error",
       service: "business-leak-detector",
+      test: true,
       timestamp: new Date().toISOString(),
     },
     {
-      status: 200,
+      status: 503,
       headers: {
         "Cache-Control": "no-store",
       },
