@@ -1,6 +1,7 @@
 import { CSV_CONTEXT_FIELDS, normalizeCsvRows } from "../../lib/business-intelligence/csv-normalizer";
 import { NextResponse } from "next/server";
 import { logger } from "../../lib/observability/logger";
+import { appConfig } from "../../lib/config/app-config";
 
 import {
   getDetectorCatalog,
@@ -158,6 +159,36 @@ export async function POST(
   const requestId = crypto.randomUUID();
 
   try {
+    if (appConfig.maintenance.enabled) {
+      logger.warn("analysis.blocked", {
+        requestId,
+        reason: "maintenance_mode",
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Analysis is temporarily unavailable while maintenance is in progress.",
+        },
+        { status: 503 }
+      );
+    }
+
+    if (!appConfig.features.analysis) {
+      logger.warn("analysis.blocked", {
+        requestId,
+        reason: "analysis_disabled",
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Analysis is currently disabled.",
+        },
+        { status: 503 }
+      );
+    }
+
     const formData =
       await request.formData();
 
@@ -252,6 +283,28 @@ export async function POST(
       parsed = parseCsv(csvText);
     } catch (error) {
       return NextResponse.json({ success: false, error: error instanceof Error ? error.message : "Invalid CSV." }, { status: 400 });
+    }
+
+    if (
+      parsed.rows.length >
+      appConfig.limits.maxAnalysisRows
+    ) {
+      logger.warn("analysis.blocked", {
+        requestId,
+        reason: "row_limit_exceeded",
+        rowsUploaded: parsed.rows.length,
+        maxAnalysisRows:
+          appConfig.limits.maxAnalysisRows,
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            `CSV contains too many rows. Maximum is ${appConfig.limits.maxAnalysisRows}.`,
+        },
+        { status: 413 }
+      );
     }
 
     if (
