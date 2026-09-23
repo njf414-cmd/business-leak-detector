@@ -207,7 +207,30 @@ export async function POST(request: Request) {
           throw new Error("Recurring scan source ownership check failed.");
         }
 
-        const { data: previous, error: previousError } = await worker
+        const { data: automation, error: automationError } =
+      await worker
+        .from("customer_automation_settings")
+        .select("active_job_id")
+        .eq("business_id", trusted.businessId)
+        .maybeSingle();
+
+    if (automationError) {
+      await del(blob.pathname).catch(() => undefined);
+
+      throw new Error(
+        `Could not check recurring scan activity: ${automationError.message}`
+      );
+    }
+
+    if (automation?.active_job_id) {
+      await del(blob.pathname).catch(() => undefined);
+
+      throw new Error(
+        "A recurring scan is currently running. Try replacing the CSV after it finishes."
+      );
+    }
+
+    const { data: previous, error: previousError } = await worker
           .from("customer_scan_sources")
           .select("source_path")
           .eq("business_id", trusted.businessId)

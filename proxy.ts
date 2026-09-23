@@ -18,7 +18,8 @@ export async function proxy(
     pathname === "/api/health" ||
       pathname === "/api/queue/analysis-jobs" ||
       pathname === "/api/analysis-jobs/upload" ||
-      pathname === "/api/customer-automation/source/upload"
+      pathname === "/api/customer-automation/source/upload" ||
+      pathname === "/api/cron/recurring-scans"
   ) {
     return NextResponse.next();
   }

@@ -70,6 +70,10 @@ function extractLeaks(
 async function cleanupBlob(
   sourcePath: string
 ) {
+  if (sourcePath.startsWith("customer-scan-sources/")) {
+    return;
+  }
+
   try {
     await del(sourcePath);
   } catch (error) {
@@ -414,6 +418,29 @@ export const POST = handleCallback<AnalysisJobMessage>(
         );
       }
 
+      const recurringCompletedAt =
+        new Date().toISOString();
+
+      const { error: recurringCompleteError } =
+        await supabase
+          .from("customer_automation_settings")
+          .update({
+            active_job_id: null,
+            last_scan_at: recurringCompletedAt,
+            updated_at: recurringCompletedAt,
+          })
+          .eq("active_job_id", jobId);
+
+      if (recurringCompleteError) {
+        logger.warn(
+          "recurring_scan.completed_lock_release_failed",
+          {
+            jobId,
+            error: recurringCompleteError.message,
+          }
+        );
+      }
+
       await cleanupBlob(
         job.source_path
       );
@@ -471,6 +498,29 @@ export const POST = handleCallback<AnalysisJobMessage>(
         );
 
       if (terminal) {
+        const recurringFailedAt =
+          new Date().toISOString();
+
+        const { error: recurringFailureUnlockError } =
+          await supabase
+            .from("customer_automation_settings")
+            .update({
+              active_job_id: null,
+              updated_at: recurringFailedAt,
+            })
+            .eq("active_job_id", jobId);
+
+        if (recurringFailureUnlockError) {
+          logger.warn(
+            "recurring_scan.failed_lock_release_failed",
+            {
+              jobId,
+              error:
+                recurringFailureUnlockError.message,
+            }
+          );
+        }
+
         await cleanupBlob(
           job.source_path
         );

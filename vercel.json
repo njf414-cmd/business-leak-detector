@@ -10,5 +10,11 @@
         }
       ]
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/recurring-scans",
+      "schedule": "0 12 * * *"
+    }
+  ]
 }
