@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import PersistentScanSourceCard from "./PersistentScanSourceCard";
 
 type SetupMode = "manual" | "ai" | "done_for_you";
 type OnboardingStatus = "not_started" | "in_progress" | "ready" | "paused";
@@ -370,8 +371,18 @@ export default function AutomationSettingsPage() {
             </div>
           </section>
 
+          <PersistentScanSourceCard
+            onSourceReady={() => {
+              setSettings((current) =>
+                current ? { ...current, data_status: "ready" } : current
+              );
+              setMessage("Recurring scan data is ready.");
+              setError("");
+            }}
+          />
+
           <section style={panelStyle}>
-            <h2 style={sectionTitleStyle}>4. Notifications</h2>
+            <h2 style={sectionTitleStyle}>5. Notifications</h2>
 
             <label style={toggleStyle}>
               <input
