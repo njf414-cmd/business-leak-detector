@@ -9,6 +9,16 @@
           "initialDelaySeconds": 0
         }
       ]
+    },
+    "app/api/queue/notification-deliveries/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "notification-deliveries",
+          "retryAfterSeconds": 30,
+          "initialDelaySeconds": 0
+        }
+      ]
     }
   },
   "crons": [

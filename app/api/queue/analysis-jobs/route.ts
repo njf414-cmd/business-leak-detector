@@ -1,5 +1,6 @@
 import { generateAndSaveCustomerReport } from "../../../lib/customer-automation/report-service";
-import { deliverCustomerReportNotification } from "../../../lib/customer-automation/notification-service";
+import { prepareCustomerReportNotification } from "../../../lib/customer-automation/notification-service";
+import { enqueueNotificationDelivery } from "../../../lib/background/notification-queue";
 import { del, get } from "@vercel/blob";
 import { handleCallback } from "@vercel/queue";
 import { NextRequest } from "next/server";
@@ -417,31 +418,40 @@ export const POST = handleCallback<AnalysisJobMessage>(
       );
 
       try {
-        const notificationDelivery =
-          await deliverCustomerReportNotification(
+        const preparedNotification =
+          await prepareCustomerReportNotification(
             supabase,
             generatedReport.reportId,
             job.business_id
           );
 
+        if (
+          preparedNotification.status === "queued" &&
+          preparedNotification.deliveryId
+        ) {
+          await enqueueNotificationDelivery(
+            preparedNotification.deliveryId
+          );
+        }
+
         logger.info(
-          "customer_notification.delivery",
+          "customer_notification.queued",
           {
             jobId,
             analysisId,
             reportId:
               generatedReport.reportId,
             deliveryId:
-              notificationDelivery.deliveryId,
+              preparedNotification.deliveryId,
             status:
-              notificationDelivery.status,
+              preparedNotification.status,
             reason:
-              notificationDelivery.reason,
+              preparedNotification.reason,
           }
         );
       } catch (notificationError) {
         logger.warn(
-          "customer_notification.delivery_failed",
+          "customer_notification.queue_failed",
           {
             jobId,
             analysisId,
@@ -450,7 +460,7 @@ export const POST = handleCallback<AnalysisJobMessage>(
             error:
               notificationError instanceof Error
                 ? notificationError.message
-                : "Unknown notification delivery error",
+                : "Unknown notification queue error",
           }
         );
       }
