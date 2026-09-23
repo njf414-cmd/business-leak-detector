@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 
 import { DEFAULT_CUSTOMER_AUTOMATION_SETTINGS } from "../../../lib/customer-automation/types";
 import { parseCustomerAutomationPatch } from "../../../lib/customer-automation/validation";
+import { calculateNextScanAt } from "../../../lib/customer-automation/scheduler";
 
 export const dynamic = "force-dynamic";
 
@@ -177,11 +178,51 @@ export async function PATCH(request: Request) {
       return context.error;
     }
 
-    await ensureSettings(context.supabase, context.businessId);
+    const currentSettings = await ensureSettings(
+      context.supabase,
+      context.businessId
+    );
 
     const updates: Record<string, unknown> = {
       ...parsed.value,
     };
+
+    const recurringEnabled =
+      parsed.value.recurring_scans_enabled ??
+      currentSettings.recurring_scans_enabled;
+
+    const reportFrequency =
+      parsed.value.report_frequency ?? currentSettings.report_frequency;
+
+    const timezone = parsed.value.timezone ?? currentSettings.timezone;
+
+    if (recurringEnabled && reportFrequency === "manual") {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Choose weekly, biweekly, or monthly before enabling recurring scans.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const shouldReschedule =
+      recurringEnabled &&
+      (parsed.value.recurring_scans_enabled === true ||
+        "report_frequency" in parsed.value ||
+        "timezone" in parsed.value ||
+        !currentSettings.next_scan_at);
+
+    if (shouldReschedule) {
+      const nextScanAt = calculateNextScanAt(
+        reportFrequency,
+        new Date(),
+        timezone
+      );
+
+      updates.next_scan_at = nextScanAt?.toISOString() ?? null;
+    }
 
     if ("onboarding_status" in parsed.value) {
       updates.onboarding_completed_at =
