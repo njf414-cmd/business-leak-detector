@@ -1,4 +1,5 @@
 import { generateAndSaveCustomerReport } from "../../../lib/customer-automation/report-service";
+import { deliverCustomerReportNotification } from "../../../lib/customer-automation/notification-service";
 import { del, get } from "@vercel/blob";
 import { handleCallback } from "@vercel/queue";
 import { NextRequest } from "next/server";
@@ -414,6 +415,45 @@ export const POST = handleCallback<AnalysisJobMessage>(
             generatedReport.resolvedLeaks,
         }
       );
+
+      try {
+        const notificationDelivery =
+          await deliverCustomerReportNotification(
+            supabase,
+            generatedReport.reportId,
+            job.business_id
+          );
+
+        logger.info(
+          "customer_notification.delivery",
+          {
+            jobId,
+            analysisId,
+            reportId:
+              generatedReport.reportId,
+            deliveryId:
+              notificationDelivery.deliveryId,
+            status:
+              notificationDelivery.status,
+            reason:
+              notificationDelivery.reason,
+          }
+        );
+      } catch (notificationError) {
+        logger.warn(
+          "customer_notification.delivery_failed",
+          {
+            jobId,
+            analysisId,
+            reportId:
+              generatedReport.reportId,
+            error:
+              notificationError instanceof Error
+                ? notificationError.message
+                : "Unknown notification delivery error",
+          }
+        );
+      }
 
       const {
         error: completeError,
