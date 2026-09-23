@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import {
   useEffect,
   useMemo,
@@ -361,7 +363,16 @@ export default function ReportsPage() {
   }
 
   useEffect(() => {
-    void loadReports();
+    const timeoutId =
+      window.setTimeout(() => {
+        void loadReports();
+      }, 0);
+
+    return () => {
+      window.clearTimeout(
+        timeoutId
+      );
+    };
   }, []);
 
   const selected =
@@ -474,7 +485,7 @@ export default function ReportsPage() {
               flexWrap: "wrap",
             }}
           >
-            <a
+            <Link
               href="/"
               style={{
                 padding:
@@ -488,9 +499,9 @@ export default function ReportsPage() {
               }}
             >
               Dashboard
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/settings/automation"
               style={{
                 padding:
@@ -504,7 +515,7 @@ export default function ReportsPage() {
               }}
             >
               Automation
-            </a>
+            </Link>
 
             <button
               type="button"

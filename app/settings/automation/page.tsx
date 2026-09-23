@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useMemo, useState } from "react";
 import PersistentScanSourceCard from "./PersistentScanSourceCard";
 
@@ -183,7 +185,7 @@ export default function AutomationSettingsPage() {
       }}
     >
       <div style={{ marginBottom: 28 }}>
-        <a
+        <Link
           href="/"
           style={{
             display: "inline-block",
@@ -194,7 +196,7 @@ export default function AutomationSettingsPage() {
           }}
         >
           ← Back to dashboard
-        </a>
+        </Link>
 
         <h1 style={{ fontSize: 34, margin: 0 }}>Automation Settings</h1>
         <p style={{ marginTop: 10, opacity: 0.72, lineHeight: 1.6 }}>

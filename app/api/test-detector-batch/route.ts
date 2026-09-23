@@ -1484,13 +1484,13 @@ function buildAgePlan(
       spec.daysThreshold
     );
 
-  let passingAge =
+  const passingAge =
     passingValue(
       threshold,
       spec.operator
     );
 
-  let failingAge =
+  const failingAge =
     failingValue(
       threshold,
       spec.operator

@@ -17,6 +17,7 @@ export async function proxy(
   if (
     pathname === "/api/health" ||
       pathname === "/api/queue/analysis-jobs" ||
+      pathname === "/api/queue/notification-deliveries" ||
       pathname === "/api/analysis-jobs/upload" ||
       pathname === "/api/customer-automation/source/upload" ||
       pathname === "/api/cron/recurring-scans"
@@ -24,7 +25,17 @@ export async function proxy(
     return NextResponse.next();
   }
 
-  // Development-only API routes
+  // Never expose internal verification routes in production
+if (
+  process.env.NODE_ENV === "production" &&
+  pathname.startsWith("/api/test-")
+) {
+  return new NextResponse(null, {
+    status: 404,
+  });
+}
+
+// Development-only API routes
   if (
     process.env.NODE_ENV !==
       "production" &&

@@ -15,10 +15,19 @@ import {
 import {
   logger,
 } from "../../../lib/observability/logger";
+import type {
+  Leak,
+} from "../../../lib/leak-engine";
+import {
+  prioritizeLeaks,
+} from "../../../lib/priority-engine";
 
 export const runtime = "nodejs";
 
 type WorkerLeak = {
+  /*
+   * Legacy / database-facing leak shape.
+   */
   customer?: string;
   type?: string;
   category?: string;
@@ -32,6 +41,22 @@ type WorkerLeak = {
   status?: string;
   priorityScore?: number;
   priorityLevel?: string;
+
+  /*
+   * Current modular detector shape.
+   */
+  detectorId?: string;
+  leakType?: string;
+  title?: string;
+  description?: string;
+  confidence?: string;
+  estimatedLoss?: number;
+  estimatedRecovery?: number;
+  customerName?: string | null;
+  sourceRowIndex?: number | null;
+  evidence?: Record<string, unknown>;
+  recommendedAction?: string | null;
+  metadata?: Record<string, unknown>;
 };
 
 type AnalysisPayload = {
@@ -68,6 +93,167 @@ function extractLeaks(
   }
 
   return [];
+}
+
+function firstText(
+  ...values: Array<
+    string | null | undefined
+  >
+) {
+  for (const value of values) {
+    if (
+      typeof value === "string" &&
+      value.trim()
+    ) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+function firstFiniteNumber(
+  ...values: Array<
+    number | null | undefined
+  >
+) {
+  for (const value of values) {
+    if (
+      typeof value === "number" &&
+      Number.isFinite(value)
+    ) {
+      return value;
+    }
+  }
+
+  return 0;
+}
+
+function normalizeSeverity(
+  value: string | null | undefined
+): Leak["severity"] {
+  const normalized =
+    (value ?? "")
+      .trim()
+      .toLowerCase();
+
+  if (
+    normalized === "critical" ||
+    normalized === "high"
+  ) {
+    return "High";
+  }
+
+  if (normalized === "medium") {
+    return "Medium";
+  }
+
+  return "Low";
+}
+
+/*
+ * Keep background/recurring analysis aligned
+ * with the dashboard adapter in csv-dashboard.ts.
+ *
+ * Current modular detector fields:
+ *
+ * customerName
+ * leakType
+ * estimatedLoss
+ * estimatedRecovery
+ * description
+ * recommendedAction
+ *
+ * Legacy/database fields:
+ *
+ * customer
+ * type
+ * amount
+ * recovery
+ * reason
+ * action
+ */
+function normalizeWorkerLeak(
+  leak: WorkerLeak
+): Leak {
+  const type =
+    firstText(
+      leak.type,
+      leak.leakType
+    ) ?? "Unknown";
+
+  const isLost =
+    leak.category === "Lost" ||
+    [
+      "Lost Lead",
+      "Cancelled Job",
+      "No-Show",
+    ].includes(type);
+
+  const baseReason =
+    firstText(
+      leak.reason,
+      leak.description
+    ) ?? "";
+
+  const sourceRowSuffix =
+    typeof leak.sourceRowIndex === "number" &&
+    Number.isInteger(
+      leak.sourceRowIndex
+    ) &&
+    leak.sourceRowIndex >= 0
+      ? ` (Uploaded data row ${
+          leak.sourceRowIndex + 1
+        }.)`
+      : "";
+
+  return {
+    customer:
+      firstText(
+        leak.customer,
+        leak.customerName
+      ) ?? "Unknown Customer",
+
+    type,
+
+    category:
+      isLost
+        ? "Lost"
+        : "Recoverable",
+
+    amount:
+      firstFiniteNumber(
+        leak.amount,
+        leak.estimatedLoss
+      ),
+
+    recovery:
+      firstFiniteNumber(
+        leak.recovery,
+        leak.estimatedRecovery
+      ),
+
+    severity:
+      normalizeSeverity(
+        leak.severity
+      ),
+
+    reason:
+      `${baseReason}${sourceRowSuffix}`,
+
+    action:
+      firstText(
+        leak.action,
+        leak.recommendedAction
+      ) ??
+      "Review the source record and confirm the next action.",
+
+    date:
+      leak.date ?? undefined,
+
+    daysOpen:
+      leak.daysOpen ?? undefined,
+  };
 }
 
 async function cleanupBlob(
@@ -249,16 +435,28 @@ export const POST = handleCallback<AnalysisJobMessage>(
       }
 
       const detectedLeaks =
-        extractLeaks(payload);
+        prioritizeLeaks(
+          extractLeaks(payload).map(
+            normalizeWorkerLeak
+          )
+        );
 
-      const recoverable =
+      /*
+       * Revenue at risk should match the main
+       * dashboard: only still-recoverable leaks
+       * contribute to the business risk totals.
+       *
+       * Lost leaks remain saved and reported,
+       * but are not counted as recoverable risk.
+       */
+      const recoverableLeaks =
         detectedLeaks.filter(
           (leak) =>
             leak.category === "Recoverable"
         );
 
       const totalLeakage =
-        recoverable.reduce(
+        recoverableLeaks.reduce(
           (total, leak) =>
             total +
             Number(leak.amount || 0),
@@ -266,7 +464,7 @@ export const POST = handleCallback<AnalysisJobMessage>(
         );
 
       const estimatedRecovery =
-        recoverable.reduce(
+        recoverableLeaks.reduce(
           (total, leak) =>
             total +
             Number(leak.recovery || 0),
@@ -361,7 +559,7 @@ export const POST = handleCallback<AnalysisJobMessage>(
             days_open:
               leak.daysOpen ?? null,
             status:
-              leak.status || "Open",
+              "Open",
             priority_score:
               Number(
                 leak.priorityScore || 0

@@ -48,3 +48,9 @@ next-env.d.ts
 
 # Local production database backups - NEVER COMMIT
 backups/
+
+# Local source backups
+*.bak
+
+# Safe committed environment template
+!.env.example
