@@ -15,7 +15,9 @@ export async function proxy(
 
   // Public production health check
   if (
-    pathname === "/api/health"
+    pathname === "/api/health" ||
+      pathname === "/api/queue/analysis-jobs" ||
+      pathname === "/api/analysis-jobs/upload"
   ) {
     return NextResponse.next();
   }

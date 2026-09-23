@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as XLSX from "xlsx";
+import { upload } from "@vercel/blob/client";
 
 import {
   type LeakCategory,
@@ -796,9 +797,145 @@ export default function Home() {
   /* PROCESS ANALYSIS */
   /* ================================== */
 
+  async function processBackgroundAnalysis(
+    file: File,
+    csvText: string,
+    rows: SourceRow[]
+  ) {
+    const jobId = crypto.randomUUID();
+
+    const safeName =
+      file.name
+        .replace(/[^a-zA-Z0-9._-]+/g, "-")
+        .replace(/^[-.]+|[-.]+$/g, "")
+        .slice(0, 180) || "analysis.csv";
+
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      throw new Error(
+        "Your session expired. Please sign in again."
+      );
+    }
+
+    const pathname =
+      `analysis-jobs/${user.id}/${jobId}/${safeName}`;
+
+    const uploadFile = new File(
+      [csvText],
+      safeName,
+      { type: "text/csv" }
+    );
+
+    await upload(
+      pathname,
+      uploadFile,
+      {
+        access: "private",
+        handleUploadUrl:
+          "/api/analysis-jobs/upload",
+        clientPayload:
+          JSON.stringify({
+            jobId,
+            fileName: safeName,
+          }),
+      }
+    );
+
+    const deadline =
+      Date.now() + 10 * 60 * 1000;
+
+    while (Date.now() < deadline) {
+      const response = await fetch(
+        `/api/analysis-jobs/${jobId}`,
+        {
+          cache: "no-store",
+        }
+      );
+
+      if (response.status === 404) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, 1000)
+        );
+        continue;
+      }
+
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          payload?.error ||
+            "Could not check background analysis."
+        );
+      }
+
+      const job = payload?.job;
+
+      if (job?.status === "completed") {
+        await loadLatestAnalysis();
+
+        // Preserve original source rows in browser memory
+        // for the AI Discovery Layer.
+        setSourceRows(rows);
+        setSaved(true);
+
+        return true;
+      }
+
+      if (
+        job?.status === "failed" ||
+        job?.status === "cancelled"
+      ) {
+        throw new Error(
+          job?.error_message ||
+            "Background analysis failed."
+        );
+      }
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1500)
+      );
+    }
+
+    throw new Error(
+      "Background analysis is still processing. Refresh shortly to load the completed scan."
+    );
+  }
+
   async function processAnalysis(file: File, csvText: string, originalRows?: SourceRow[], verifiedResult?: CsvDashboardResult) {
     // Mapping changes detector input only. Discovery retains every original column.
     const rows = originalRows ?? parseSourceRows(csvText);
+
+    const backgroundThresholdBytes =
+      3 * 1024 * 1024;
+
+    if (
+      !verifiedResult &&
+      new Blob([csvText]).size >
+        backgroundThresholdBytes
+    ) {
+      setFileName(file.name);
+      setSelectedAnalysisId(null);
+      setSaved(false);
+      setSelectedLeak(null);
+      setSearch("");
+      setFilter("All");
+      setSourceRows(rows);
+      setLeaks([]);
+      setAiAnalysis(null);
+      setAiError("");
+      clearRecoveryAI();
+      clearAIDiscovery();
+
+      return await processBackgroundAnalysis(
+        file,
+        csvText,
+        rows
+      );
+    }
 
     const response = verifiedResult ?? await requestCsvAnalysis(csvText, { businessName });
     if (originalRows && response.file.rowsBlocked > 0) {

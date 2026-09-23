@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "app/api/queue/analysis-jobs/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "analysis-jobs",
+          "retryAfterSeconds": 30,
+          "initialDelaySeconds": 0
+        }
+      ]
+    }
+  }
+}
