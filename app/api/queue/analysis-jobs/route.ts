@@ -1,3 +1,4 @@
+import { generateAndSaveCustomerReport } from "../../../lib/customer-automation/report-service";
 import { del, get } from "@vercel/blob";
 import { handleCallback } from "@vercel/queue";
 import { NextRequest } from "next/server";
@@ -388,6 +389,31 @@ export const POST = handleCallback<AnalysisJobMessage>(
           );
         }
       }
+
+      const generatedReport =
+        await generateAndSaveCustomerReport(
+          supabase,
+          analysisId,
+          job.business_id
+        );
+
+      logger.info(
+        "customer_report.generated",
+        {
+          jobId,
+          analysisId,
+          reportId:
+            generatedReport.reportId,
+          previousAnalysisId:
+            generatedReport.previousAnalysisId,
+          leaksFound:
+            generatedReport.leaksFound,
+          newLeaks:
+            generatedReport.newLeaks,
+          resolvedLeaks:
+            generatedReport.resolvedLeaks,
+        }
+      );
 
       const {
         error: completeError,
