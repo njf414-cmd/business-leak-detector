@@ -1,3 +1,4 @@
+import { dispatchAutomaticCustomerAnalysis } from "../../../../lib/customer-automation/automatic-analysis";
 import { del, head } from "@vercel/blob";
 import {
   handleUpload,
@@ -290,6 +291,35 @@ export async function POST(request: Request) {
             settingsError
           );
         }
+
+        const { data: savedSource, error: savedSourceError } =
+          await worker
+            .from("customer_scan_sources")
+            .select("industry,mapping_overrides")
+            .eq("business_id", trusted.businessId)
+            .maybeSingle();
+
+        if (savedSourceError) {
+          throw new Error(
+            `Could not reload automatic analysis source: ${savedSourceError.message}`
+          );
+        }
+
+        const automaticAnalysis =
+          await dispatchAutomaticCustomerAnalysis({
+            businessId: trusted.businessId,
+            sourcePath: blob.pathname,
+            fileName: trusted.fileName,
+            industry: savedSource?.industry ?? null,
+            mappingOverrides:
+              savedSource?.mapping_overrides ?? {},
+          });
+
+        console.info(
+          "customer-automation.source.analysis-dispatch",
+          automaticAnalysis
+        );
+
 
         if (previous?.source_path && previous.source_path !== blob.pathname) {
           try {
