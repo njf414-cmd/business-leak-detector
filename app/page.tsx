@@ -16,6 +16,7 @@ import {
 
 import { supabase } from "./lib/supabase";
 import CsvImportFlow from "./components/CsvImportFlow";
+import AppSidebar from "./components/AppSidebar";
 import { requestCsvAnalysis, toDashboardLeaks, type CsvDashboardResult } from "./lib/csv-dashboard";
 
 /* ================================== */
@@ -360,6 +361,10 @@ export default function Home() {
   const [workspaceSource, setWorkspaceSource] = useState<"queue" | "list">(
     "list"
   );
+
+  const [showNewAnalysis, setShowNewAnalysis] = useState(false);
+
+  const [showDataManager, setShowDataManager] = useState(false);
 
   const [fileName, setFileName] = useState("");
   const [leaks, setLeaks] = useState<TrackedLeak[]>([]);
@@ -2647,51 +2652,21 @@ export default function Home() {
   /* ================================== */
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white [overflow-wrap:anywhere]">
-      <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
-          <div className="flex items-center justify-between gap-4 pb-4">
-            <p className="text-xs font-bold tracking-widest text-blue-400 sm:text-sm">
-              BUSINESS LEAK DETECTOR
-            </p>
+    <main className="min-h-screen bg-[#212121] text-zinc-100 [overflow-wrap:anywhere]">
+      <AppSidebar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onNewAnalysis={() => {
+          setActiveTab("Dashboard");
+          setShowNewAnalysis(true);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        businessName={businessName}
+      />
 
-            <p className="max-w-[45%] truncate text-sm text-slate-300">
-              {businessName || "Your business"}
-            </p>
-          </div>
+      <section className="min-h-screen lg:pl-[260px]">
 
-          <nav
-            aria-label="Main navigation"
-            className="grid grid-cols-5 gap-1"
-          >
-            {(
-              ["Dashboard", "Leaks", "Analytics", "Data"] as const
-            ).map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                aria-current={activeTab === tab ? "page" : undefined}
-                onClick={() => setActiveTab(tab)}
-                className={`border-b-2 px-1 py-3 text-sm font-semibold transition-colors ${
-                  activeTab === tab
-                    ? "border-blue-400 text-blue-300"
-                    : "border-transparent text-slate-400 hover:text-white"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          <a
-            href="/reports"
-            className="border-b-2 border-transparent px-1 py-3 text-center text-sm font-semibold text-slate-400 transition-colors hover:text-white"
-          >
-            Reports
-          </a>
-          </nav>
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <h1 className="text-3xl font-bold tracking-tight">
           {activeTab}
         </h1>
@@ -2755,243 +2730,266 @@ export default function Home() {
         {/* DASHBOARD */}
 
         {!loading && businessId && activeTab === "Dashboard" && (
-          <section>
-            <div className="mt-6">
-              {renderDataImport(true)}
-            </div>
+          <section className="space-y-8">
+            {(!hasAnalysis || showNewAnalysis) && (
+              <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-7">
+                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                      New analysis
+                    </p>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-violet-500/30 bg-slate-900" aria-busy={discoveryLoading}>
-              <div className="flex flex-col gap-4 border-b border-slate-800 bg-violet-500/5 p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-bold tracking-widest text-violet-400">AI DISCOVERY</p>
-                  <h2 className="mt-2 text-xl font-bold">Potential AI Discoveries</h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-                    Explore additional patterns in your original business data. These AI-discovered findings require human review and are not confirmed leaks.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => void runAIDiscovery()}
-                  disabled={sourceRows.length === 0 || discoveryLoading || loadingAnalysis || deletingAnalysis || saving}
-                  aria-describedby="discovery-availability"
-                  className="shrink-0 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {discoveryLoading ? "Discovering Patterns..." : aiDiscovery ? "Run Discovery Again" : "Run AI Discovery"}
-                </button>
-              </div>
-              <div className="space-y-5 p-5">
-                <p id="discovery-availability" className="text-sm leading-6 text-slate-400">
-                  {sourceRows.length === 0
-                    ? "AI Discovery needs original source rows. Saved historical analyses currently do not retain those rows. Upload a fresh CSV or Excel file to enable discovery."
-                    : `${sourceRows.length.toLocaleString()} original source rows available from ${fileName}. Potential findings do not change confirmed leak counts, revenue totals, or recovery tracking.`}
-                </p>
-                {discoveryLoading && (
-                  <div role="status" className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
-                    <p className="font-semibold text-violet-300">Reviewing your original business data...</p>
-                    <p className="mt-1 text-sm text-slate-400">Looking for evidence-backed patterns beyond the confirmed deterministic leaks.</p>
+                    <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
+                      Scan your business
+                    </h2>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                      Upload your business data and we&apos;ll find revenue leaks,
+                      recovery opportunities, and the next actions to take.
+                    </p>
                   </div>
-                )}
-                {discoveryError && (
-                  <p role="alert" className="rounded-xl border border-red-500/20 bg-red-500/5 p-4 text-sm text-red-300">{discoveryError}</p>
-                )}
-                {!aiDiscovery && !discoveryLoading && !discoveryError && sourceRows.length > 0 && (
-                  <p className="rounded-xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-400">
-                    Ready to explore potential workflow gaps, customer patterns, revenue opportunities, and data-quality issues. A review may return zero discoveries.
-                  </p>
-                )}
-                {aiDiscovery && !discoveryLoading && (
-                  <>
-                    <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <p className="text-xs font-bold tracking-widest text-violet-400">DISCOVERY SUMMARY</p>
-                        <div className="flex flex-wrap gap-2">
-                          <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-300">{aiDiscovery.discoveryCount} potential discoveries</span>
-                          <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-300">Overall confidence: {aiDiscovery.overallConfidence}</span>
-                        </div>
-                      </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-200">{aiDiscovery.summary}</p>
-                      {discoveryMetadata && (
-                        <p className="mt-3 text-xs leading-5 text-slate-400">
-                          {discoveryMetadata.rowsAnalyzed.toLocaleString()} source rows reviewed · {discoveryMetadata.confirmedLeaksProvided.toLocaleString()} confirmed leaks supplied for comparison.
-                          {discoveryMetadata.rowsLimited && " Only the first 500 source rows were reviewed because of the current analysis limit."}
-                        </p>
-                      )}
-                    </div>
-                    <p className="text-xs leading-5 text-amber-300">Potential findings only — not confirmed leaks. Estimated impact is not guaranteed recoverable revenue and is excluded from dashboard totals.</p>
-                    {aiDiscovery.discoveries.length === 0 ? (
-                      <div className="rounded-xl border border-slate-800 bg-slate-950 p-5">
-                        <p className="font-semibold">No additional potential discoveries returned.</p>
-                        <p className="mt-2 text-sm text-slate-400">This review did not identify further evidence-backed patterns. Your confirmed leak analysis remains available.</p>
-                      </div>
-                    ) : (
-                      <div className="grid gap-4 lg:grid-cols-2">
-                        {aiDiscovery.discoveries.map((item, index) => (
-                          <article key={`${item.title}-${index}`} className="rounded-xl border border-slate-800 bg-slate-950 p-5">
-                            <p className="text-xs font-bold tracking-widest text-violet-400">POTENTIAL · AI-DISCOVERED</p>
-                            <h3 className="mt-2 text-lg font-bold">{item.title}</h3>
-                            <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-                              <span className="rounded-full bg-slate-800 px-3 py-1 text-slate-300">{item.category}</span>
-                              <span className={`rounded-full px-3 py-1 ${item.priority === "Critical" || item.priority === "High" ? "bg-red-500/10 text-red-400" : item.priority === "Medium" ? "bg-yellow-500/10 text-yellow-400" : "bg-slate-800 text-slate-400"}`}>{item.priority} priority</span>
-                              <span className="rounded-full bg-violet-500/10 px-3 py-1 text-violet-300">Confidence: {item.confidence}</span>
-                            </div>
-                            <p className="mt-4 text-sm leading-6 text-slate-300">{item.description}</p>
-                            <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-400">
-                              <p>Affected records: <span className="font-semibold text-slate-200">{item.affectedRecords.toLocaleString()}</span></p>
-                              {item.estimatedImpact > 0 && <p>Estimated potential impact: <span className="font-semibold text-amber-300">${formatMoney(item.estimatedImpact)}</span></p>}
-                            </div>
-                            <div className="mt-5 border-t border-slate-800 pt-4">
-                              <p className="text-xs font-bold tracking-widest text-slate-400">EVIDENCE</p>
-                              <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
-                                {item.evidence.map((entry, evidenceIndex) => <li key={evidenceIndex}>{entry}</li>)}
-                              </ul>
-                            </div>
-                            <div className="mt-4 space-y-4">
-                              <InfoBox title="Recommended Review" text={item.recommendedReview} />
-                              <InfoBox title="Recommended Action" text={item.recommendedAction} />
-                            </div>
-                          </article>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
 
-            {!hasAnalysis ? (
-              <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-10">
-                <h2 className="text-2xl font-bold">
-                  Find your first recovery opportunity.
-                </h2>
+                  {hasAnalysis && (
+                    <button
+                      type="button"
+                      onClick={() => setShowNewAnalysis(false)}
+                      className="rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-white/[0.05]"
+                    >
+                      Close
+                    </button>
+                  )}
+                </div>
 
-                <p className="mt-3 max-w-xl text-slate-400">
-                  Upload your business data above. We&apos;ll
-                  scan it for revenue leaks and show you where
-                  to start.
-                </p>
-              </div>
-            ) : (
+                {renderDataImport(true)}
+              </section>
+            )}
+
+            {hasAnalysis && !showNewAnalysis && (
               <>
-                <div className="mt-6 grid gap-4 lg:grid-cols-3">
-                  <MetricCard
-                    title="Revenue at Risk"
-                    value={`$${formatMoney(totalLeakage)}`}
-                    description="Open recoverable revenue"
-                  />
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                      Business overview
+                    </p>
 
-                  <MetricCard
-                    title="Potentially Recoverable"
-                    value={`$${formatMoney(estimatedRecovery)}`}
-                    description="Estimated recovery from open opportunities"
-                    green
-                  />
+                    <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+                      Here&apos;s what needs attention.
+                    </h2>
 
-                  <MetricCard
-                    title="Recovered"
-                    value={`$${formatMoney(recoveredAmount)}`}
-                    description="Actual recovery recorded for this scan"
-                    green
-                  />
-                </div>
-
-                {leaks.length > 0 && renderAIAnalysis()}
-
-                <div className="mt-6 rounded-2xl border border-blue-500/20 bg-slate-900 p-6 sm:p-8">
-                  <div className="flex flex-wrap gap-3 text-sm">
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("Leaks")}
-                      className="rounded-lg bg-red-500/10 px-4 py-2 text-red-300"
-                    >
-                      {overdueFollowUps.length} overdue
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("Leaks")}
-                      className="rounded-lg bg-amber-500/10 px-4 py-2 text-amber-300"
-                    >
-                      {todayFollowUps.length} due today
-                    </button>
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                      Start with the highest-value opportunities and work your way down.
+                    </p>
                   </div>
-
-                  <h2 className="mt-5 text-2xl font-bold">
-                    {topActions.length
-                      ? "Your next recovery starts here."
-                      : "No open recoverable opportunities."}
-                  </h2>
-
-                  <p className="mt-2 text-slate-400">
-                    {topActions.length
-                      ? "Start with your highest-priority opportunity, then record the outcome."
-                      : "Upload a fresh scan to check for new opportunities."}
-                  </p>
 
                   <button
                     type="button"
-                    disabled={
-                      loadingAnalysis || savingRecovery || saving
-                    }
-                    onClick={() =>
-                      topActions[0]
-                        ? startRecovery(topActions[0])
-                        : undefined
-                    }
-                    className="mt-6 w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold hover:bg-blue-500 disabled:opacity-50 sm:w-auto"
+                    onClick={() => setShowNewAnalysis(true)}
+                    className="shrink-0 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
                   >
-                    {topActions.length
-                      ? "Start Recovering Revenue →"
-                      : "No Recovery Work Needed"}
+                    + Run new analysis
                   </button>
                 </div>
 
-                {topActions.length > 0 && (
-                  <section className="mt-8">
-                    <h2 className="text-xl font-bold">
-                      Top 3 opportunities
-                    </h2>
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">Revenue at risk</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                      ${formatMoney(totalLeakage)}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Open recoverable revenue detected.
+                    </p>
+                  </div>
 
-                    <div className="mt-4 space-y-3">
-                      {topActions.map((leak, index) => (
-                        <div
-                          key={getLeakKey(leak)}
-                          className="flex flex-col gap-4 rounded-xl border border-slate-800 bg-slate-900 p-5 sm:flex-row sm:items-center sm:justify-between"
-                        >
-                          <div>
-                            <p className="font-semibold">
-                              {index + 1}. {leak.customer}
-                            </p>
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">Potential recovery</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-emerald-400">
+                      ${formatMoney(estimatedRecovery)}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Estimated revenue that may be recoverable.
+                    </p>
+                  </div>
 
-                            <p className="mt-1 text-sm text-slate-400">
-                              {leak.type}
-                            </p>
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">Open leaks</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                      {leaks.filter(
+                        (leak) =>
+                          leak.status !== "Recovered" &&
+                          leak.status !== "Dismissed"
+                      ).length}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Opportunities that still need attention.
+                    </p>
+                  </div>
 
-                            <div className="mt-2">
-                              <PriorityBadge
-                                level={leak.priorityLevel}
-                              />
-                            </div>
-                          </div>
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">Recovered</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-emerald-400">
+                      ${formatMoney(recoveredAmount)}
+                    </p>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Revenue already marked recovered.
+                    </p>
+                  </div>
+                </div>
 
-                          <div className="flex flex-wrap items-center gap-4">
-                            <p className="text-sm text-green-400">
-                              ~${formatMoney(leak.recovery)}{" "}
-                              recoverable
-                            </p>
+                <div className="grid gap-5 xl:grid-cols-[1.45fr_0.55fr]">
+                  <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                    <div className="flex items-center justify-between gap-4 border-b border-white/[0.07] p-5 sm:p-6">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                          Priority queue
+                        </p>
 
-                            <button
-                              type="button"
-                              onClick={() => startRecovery(leak)}
-                              className="rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold"
-                            >
-                              Start recovery
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                        <h3 className="mt-2 text-xl font-semibold text-white">
+                          What needs attention
+                        </h3>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("Leaks")}
+                        className="text-sm font-medium text-zinc-400 transition hover:text-white"
+                      >
+                        View all →
+                      </button>
                     </div>
+
+                    {topActions.length > 0 ? (
+                      <div className="divide-y divide-white/[0.07]">
+                        {topActions.slice(0, 3).map((leak, index) => (
+                        <button
+                            key={getLeakKey(leak)}
+                            type="button"
+                            onClick={() => startRecovery(leak)}
+                            className="flex w-full flex-col gap-4 p-5 text-left transition hover:bg-white/[0.035] sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                          >
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-3">
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.07] text-xs font-semibold text-zinc-300">
+                                  {index + 1}
+                                </span>
+
+                                <div className="min-w-0">
+                                  <p className="truncate font-medium text-white">
+                                    {leak.customer}
+                                  </p>
+
+                                  <p className="mt-1 text-sm text-zinc-500">
+                                    {leak.type}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="shrink-0 sm:text-right">
+                              <p className="font-semibold text-emerald-400">
+                                ~${formatMoney(leak.recovery)}
+                              </p>
+
+                              <p className="mt-1 text-xs text-zinc-500">
+                                estimated recovery
+                              </p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-6">
+                        <p className="font-medium text-white">
+                          No open recovery work.
+                        </p>
+
+                        <p className="mt-2 text-sm text-zinc-500">
+                          Run another scan when you have updated data.
+                        </p>
+                      </div>
+                    )}
                   </section>
-                )}
+
+                  <div className="space-y-5">
+                    <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        Latest scan
+                      </p>
+
+                      <p className="mt-3 truncate font-medium text-white">
+                        {fileName || "Business data"}
+                      </p>
+
+                      <div className="mt-5 space-y-3 text-sm">
+                        <div className="flex justify-between gap-4">
+                          <span className="text-zinc-500">Findings</span>
+                          <span className="text-zinc-200">{leaks.length}</span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span className="text-zinc-500">Overdue</span>
+                          <span
+                            className={
+                              overdueFollowUps.length > 0
+                                ? "text-red-400"
+                                : "text-zinc-200"
+                            }
+                          >
+                            {overdueFollowUps.length}
+                          </span>
+                        </div>
+
+                        <div className="flex justify-between gap-4">
+                          <span className="text-zinc-500">Due today</span>
+                          <span
+                            className={
+                              todayFollowUps.length > 0
+                                ? "text-amber-300"
+                                : "text-zinc-200"
+                            }
+                          >
+                            {todayFollowUps.length}
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("Leaks")}
+                        className="mt-5 w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:bg-white/[0.05]"
+                      >
+                        Open recovery workspace
+                      </button>
+                    </section>
+
+                    <a
+                      href="/settings/automation"
+                      className="block rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5 transition hover:bg-amber-400/[0.07]"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-amber-200">
+                            Automation
+                          </p>
+
+                          <span className="rounded-md border border-amber-400/25 bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-semibold text-amber-300">
+                            PRO
+                          </span>
+                        </div>
+
+                        <span className="text-amber-300">✦</span>
+                      </div>
+
+                      <p className="mt-3 text-sm leading-6 text-zinc-500">
+                        Automatically rescan your data and receive new reports by email.
+                      </p>
+
+                      <p className="mt-4 text-sm font-medium text-amber-300">
+                        View premium automation →
+                      </p>
+                    </a>
+                  </div>
+                </div>
               </>
             )}
           </section>
@@ -3000,224 +2998,284 @@ export default function Home() {
         {/* LEAKS */}
 
         {activeTab === "Leaks" && (
-          <section>
+          <section className="space-y-6">
             {!loading && businessId && leaks.length > 0 && (
               <>
-                <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                  <p className="text-sm font-bold tracking-widest text-blue-400">
-                    FOLLOW-UP QUEUE
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                    Recovery workspace
                   </p>
 
-                  <h2 className="mt-2 text-2xl font-bold">
-                    Today&apos;s recovery work.
+                  <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+                    Revenue leaks
                   </h2>
 
-                  <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                    <FollowUpCount
-                      title="Overdue"
-                      count={overdueFollowUps.length}
-                      red
-                    />
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                    Review each opportunity, prioritize the highest-value work,
+                    and record your recovery progress.
+                  </p>
+                </div>
 
-                    <FollowUpCount
-                      title="Today"
-                      count={todayFollowUps.length}
-                      yellow
-                    />
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Overdue
+                    </p>
 
-                    <FollowUpCount
-                      title="Upcoming"
-                      count={upcomingFollowUps.length}
-                    />
+                    <p
+                      className={
+                        overdueFollowUps.length > 0
+                          ? "mt-2 text-2xl font-semibold text-red-400"
+                          : "mt-2 text-2xl font-semibold text-white"
+                      }
+                    >
+                      {overdueFollowUps.length}
+                    </p>
+
+                    <p className="mt-1 text-xs text-zinc-500">
+                      Follow-ups past their due date.
+                    </p>
                   </div>
 
-                  <div className="mt-7 space-y-6">
-                    {overdueFollowUps.length > 0 && (
-                      <FollowUpSection
-                        title="Overdue"
-                        description="These follow-ups have passed their scheduled date."
-                        leaks={overdueFollowUps}
-                        group="Overdue"
-                        selectedLeak={
-                          workspaceSource === "queue"
-                            ? selectedLeak
-                            : null
-                        }
-                        onOpen={(leak) => {
-                          setWorkspaceSource("queue");
-                          openRecoveryWorkspace(leak);
-                        }}
-                        renderWorkspace={(leak) =>
-                          workspaceSource === "queue"
-                            ? renderRecoveryWorkspace(leak)
-                            : null
-                        }
-                      />
-                    )}
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Due today
+                    </p>
 
-                    {todayFollowUps.length > 0 && (
-                      <FollowUpSection
-                        title="Due Today"
-                        description="These recovery opportunities need attention today."
-                        leaks={todayFollowUps}
-                        group="Today"
-                        selectedLeak={
-                          workspaceSource === "queue"
-                            ? selectedLeak
-                            : null
-                        }
-                        onOpen={(leak) => {
-                          setWorkspaceSource("queue");
-                          openRecoveryWorkspace(leak);
-                        }}
-                        renderWorkspace={(leak) =>
-                          workspaceSource === "queue"
-                            ? renderRecoveryWorkspace(leak)
-                            : null
-                        }
-                      />
-                    )}
+                    <p
+                      className={
+                        todayFollowUps.length > 0
+                          ? "mt-2 text-2xl font-semibold text-amber-300"
+                          : "mt-2 text-2xl font-semibold text-white"
+                      }
+                    >
+                      {todayFollowUps.length}
+                    </p>
 
-                    {upcomingFollowUps.length > 0 && (
-                      <FollowUpSection
-                        title="Upcoming"
-                        description="Scheduled recovery work coming up next."
-                        leaks={upcomingFollowUps}
-                        group="Upcoming"
-                        selectedLeak={
-                          workspaceSource === "queue"
-                            ? selectedLeak
-                            : null
-                        }
-                        onOpen={(leak) => {
-                          setWorkspaceSource("queue");
-                          openRecoveryWorkspace(leak);
-                        }}
-                        renderWorkspace={(leak) =>
-                          workspaceSource === "queue"
-                            ? renderRecoveryWorkspace(leak)
-                            : null
-                        }
-                      />
-                    )}
+                    <p className="mt-1 text-xs text-zinc-500">
+                      Recovery work scheduled for today.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Upcoming
+                    </p>
+
+                    <p className="mt-2 text-2xl font-semibold text-white">
+                      {upcomingFollowUps.length}
+                    </p>
+
+                    <p className="mt-1 text-xs text-zinc-500">
+                      Follow-ups scheduled ahead.
+                    </p>
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                  <h2 className="text-2xl font-semibold">
-                    All Open Leaks
-                  </h2>
+                <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                  <div className="border-b border-white/[0.07] p-5 sm:p-6">
+                    <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">
+                          All leaks
+                        </h3>
 
-                  <div className="mt-6 flex flex-col gap-3 md:flex-row">
-                    <input
-                      value={search}
-                      onChange={(event) =>
-                        setSearch(event.target.value)
-                      }
-                      placeholder="Search customer..."
-                      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm"
-                    />
+                        <p className="mt-1 text-sm text-zinc-500">
+                          {filteredLeaks.length} shown · {leaks.length} total
+                        </p>
+                      </div>
 
-                    <select
-                      value={filter}
-                      onChange={(event) =>
-                        setFilter(
-                          event.target.value as "All" | LeakType
-                        )
-                      }
-                      className="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm"
-                    >
-                      <option value="All">
-                        All Leak Types
-                      </option>
+                      <div className="flex w-full flex-col gap-2 sm:flex-row xl:w-auto">
+                        <input
+                          value={search}
+                          onChange={(event) => setSearch(event.target.value)}
+                          placeholder="Search customer..."
+                          className="min-w-0 flex-1 rounded-xl border border-white/10 bg-[#1f1f1f] px-4 py-2.5 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-white/20 sm:min-w-[240px]"
+                        />
 
-                      {LEAK_TYPES.map((type) => (
-                        <option
-                          key={type.value}
-                          value={type.value}
+                        <select
+                          value={filter}
+                          onChange={(event) =>
+                            setFilter(event.target.value as "All" | LeakType)
+                          }
+                          className="rounded-xl border border-white/10 bg-[#1f1f1f] px-4 py-2.5 text-sm text-zinc-300 outline-none focus:border-white/20"
                         >
-                          {type.label}
-                        </option>
-                      ))}
-                    </select>
+                          <option value="All">
+                            All leak types
+                          </option>
+
+                          {LEAK_TYPES.map((type) => (
+                            <option
+                              key={type.value}
+                              value={type.value}
+                            >
+                              {type.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="mt-6 space-y-4">
-                    {filteredLeaks.map((leak) => (
-                      <div
-                        key={getLeakKey(leak)}
-                        className="rounded-2xl border border-slate-800 bg-slate-950 p-6"
-                      >
-                        <div className="flex flex-col gap-4 md:flex-row md:justify-between">
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <p className="text-sm font-bold text-blue-400">
+                  {filteredLeaks.length > 0 ? (
+                    <div className="divide-y divide-white/[0.07]">
+                      {filteredLeaks.map((leak) => {
+                        const isOpen =
+                          workspaceSource === "list" &&
+                          selectedLeak === getLeakKey(leak);
+
+                        return (
+                          <button
+                            key={getLeakKey(leak)}
+                            type="button"
+                            onClick={() => {
+                              setWorkspaceSource("list");
+                              openRecoveryWorkspace(leak);
+                            }}
+                            className={
+                              isOpen
+                                ? "flex w-full flex-col gap-4 bg-white/[0.05] p-5 text-left transition sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                                : "flex w-full flex-col gap-4 p-5 text-left transition hover:bg-white/[0.035] sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                            }
+                          >
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="truncate font-medium text-white">
+                                  {leak.customer}
+                                </p>
+
+                                <PriorityBadge
+                                  level={leak.priorityLevel}
+                                />
+
+                                <StatusBadge
+                                  status={leak.status}
+                                />
+                              </div>
+
+                              <p className="mt-1 text-sm text-zinc-500">
                                 {leak.type}
                               </p>
 
-                              <PriorityBadge
-                                level={leak.priorityLevel}
-                              />
-
-                              <CategoryBadge
-                                category={leak.category}
-                              />
-
-                              <StatusBadge
-                                status={leak.status}
-                              />
+                              <p className="mt-2 line-clamp-1 max-w-2xl text-xs text-zinc-600">
+                                {leak.reason}
+                              </p>
                             </div>
 
-                            <h3 className="mt-2 text-xl font-semibold">
-                              {leak.customer}
-                            </h3>
-                          </div>
+                            <div className="flex shrink-0 items-center gap-6 sm:text-right">
+                              <div>
+                                <p className="text-sm text-zinc-500">
+                                  At risk
+                                </p>
 
-                          <div className="md:text-right">
-                            <p className="text-2xl font-bold">
-                              ${formatMoney(leak.amount)}
-                            </p>
+                                <p className="mt-1 font-semibold text-white">
+                                  ${formatMoney(leak.amount)}
+                                </p>
+                              </div>
 
-                            {leak.category === "Recoverable" ? (
-                              <p className="mt-1 text-sm text-green-400">
-                                ~${formatMoney(leak.recovery)}{" "}
-                                estimated recovery
-                              </p>
-                            ) : (
-                              <p className="mt-1 text-sm text-red-400">
-                                Revenue lost
-                              </p>
-                            )}
-                          </div>
-                        </div>
+                              <div className="min-w-[110px]">
+                                {leak.category === "Recoverable" ? (
+                                  <>
+                                    <p className="text-sm text-zinc-500">
+                                      Recovery
+                                    </p>
 
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setWorkspaceSource("list");
-                            openRecoveryWorkspace(leak);
-                          }}
-                          className="mt-5 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold"
-                        >
-                          {workspaceSource === "list" &&
-                          selectedLeak === getLeakKey(leak)
-                            ? "Close Workspace"
-                            : "Open Recovery Workspace"}
-                        </button>
+                                    <p className="mt-1 font-semibold text-emerald-400">
+                                      ~${formatMoney(leak.recovery)}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <p className="text-sm text-zinc-500">
+                                      Status
+                                    </p>
 
-                        {workspaceSource === "list" &&
-                          renderRecoveryWorkspace(leak)}
+                                    <p className="mt-1 font-semibold text-red-400">
+                                      Lost
+                                    </p>
+                                  </>
+                                )}
+                              </div>
+
+                              <span className="text-zinc-600">
+                                {isOpen ? "↑" : "→"}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center">
+                      <p className="font-medium text-white">
+                        No matching leaks.
+                      </p>
+
+                      <p className="mt-2 text-sm text-zinc-500">
+                        Try changing your search or leak-type filter.
+                      </p>
+                    </div>
+                  )}
+                </section>
+
+                {workspaceSource === "list" && selectedLeak && (
+                  <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div className="mb-5 flex items-center justify-between gap-4">
+                      <div>
+                        <p className="tex font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                          Selected leak
+                        </p>
+
+                        <h3 className="mt-2 text-xl font-semibold text-white">
+                          Recovery workspace
+                        </h3>
                       </div>
-                    ))}
-                  </div>
-                </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedLeak(null)}
+                        className="rounded-lg border border-white/10 px-3 py-2 text-sm text-zinc-400 transition hover:bg-white/[0.05] hover:text-white"
+                      >
+                        Close
+                      </button>
+                    </div>
+
+                    {leaks
+                      .filter(
+                        (leak) =>
+                          getLeakKey(leak) === selectedLeak
+                      )
+                      .map((leak) => (
+                        <div key={getLeakKey(leak)}>
+                          {renderRecoveryWorkspace(leak)}
+                        </div>
+                      ))}
+                  </section>
+                )}
               </>
             )}
 
             {!loading && businessId && leaks.length === 0 && (
-              <p className="mt-6 rounded-xl bg-slate-900 p-6 text-slate-400">
-                No leaks to display.
-              </p>
+              <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-8 text-center">
+                <p className="text-lg font-medium text-white">
+                  No leaks found.
+                </p>
+
+                <p className="mt-2 text-sm text-zinc-500">
+                  Your current analysis has no revenue leaks to display.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab("Dashboard");
+                    setShowNewAnalysis(true);
+                  }}
+                  className="mt-5 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200"
+                >
+                  Run another analysis
+                </button>
+              </section>
             )}
           </section>
         )}
@@ -3225,104 +3283,297 @@ export default function Home() {
         {/* ANALYTICS */}
 
         {activeTab === "Analytics" && (
-          <section>
+          <section className="space-y-6">
             {!loading && businessId && leaks.length > 0 && (
               <>
-                <div className="mt-6 rounded-2xl border border-blue-500/20 bg-slate-900 p-6">
-                  <p className="text-sm font-bold tracking-widest text-blue-400">
-                    ANALYTICS
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                    Analytics
                   </p>
 
-                  <h2 className="mt-2 text-2xl font-bold">
+                  <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">
                     Recovery performance
                   </h2>
 
-                  <div className="mt-7 grid gap-5 lg:grid-cols-2">
-                    <AnalyticsProgressCard
-                      title="Recovery Rate"
-                      percentage={recoveryRate}
-                      current={recoveredAmount}
-                      target={totalRecoverableOpportunity}
-                      currentLabel="Recovered"
-                      targetLabel="Total recoverable opportunity"
-                    />
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                    Track how much revenue is exposed, how much can potentially
+                    be recovered, and how your results change between scans.
+                  </p>
+                </div>
 
-                    <AnalyticsProgressCard
-                      title="Recovery Progress"
-                      percentage={recoveryProgress}
-                      current={recoveredAmount}
-                      target={totalEstimatedOpportunity}
-                      currentLabel="Actually recovered"
-                      targetLabel="Estimated recovery"
-                    />
-                  </div>
+                <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Recoverable opportunity
+                    </p>
 
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <AnalyticsMiniCard
-                      title="Recoverable Opportunity"
-                      value={`$${formatMoney(
-                        totalRecoverableOpportunity
-                      )}`}
-                    />
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                      ${formatMoney(totalRecoverableOpportunity)}
+                    </p>
 
-                    <AnalyticsMiniCard
-                      title="Estimated Recovery"
-                      value={`$${formatMoney(
-                        totalEstimatedOpportunity
-                      )}`}
-                    />
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Total open recoverable value.
+                    </p>
+                  </article>
 
-                    <AnalyticsMiniCard
-                      title="Recovered Leaks"
-                      value={String(recoveredLeakCount)}
-                    />
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Estimated recovery
+                    </p>
 
-                    <AnalyticsMiniCard
-                      title="Currently Contacted"
-                      value={String(contactedLeakCount)}
-                    />
-                  </div>
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-emerald-400">
+                      ${formatMoney(totalEstimatedOpportunity)}
+                    </p>
 
-                  <div className="mt-8">
-                    <h3 className="text-xl font-bold">
-                      Leak Breakdown
-                    </h3>
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Estimated value likely recoverable.
+                    </p>
+                  </article>
 
-                    <div className="mt-5 space-y-4">
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Recovered leaks
+                    </p>
+
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                      {recoveredLeakCount}
+                    </p>
+
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Opportunities successfully recovered.
+                    </p>
+                  </article>
+
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      In progress
+                    </p>
+
+                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                      {contactedLeakCount}
+                    </p>
+
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Opportunities currently contacted.
+                    </p>
+                  </article>
+                </section>
+
+                <section className="grid gap-5 lg:grid-cols-2">
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-zinc-500">
+                          Recovery rate
+                        </p>
+
+                        <p className="mt-2 text-3xl font-semibold text-white">
+                          {Math.round(recoveryRate)}%
+                        </p>
+                      </div>
+
+                      <p className="text-sm text-zinc-500">
+                        ${formatMoney(recoveredAmount)} recovered
+                      </p>
+                    </div>
+
+                    <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/[0.07]">
+                      <div
+                        className="h-full rounded-full bg-emerald-400"
+                        style={{
+                          width: `${Math.min(
+                            100,
+                            Math.max(0, recoveryRate)
+                          )}%`,
+                        }}
+                      />
+                    </div>
+
+                    <p className="mt-3 text-xs text-zinc-500">
+                      Compared with ${formatMoney(totalRecoverableOpportunity)} in
+                      total recoverable opportunity.
+                    </p>
+                  </article>
+
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-zinc-500">
+                          Recovery progress
+                        </p>
+
+                        <p className="mt-2 text-3xl font-semibold text-white">
+                          {Math.round(recoveryProgress)}%
+                        </p>
+                      </div>
+
+                      <p className="text-sm text-zinc-500">
+                        vs estimated recovery
+                      </p>
+                    </div>
+
+                    <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/[0.07]">
+                      <div
+                        className="h-full rounded-full bg-emerald-400"
+                        style={{
+                          width: `${Math.min(
+                            100,
+                            Math.max(0, recoveryProgress)
+                          )}%`,
+                        }}
+                      />
+                    </div>
+
+                    <p className="mt-3 text-xs text-zinc-500">
+                      ${formatMoney(recoveredAmount)} recovered of an estimated
+                      ${formatMoney(totalEstimatedOpportunity)}.
+                    </p>
+                  </article>
+                </section>
+
+                {analyses.length > 0 && (
+                  <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        Historical trends
+                      </p>
+
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        Performance over time
+                      </h3>
+
+                      <p className="mt-2 text-sm text-zinc-500">
+                        Compare revenue exposure and recovery opportunities
+                        across your saved scans.
+                      </p>
+                    </div>
+
+                    {previousHistoricalAnalysis && (
+                      <div className="mt-6 grid gap-3 md:grid-cols-2">
+                        <article className="rounded-xl border border-white/[0.07] bg-[#1f1f1f] p-5">
+                          <p className="text-sm text-zinc-500">
+                            Revenue at risk change
+                          </p>
+
+                          <p
+                            className={
+                              (revenueAtRiskChange?.amount ?? 0) > 0
+                                ? "mt-2 text-2xl font-semibold text-red-400"
+                                : (revenueAtRiskChange?.amount ?? 0) < 0
+                                ? "mt-2 text-2xl font-semibold text-emerald-400"
+                                : "mt-2 text-2xl font-semibold text-white"
+                            }
+                          >
+                            {(revenueAtRiskChange?.amount ?? 0) > 0 ? "+" : ""}
+                            ${formatMoney(revenueAtRiskChange?.amount ?? 0)}
+                          </p>
+
+                          <p className="mt-2 text-xs text-zinc-500">
+                            Current: $
+                            {formatMoney(
+                              latestHistoricalAnalysis?.revenueAtRisk || 0
+                            )}
+                          </p>
+                        </article>
+
+                        <article className="rounded-xl border border-white/[0.07] bg-[#1f1f1f] p-5">
+                          <p className="text-sm text-zinc-500">
+                            Estimated recovery change
+                          </p>
+
+                          <p
+                            className={
+                              (estimatedRecoveryChange?.amount ?? 0) > 0
+                                ? "mt-2 text-2xl font-semibold text-emerald-400"
+                                : (estimatedRecoveryChange?.amount ?? 0) < 0
+                                ? "mt-2 text-2xl font-semibold text-red-400"
+                                : "mt-2 text-2xl font-semibold text-white"
+                            }
+                          >
+                            {(estimatedRecoveryChange?.amount ?? 0) > 0 ? "+" : ""}
+                            ${formatMoney(estimatedRecoveryChange?.amount ?? 0)}
+                          </p>
+
+                          <p className="mt-2 text-xs text-zinc-500">
+                            Current: $
+                            {formatMoney(
+                              latestHistoricalAnalysis?.estimatedRecovery || 0
+                            )}
+                          </p>
+                        </article>
+                      </div>
+                    )}
+
+                    <div className="mt-6 grid gap-5 xl:grid-cols-2">
+                      <TrendChart
+                        title="Revenue at Risk"
+                        description="Detected recoverable revenue by scan."
+                        analyses={historicalAnalyses}
+                        valueKey="revenueAtRisk"
+                      />
+
+                      <TrendChart
+                        title="Estimated Recovery"
+                        description="Estimated recoverable value by scan."
+                        analyses={historicalAnalyses}
+                        valueKey="estimatedRecovery"
+                      />
+                    </div>
+                  </section>
+                )}
+
+                <section className="grid gap-5 xl:grid-cols-[1.35fr_0.65fr]">
+                  <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                    <div className="border-b border-white/[0.07] p-5 sm:p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        Breakdown
+                      </p>
+
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        Leak exposure
+                      </h3>
+                    </div>
+
+                    <div className="divide-y divide-white/[0.07]">
                       {leakBreakdown.map((item) => {
                         const width =
                           item.amount > 0
                             ? Math.max(
                                 4,
-                                (item.amount / maxBreakdownAmount) *
-                                  100
+                                (item.amount / maxBreakdownAmount) * 100
                               )
                             : 0;
 
                         return (
                           <div
                             key={item.name}
-                            className="rounded-xl border border-slate-800 bg-slate-950 p-5"
+                            className="p-5 sm:p-6"
                           >
-                            <div className="flex justify-between gap-4">
+                            <div className="flex items-center justify-between gap-4">
                               <div>
-                                <p className="font-semibold">
-                                  {item.name} Leaks
+                                <p className="font-medium text-white">
+                                  {item.name}
                                 </p>
 
-                                <p className="mt-1 text-xs text-slate-400">
+                                <p className="mt-1 text-xs text-zinc-500">
                                   {item.count} open
                                 </p>
                               </div>
 
-                              <p className="font-bold">
-                                ${formatMoney(item.amount)}
-                              </p>
+                              <div className="text-right">
+                                <p className="font-semibold text-white">
+                                  ${formatMoney(item.amount)}
+                                </p>
+
+                                <p className="mt-1 text-xs text-emerald-400">
+                                  ~${formatMoney(item.recovery)} recovery
+                                </p>
+                              </div>
                             </div>
 
-                            <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-800">
+                            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.07]">
                               <div
-                                className="h-full rounded-full bg-blue-500"
+                                className="h-full rounded-full bg-zinc-400"
                                 style={{
                                   width: `${width}%`,
                                 }}
@@ -3333,110 +3584,103 @@ export default function Home() {
                       })}
                     </div>
                   </div>
-                </div>
 
-                {analyses.length > 0 && (
-                  <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                    <p className="text-sm font-bold tracking-widest text-blue-400">
-                      HISTORICAL TRENDS
+                  <aside className="space-y-3">
+                    <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                      <p className="text-sm text-zinc-500">
+                        Lead leaks
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-white">
+                        ${formatMoney(groupValue(leadLeaks))}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-500">
+                        {leadLeaks.length} findings
+                      </p>
+                    </article>
+
+                    <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                      <p className="text-sm text-zinc-500">
+                        Estimate leaks
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-white">
+                        ${formatMoney(groupValue(estimateLeaks))}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-500">
+                        {estimateLeaks.length} findings
+                      </p>
+                    </article>
+
+                    <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                      <p className="text-sm text-zinc-500">
+                        Payment leaks
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-white">
+                        ${formatMoney(groupValue(paymentLeaks))}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-500">
+                        {paymentLeaks.length} findings
+                      </p>
+                    </article>
+
+                    <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                      <p className="text-sm text-zinc-500">
+                        Job leaks
+                      </p>
+                      <p className="mt-2 text-2xl font-semibold text-white">
+                        ${formatMoney(groupValue(jobLeaks))}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-500">
+                        {jobLeaks.length} findings
+                      </p>
+                    </article>
+                  </aside>
+                </section>
+
+                <section className="grid gap-3 sm:grid-cols-2">
+                  <article className="rounded-2xl border border-red-400/15 bg-red-400/[0.03] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Revenue lost
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-bold">
-                      Track leaks between scans.
-                    </h2>
+                    <p className="mt-2 text-2xl font-semibold text-red-400">
+                      ${formatMoney(lostRevenue)}
+                    </p>
+                  </article>
 
-                    {previousHistoricalAnalysis && (
-                      <div className="mt-7 grid gap-5 lg:grid-cols-2">
-                        <TrendSummaryCard
-                          title="Revenue at Risk"
-                          current={
-                            latestHistoricalAnalysis?.revenueAtRisk ||
-                            0
-                          }
-                          previous={
-                            previousHistoricalAnalysis.revenueAtRisk
-                          }
-                          change={revenueAtRiskChange}
-                        />
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                    <p className="text-sm text-zinc-500">
+                      Open leaks
+                    </p>
 
-                        <TrendSummaryCard
-                          neutral
-                          title="Estimated Recovery"
-                          current={
-                            latestHistoricalAnalysis?.estimatedRecovery ||
-                            0
-                          }
-                          previous={
-                            previousHistoricalAnalysis.estimatedRecovery
-                          }
-                          change={estimatedRecoveryChange}
-                        />
-                      </div>
-                    )}
-
-                    <div className="mt-8 grid gap-6 xl:grid-cols-2">
-                      <TrendChart
-                        title="Revenue at Risk Over Time"
-                        description="Recoverable revenue detected in each scan."
-                        analyses={historicalAnalyses}
-                        valueKey="revenueAtRisk"
-                      />
-
-                      <TrendChart
-                        title="Estimated Recovery Over Time"
-                        description="Estimated recoverable value detected in each scan."
-                        analyses={historicalAnalyses}
-                        valueKey="estimatedRecovery"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-6 grid gap-5 md:grid-cols-4">
-                  <CategoryCard
-                    title="Lead Leaks"
-                    count={leadLeaks.length}
-                    value={groupValue(leadLeaks)}
-                    description="Lead opportunities"
-                  />
-
-                  <CategoryCard
-                    title="Estimate Leaks"
-                    count={estimateLeaks.length}
-                    value={groupValue(estimateLeaks)}
-                    description="Estimate opportunities"
-                  />
-
-                  <CategoryCard
-                    title="Payment Leaks"
-                    count={paymentLeaks.length}
-                    value={groupValue(paymentLeaks)}
-                    description="Uncollected payments"
-                  />
-
-                  <CategoryCard
-                    title="Job Leaks"
-                    count={jobLeaks.length}
-                    value={groupValue(jobLeaks)}
-                    description="No-shows and cancellations"
-                  />
-                </div>
-
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  <MetricCard
-                    title="Revenue Lost"
-                    value={`$${formatMoney(lostRevenue)}`}
-                    description="Detected revenue already lost"
-                    red
-                  />
-
-                  <MetricCard
-                    title="Open Leaks"
-                    value={String(openLeaks.length)}
-                    description="Issues requiring review"
-                  />
-                </div>
+                    <p className="mt-2 text-2xl font-semibold text-white">
+                      {openLeaks.length}
+                    </p>
+                  </article>
+                </section>
               </>
+            )}
+
+            {!loading && businessId && leaks.length === 0 && (
+              <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-8 text-center">
+                <p className="text-lg font-medium text-white">
+                  No analytics yet.
+                </p>
+
+                <p className="mt-2 text-sm text-zinc-500">
+                  Run an analysis to begin tracking recovery performance.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab("Dashboard");
+                    setShowNewAnalysis(true);
+                  }}
+                  className="mt-5 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black"
+                >
+                  Run an analysis
+                </button>
+              </section>
             )}
           </section>
         )}
@@ -3444,103 +3688,277 @@ export default function Home() {
         {/* DATA */}
 
         {activeTab === "Data" && (
-          <section>
+          <section className="space-y-6">
             {!loading && businessId && (
-              <div className="mt-6">
-                {renderDataImport(false)}
-              </div>
-            )}
-
-            {!loading && businessId && analyses.length > 0 && (
-              <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900">
-                <button
-                  type="button"
-                  onClick={() => setShowHistory(!showHistory)}
-                  className="flex w-full items-center justify-between p-6 text-left"
-                >
+              <>
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-sm font-bold tracking-widest text-blue-400">
-                      ANALYSIS HISTORY
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                      Data
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-bold">
-                      Previous scans
+                    <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+                      Business data
                     </h2>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                      Manage the data used by Business Leak Detector and review
+                      your previous scans.
+                    </p>
                   </div>
 
-                  <span className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold">
-                    {showHistory ? "Hide History" : "View History"}
-                  </span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowDataManager((current) => !current)
+                    }
+                    className="shrink-0 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
+                  >
+                    {showDataManager
+                      ? "Close data manager"
+                      : analyses.length > 0
+                      ? "Upload / replace data"
+                      : "Upload business data"}
+                  </button>
+                </div>
 
-                {showHistory && (
-                  <div className="border-t border-slate-800 p-6">
-                    <div className="space-y-3">
-                      {analyses.map((analysis, index) => {
-                        const isSelected =
-                          selectedAnalysisId === analysis.id;
+                <section className="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
+                  <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                          Current dataset
+                        </p>
 
-                        return (
-                          <div
-                            key={analysis.id}
-                            className="rounded-xl border border-slate-800 bg-slate-950 p-5"
-                          >
-                            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                              <div>
-                                <h3 className="font-semibold">
-                                  {analysis.file_name ||
-                                    "Saved analysis"}
-                                </h3>
+                        <h3 className="mt-3 truncate text-lg font-semibold text-white">
+                          {fileName || analyses[0]?.file_name || "No data uploaded"}
+                        </h3>
 
-                                <p className="mt-2 text-sm text-slate-400">
-                                  {formatAnalysisDate(
-                                    analysis.created_at
+                        <p className="mt-2 text-sm text-zinc-500">
+                          {hasAnalysis
+                            ? "Your latest analysis is ready and available across the dashboard."
+                            : "Upload business data to run your first analysis."}
+                        </p>
+                      </div>
+
+                      <span
+                        className={
+                          hasAnalysis
+                            ? "w-fit rounded-full border border-emerald-400/20 bg-emerald-400/[0.06] px-3 py-1 text-xs font-medium text-emerald-300"
+                            : "w-fit rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-zinc-400"
+                        }
+                      >
+                        {hasAnalysis ? "Ready" : "Not connected"}
+                      </span>
+                    </div>
+
+                    {analyses[0] && (
+                      <div className="mt-6 grid gap-3 border-t border-white/[0.07] pt-5 sm:grid-cols-3">
+                        <div>
+                          <p className="text-xs text-zinc-500">
+                            Latest scan
+                          </p>
+
+                          <p className="mt-1 text-sm font-medium text-zinc-200">
+                            {formatAnalysisDate(analyses[0].created_at)}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-zinc-500">
+                            Revenue at risk
+                          </p>
+
+                          <p className="mt-1 text-sm font-medium text-white">
+                            ${formatMoney(Number(analyses[0].total_leakage || 0))}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-zinc-500">
+                            Estimated recovery
+                          </p>
+
+                          <p className="mt-1 text-sm font-medium text-emerald-400">
+                            ${formatMoney(Number(analyses[0].estimated_recovery || 0))}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </article>
+
+                  <article className="rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-amber-200">
+                          AI Data Mapping
+                        </p>
+
+                        <span className="rounded-md border border-amber-400/25 bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-semibold text-amber-300">
+                          PRO
+                        </span>
+                      </div>
+
+                      <span className="text-amber-300">
+                        ✦
+                      </span>
+                    </div>
+
+                    <p className="mt-3 text-sm leading-6 text-zinc-500">
+                      Have messy exports or unfamiliar column names? AI can help
+                      map your data into the format the detector understands.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowDataManager(true)}
+                      className="mt-5 text-sm font-medium text-amber-300"
+                    >
+                      Open data tools →
+                    </button>
+                  </article>
+                </section>
+
+              {showDataManager && (
+                  <section className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:p-6">
+                    <div className="mb-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        Data manager
+                      </p>
+
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        Upload and analyze data
+                      </h3>
+
+                      <p className="mt-2 text-sm text-zinc-500">
+                        Use the tools below to upload new data, review mappings,
+                        and run another analysis.
+                      </p>
+                    </div>
+
+                    <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-[#1f1f1f]">
+                      {renderDataImport(false)}
+                    </div>
+                  </section>
+                )}
+
+                <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                  <button
+                    type="button"
+                    onClick={() => setShowHistory((current) => !current)}
+                    className="flex w-full items-center justify-between gap-4 p-5 text-left sm:p-6"
+                  >
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        History
+                      </p>
+
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        Previous scans
+                      </h3>
+
+                      <p className="mt-1 text-sm text-zinc-500">
+                        {analyses.length} saved {analyses.length === 1 ? "analysis" : "analyses"}
+                      </p>
+                    </div>
+
+                    <span className="text-sm text-zinc-400">
+                      {showHistory ? "Hide ↑" : "Show ↓"}
+                    </span>
+               </button>
+
+                  {showHistory && (
+                    <div className="divide-y divide-white/[0.07] border-t border-white/[0.07]">
+                      {analyses.length > 0 ? (
+                        analyses.map((analysis, index) => {
+                          const isSelected =
+                            selectedAnalysisId === analysis.id;
+
+                          return (
+                            <div
+                              key={analysis.id}
+                              className={
+                                isSelected
+                                  ? "flex flex-col gap-4 bg-white/[0.04] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                                  : "flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                              }
+                            >
+                              <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="truncate font-medium text-white">
+                                    {analysis.file_name || "Saved analysis"}
+                                  </p>
+
+                                  {index === 0 && (
+                                    <span className="rounded-full border border-emerald-400/20 bg-emerald-400/[0.06] px-2.5 py-1 text-[11px] font-medium text-emerald-300">
+                                      Latest
+                                    </span>
                                   )}
+
+                                  {isSelected && (
+                                    <span className="rounded-full bg-white/[0.07] px-2.5 py-1 text-[11px] text-zinc-400">
+                                      Viewing
+                                    </span>
+                                  )}
+                                </div>
+
+                                <p className="mt-2 text-sm text-zinc-500">
+                                  {formatAnalysisDate(analysis.created_at)}
                                 </p>
 
-                                {index === 0 && (
-                                  <span className="mt-2 inline-block rounded-full bg-green-500/10 px-2 py-1 text-xs text-green-400">
-                                    Latest
+                                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs">
+                                  <span className="text-zinc-500">
+                                    Risk{" "}
+                                    <span className="font-medium text-zinc-300">
+                                      ${formatMoney(Number(analysis.total_leakage || 0))}
+                                    </span>
                                   </span>
-                                )}
+
+                                  <span className="text-zinc-500">
+                                    Recovery{" "}
+                                    <span className="font-medium text-emerald-400">
+                                      ${formatMoney(Number(analysis.estimated_recovery || 0))}
+                                    </span>
+                                  </span>
+                                </div>
                               </div>
 
-                              <div className="flex gap-3">
+                              <div className="flex shrink-0 items-center gap-2">
                                 <button
                                   type="button"
                                   disabled={isSelected}
-                                  onClick={() =>
-                                    void loadAnalysis(analysis)
-                                  }
-                                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold disabled:bg-slate-800"
+                                  onClick={() => void loadAnalysis(analysis)}
+                                  className="rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-zinc-300 transition hover:bg-white/[0.05] disabled:cursor-default disabled:opacity-40"
                                 >
-                                  {isSelected
-                                    ? "Currently Viewing"
-                                    : "View Analysis"}
+                                  {isSelected ? "Viewing" : "Open"}
                                 </button>
 
                                 <button
                                   type="button"
-                                  onClick={() =>
-                                    void deleteAnalysis(analysis)
-                                  }
-                                  className="rounded-lg border border-red-500/30 px-4 py-2 text-sm font-semibold text-red-400"
+                                  onClick={() => void deleteAnalysis(analysis)}
+                                  className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-500 transition hover:bg-red-500/[0.08] hover:text-red-400"
                                 >
                                   Delete
                                 </button>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })
+                      ) : (
+                        <div className="p-6 text-sm text-zinc-500">
+                          No previous analyses yet.
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </section>
+              </>
             )}
           </section>
         )}
+
       </div>
+      </section>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import SecondarySidebar from "../components/SecondarySidebar";
 
 import {
   useEffect,
@@ -411,713 +412,297 @@ export default function ReportsPage() {
       : null;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background:
-          "radial-gradient(circle at top, #172554 0%, #020617 38%, #020617 100%)",
-        color: "#f8fafc",
-        padding:
-          "32px 20px 80px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1180,
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            alignItems:
-              "center",
-            justifyContent:
-              "space-between",
-            flexWrap: "wrap",
-            marginBottom: 32,
-          }}
-        >
-          <div>
-            <div
-              style={{
-                fontSize: 13,
-                opacity: 0.58,
-                textTransform:
-                  "uppercase",
-                letterSpacing: 1.4,
-                fontWeight: 700,
-              }}
-            >
-              Business Leak
-              Detector
+    <main className="min-h-screen bg-[#212121] text-zinc-100">
+      <SecondarySidebar active="Reports" />
+
+      <section className="min-h-screen lg:pl-[260px]">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+          <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                Reports
+              </p>
+
+              <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+                Business reports
+              </h1>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                See what changed between scans and where your biggest recovery
+                opportunities are.
+              </p>
             </div>
-
-            <h1
-              style={{
-                margin:
-                  "6px 0 6px",
-                fontSize: 36,
-                letterSpacing:
-                  -1.3,
-              }}
-            >
-              Reports
-            </h1>
-
-            <div
-              style={{
-                opacity: 0.62,
-                lineHeight: 1.5,
-              }}
-            >
-              Automatic leak
-              analysis and
-              recovery reports.
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: 10,
-              flexWrap: "wrap",
-            }}
-          >
-            <Link
-              href="/"
-              style={{
-                padding:
-                  "10px 14px",
-                borderRadius: 10,
-                border:
-                  "1px solid rgba(148,163,184,0.28)",
-                color: "inherit",
-                textDecoration:
-                  "none",
-              }}
-            >
-              Dashboard
-            </Link>
-
-            <Link
-              href="/settings/automation"
-              style={{
-                padding:
-                  "10px 14px",
-                borderRadius: 10,
-                border:
-                  "1px solid rgba(148,163,184,0.28)",
-                color: "inherit",
-                textDecoration:
-                  "none",
-              }}
-            >
-              Automation
-            </Link>
 
             <button
               type="button"
-              onClick={() =>
-                void loadReports()
-              }
+              onClick={() => void loadReports()}
               disabled={loading}
-              style={{
-                padding:
-                  "10px 14px",
-                borderRadius: 10,
-                border:
-                  "1px solid rgba(148,163,184,0.28)",
-                cursor:
-                  loading
-                    ? "default"
-                    : "pointer",
-              }}
+              className="rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-zinc-300 transition hover:bg-white/[0.05] disabled:opacity-50"
             >
-              {loading
-                ? "Refreshing..."
-                : "Refresh"}
+              {loading ? "Refreshing..." : "Refresh"}
             </button>
-          </div>
-        </div>
+          </header>
 
-        {error ? (
-          <div
-            style={{
-              border:
-                "1px solid rgba(239,68,68,0.35)",
-              borderRadius: 14,
-              padding: 16,
-              marginBottom: 24,
-            }}
-          >
-            {error}
-          </div>
-        ) : null}
+          {error && (
+            <div className="mt-6 rounded-xl border border-red-500/20 bg-red-500/[0.05] p-4 text-sm text-red-300">
+              {error}
+            </div>
+          )}
 
-        {loading &&
-        reports.length === 0 ? (
-          <div
-            style={{
-              border:
-                "1px solid rgba(148,163,184,0.22)",
-              borderRadius: 16,
-              padding: 28,
-            }}
-          >
-            Loading reports...
-          </div>
-        ) : null}
+          {loading && reports.length === 0 && (
+            <div className="mt-8 rounded-2xl border border-white/[0.08] bg-[#262626] p-8 text-zinc-500">
+              Loading reports...
+            </div>
+          )}
 
-        {!loading &&
-        reports.length === 0 ? (
-          <div
-            style={{
-              border:
-                "1px solid rgba(148,163,184,0.22)",
-              borderRadius: 18,
-              padding: 36,
-              background:
-                "rgba(15,23,42,0.6)",
-            }}
-          >
-            <h2
-              style={{
-                marginTop: 0,
-              }}
-            >
-              No reports yet
-            </h2>
-
-            <p
-              style={{
-                opacity: 0.68,
-                maxWidth: 600,
-                lineHeight: 1.6,
-              }}
-            >
-              Reports are
-              generated
-              automatically
-              after an analysis
-              finishes. Run an
-              analysis or enable
-              recurring scans to
-              create your first
-              report.
-            </p>
-          </div>
-        ) : null}
-
-        {selected ? (
-          <>
-            <section
-              style={{
-                border:
-                  "1px solid rgba(148,163,184,0.22)",
-                borderRadius: 18,
-                padding: 22,
-                background:
-                  "rgba(15,23,42,0.62)",
-                marginBottom: 20,
-              }}
-            >
-              <div
-                style={{
-                  display:
-                    "flex",
-                  justifyContent:
-                    "space-between",
-                  gap: 16,
-                  alignItems:
-                    "center",
-                  flexWrap:
-                    "wrap",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontSize:
-                        13,
-                      opacity:
-                        0.56,
-                    }}
-                  >
-                    Latest selected
-                    report
-                  </div>
-
-                  <h2
-                    style={{
-                      margin:
-                        "6px 0 0",
-                    }}
-                  >
-                    {dateTime(
-                      selected.scan_date
-                    )}
-                  </h2>
-                </div>
-
-                <div
-                  style={{
-                    padding:
-                      "7px 11px",
-                    borderRadius:
-                      999,
-                    border:
-                      "1px solid rgba(34,197,94,0.35)",
-                    fontSize: 13,
-                    fontWeight: 700,
-                  }}
-                >
-                  {selected.status}
-                </div>
-              </div>
-            </section>
-
-            <section
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(190px, 1fr))",
-                gap: 14,
-                marginBottom: 20,
-              }}
-            >
-              {metricCard(
-                "Revenue at Risk",
-                money(
-                  selected.revenue_at_risk
-                ),
-                "Total value currently exposed across detected leaks."
-              )}
-
-              {metricCard(
-                "Estimated Recovery",
-                money(
-                  selected.estimated_recovery
-                ),
-                "Estimated recoverable revenue from current leaks."
-              )}
-
-              {metricCard(
-                "Recovered",
-                money(
-                  selected.recovered_amount
-                ),
-                "Revenue already marked as recovered."
-              )}
-
-              {metricCard(
-                "Leaks Found",
-                String(
-                  numberValue(
-                    selected.leaks_found
-                  )
-                ),
-                "Total leaks detected in this scan."
-              )}
-            </section>
-
-            <section
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit, minmax(210px, 1fr))",
-                gap: 14,
-                marginBottom: 20,
-              }}
-            >
-              {metricCard(
-                "New Leaks",
-                String(
-                  numberValue(
-                    selected.new_leaks
-                  )
-                ),
-                "Leaks not present in the previous scan."
-              )}
-
-              {metricCard(
-                "Resolved Leaks",
-                String(
-                  numberValue(
-                    selected.resolved_leaks
-                  )
-                ),
-                "Previous leaks no longer detected."
-              )}
-
-              {metricCard(
-                "Risk Change",
-                `${
-                  riskChange > 0
-                    ? "+"
-                    : ""
-                }${money(
-                  riskChange
-                )}`,
-                previousRisk ===
-                null
-                  ? "No previous scan available for comparison."
-                  : riskChange <
-                      0
-                    ? "Revenue at risk decreased since the previous scan."
-                    : riskChange >
-                        0
-                      ? "Revenue at risk increased since the previous scan."
-                      : "Revenue at risk is unchanged."
-              )}
-            </section>
-
-            <section
-              style={{
-                border:
-                  "1px solid rgba(148,163,184,0.22)",
-                borderRadius: 18,
-                padding: 22,
-                background:
-                  "rgba(15,23,42,0.62)",
-                marginBottom: 20,
-              }}
-            >
-              <div
-                style={{
-                  display:
-                    "flex",
-                  justifyContent:
-                    "space-between",
-                  gap: 12,
-                  alignItems:
-                    "center",
-                  marginBottom:
-                    18,
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontSize:
-                        13,
-                      opacity:
-                        0.58,
-                    }}
-                  >
-                    Action Center
-                  </div>
-
-                  <h2
-                    style={{
-                      margin:
-                        "5px 0 0",
-                    }}
-                  >
-                    Top Priority
-                    Leaks
-                  </h2>
-                </div>
-
-                <div
-                  style={{
-                    opacity:
-                      0.58,
-                    fontSize:
-                      13,
-                  }}
-                >
-                  Top {topLeaks.length}
-                </div>
-              </div>
-
-              {topLeaks.length ===
-              0 ? (
-                <div
-                  style={{
-                    opacity:
-                      0.65,
-                  }}
-                >
-                  No priority
-                  leaks in this
-                  report.
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display:
-                      "grid",
-                    gap: 12,
-                  }}
-                >
-                  {topLeaks.map(
-                    (
-                      leak,
-                      index
-                    ) => (
-                      <div
-                        key={`${leak.customer}-${leak.type}-${index}`}
-                        style={{
-                          border:
-                            "1px solid rgba(148,163,184,0.18)",
-                          borderRadius:
-                            14,
-                          padding:
-                            18,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display:
-                              "flex",
-                            justifyContent:
-                              "space-between",
-                            gap: 14,
-                            flexWrap:
-                              "wrap",
-                          }}
-                        >
-                          <div>
-                            <div
-                              style={{
-                                fontWeight:
-                                  800,
-                                fontSize:
-                                  17,
-                              }}
-                            >
-                              {leak.type}
-                            </div>
-
-                            <div
-                              style={{
-                                opacity:
-                                  0.62,
-                                marginTop:
-                                  3,
-                              }}
-                            >
-                              {leak.customer}
-                            </div>
-                          </div>
-
-                          <div
-                            style={{
-                              textAlign:
-                                "right",
-                            }}
-                          >
-                            <div
-                              style={{
-                                fontWeight:
-                                  800,
-                              }}
-                            >
-                              {money(
-                                leak.amount
-                              )}
-                            </div>
-
-                            <div
-                              style={{
-                                fontSize:
-                                  12,
-                                opacity:
-                                  0.6,
-                                marginTop:
-                                  3,
-                              }}
-                            >
-                              {leak.priorityLevel}{" "}
-                              priority
-                            </div>
-                          </div>
-                        </div>
-
-                        {leak.reason ? (
-                          <div
-                            style={{
-                              marginTop:
-                                14,
-                              opacity:
-                                0.7,
-                              lineHeight:
-                                1.55,
-                            }}
-                          >
-                            <strong>
-                              Why:
-                            </strong>{" "}
-                            {leak.reason}
-                          </div>
-                        ) : null}
-
-                        {leak.action ? (
-                          <div
-                            style={{
-                              marginTop:
-                                10,
-                              lineHeight:
-                                1.55,
-                            }}
-                          >
-                            <strong>
-                              Recommended
-                              action:
-                            </strong>{" "}
-                            {leak.action}
-                          </div>
-                        ) : null}
-
-                        <div
-                          style={{
-                            marginTop:
-                              12,
-                            display:
-                              "flex",
-                            gap: 16,
-                            flexWrap:
-                              "wrap",
-                            fontSize:
-                              13,
-                            opacity:
-                              0.64,
-                          }}
-                        >
-                          <span>
-                            Recovery:{" "}
-                            {money(
-                              leak.recovery
-                            )}
-                          </span>
-
-                          <span>
-                            Score:{" "}
-                            {leak.priorityScore}
-                          </span>
-
-                          <span>
-                            Status:{" "}
-                            {leak.status}
-                          </span>
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-            </section>
-
-            <section
-              style={{
-                border:
-                  "1px solid rgba(148,163,184,0.22)",
-                borderRadius: 18,
-                padding: 22,
-                background:
-                  "rgba(15,23,42,0.62)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 13,
-                  opacity: 0.58,
-                }}
-              >
-                Previous scans
-              </div>
-
-              <h2
-                style={{
-                  margin:
-                    "5px 0 18px",
-                }}
-              >
-                Report History
+          {!loading && reports.length === 0 && (
+            <section className="mt-8 rounded-2xl border border-white/[0.08] bg-[#262626] p-8 text-center">
+              <h2 className="text-xl font-semibold text-white">
+                No reports yet
               </h2>
 
-              <div
-                style={{
-                  display:
-                    "grid",
-                  gap: 10,
-                }}
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-zinc-500">
+                Run an analysis to generate your first report.
+              </p>
+
+              <Link
+                href="/"
+                className="mt-5 inline-flex rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black"
               >
-                {reports.map(
-                  (report) => {
-                    const active =
-                      report.id ===
-                      selected.id;
+                Run analysis
+              </Link>
+            </section>
+          )}
 
-                    return (
-                      <button
-                        key={
-                          report.id
-                        }
-                        type="button"
-                        onClick={() =>
-                          setSelectedId(
-                            report.id
-                          )
-                        }
-                        style={{
-                          width:
-                            "100%",
-                          textAlign:
-                            "left",
-                          padding:
-                            14,
-                          borderRadius:
-                            12,
-                          border:
-                            active
-                              ? "1px solid rgba(96,165,250,0.7)"
-                              : "1px solid rgba(148,163,184,0.18)",
-                          background:
-                            active
-                              ? "rgba(30,64,175,0.22)"
-                              : "rgba(15,23,42,0.3)",
-                          color:
-                            "inherit",
-                          cursor:
-                            "pointer",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display:
-                              "flex",
-                            justifyContent:
-                              "space-between",
-                            gap: 12,
-                            flexWrap:
-                              "wrap",
-                          }}
+          {selected && (
+            <div className="mt-8 space-y-6">
+              <section className="flex flex-col gap-4 rounded-2xl border border-white/[0.08] bg-[#262626] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                    Selected report
+                  </p>
+
+                  <h2 className="mt-2 text-xl font-semibold text-white">
+                    {dateTime(selected.scan_date)}
+                  </h2>
+                </div>
+
+                <span className="w-fit rounded-full border border-emerald-400/20 bg-emerald-400/[0.06] px-3 py-1 text-xs font-medium text-emerald-300">
+                  {selected.status}
+                </span>
+              </section>
+
+              <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Revenue at risk</p>
+                  <p className="mt-3 text-3xl font-semibold text-white">
+                    {money(selected.revenue_at_risk)}
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Estimated recovery</p>
+                  <p className="mt-3 text-3xl font-semibold text-emerald-400">
+                    {money(selected.estimated_recovery)}
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Recovered</p>
+                  <p className="mt-3 text-3xl font-semibold text-emerald-400">
+                    {money(selected.recovered_amount)}
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Leaks found</p>
+                  <p className="mt-3 text-3xl font-semibold text-white">
+                    {numberValue(selected.leaks_found)}
+                  </p>
+                </article>
+              </section>
+
+              <section className="grid gap-3 md:grid-cols-3">
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">New leaks</p>
+                  <p className="mt-2 text-2xl font-semibold text-white">
+                    {numberValue(selected.new_leaks)}
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Resolved leaks</p>
+                  <p className="mt-2 text-2xl font-semibold text-white">
+                    {numberValue(selected.resolved_leaks)}
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-white/[0.08] bg-[#262626] p-5">
+                  <p className="text-sm text-zinc-500">Risk change</p>
+
+                  <p
+                    className={
+                      riskChange > 0
+                        ? "mt-2 text-2xl font-semibold text-red-400"
+                        : riskChange < 0
+                        ? "mt-2 text-2xl font-semibold text-emerald-400"
+                        : "mt-2 text-2xl font-semibold text-white"
+                    }
+                  >
+                    {riskChange > 0 ? "+" : ""}
+                    {money(riskChange)}
+                  </p>
+
+                  {previousRisk !== null && (
+                    <p className="mt-2 text-xs text-zinc-500">
+                      Previous: {money(previousRisk)}
+                    </p>
+                  )}
+                </article>
+              </section>
+
+              <section className="grid gap-5 xl:grid-cols-[1.4fr_0.6fr]">
+                <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                  <div className="border-b border-white/[0.07] p-5 sm:p-6">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                      Action center
+                    </p>
+
+                    <h3 className="mt-2 text-xl font-semibold text-white">
+                      Top priority leaks
+                    </h3>
+                  </div>
+
+                  {topLeaks.length > 0 ? (
+                    <div className="divide-y divide-white/[0.07]">
+                      {topLeaks.slice(0, 5).map((leak, index) => (
+                        <article
+                          key={`${leak.customer}-${leak.type}-${index}`}
+                          className="p-5 sm:p-6"
                         >
-                          <span>
-                            {dateTime(
-                              report.scan_date
-                            )}
-                          </span>
+                          <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/[0.07] text-xs text-zinc-400">
+                                  {index + 1}
+                                </span>
 
-                          <strong>
-                            {money(
-                              report.revenue_at_risk
-                            )}{" "}
-                            at risk
-                          </strong>
+                                <p className="font-medium text-white">
+                                  {leak.customer}
+                                </p>
+                              </div>
+
+                              <p className="mt-2 text-sm text-zinc-500">
+                                {leak.type}
+                              </p>
+
+                              <p className="mt-3 text-sm leading-6 text-zinc-400">
+                                {leak.reason}
+                              </p>
+
+                              <div className="mt-4 rounded-xl bg-white/[0.03] p-4">
+                                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">
+                                  Recommended action
+                                </p>
+
+                                <p className="mt-2 text-sm leading-6 text-zinc-300">
+                                  {leak.action}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="shrink-0 sm:text-right">
+                              <p className="font-semibold text-white">
+                                {money(leak.amount)}
+                              </p>
+
+                              <p className="mt-1 text-sm font-medium text-emerald-400">
+                                ~{money(leak.recovery)}
+                              </p>
+                            </div>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 text-sm text-zinc-500">
+                      No priority leaks in this report.
+                    </div>
+                  )}
+                </div>
+
+                <aside className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#262626]">
+                  <div className="border-b border-white/[0.07] p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                      History
+                    </p>
+
+                    <h3 className="mt-2 font-semibold text-white">
+                      Previous reports
+                    </h3>
+                  </div>
+
+                  <div className="max-h-[620px] divide-y divide-white/[0.07] overflow-y-auto">
+                    {reports.map((report) => (
+                      <button
+                        key={report.id}
+                        type="button"
+                        onClick={() => setSelectedId(report.id)}
+                        className={
+                          report.id === selected.id
+                            ? "w-full bg-white/[0.06] p-4 text-left"
+                            : "w-full p-4 text-left transition hover:bg-white/[0.035]"
+                        }
+                      >
+                        <p className="text-sm font-medium text-zinc-200">
+                          {dateTime(report.scan_date)}
+                        </p>
+
+                        <div className="mt-2 flex justify-between gap-3 text-xs">
+                          <span className="text-zinc-500">Risk</span>
+                          <span className="text-zinc-300">
+                            {money(report.revenue_at_risk)}
+                          </span>
+                        </div>
+
+                        <div className="mt-1 flex justify-between gap-3 text-xs">
+                          <span className="text-zinc-500">Leaks</span>
+                          <span className="text-zinc-300">
+                            {numberValue(report.leaks_found)}
+                          </span>
                         </div>
                       </button>
-                    );
-                  }
-                )}
-              </div>
-            </section>
-          </>
-        ) : null}
-      </div>
+                    ))}
+                  </div>
+                </aside>
+              </section>
+
+              <Link
+                href="/settings/automation"
+                className="block rounded-2xl border border-amber-400/20 bg-amber-400/[0.04] p-5 transition hover:bg-amber-400/[0.07]"
+              >
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-amber-200">
+                    Automatic reports
+                  </p>
+
+                  <span className="rounded-md border border-amber-400/25 bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-semibold text-amber-300">
+                    PRO
+                  </span>
+                </div>
+
+                <p className="mt-2 text-sm text-zinc-500">
+                  Schedule recurring scans and receive reports automatically.
+                </p>
+
+                <p className="mt-4 text-sm font-medium text-amber-300">
+                  Manage automation →
+                </p>
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
     </main>
   );
 }

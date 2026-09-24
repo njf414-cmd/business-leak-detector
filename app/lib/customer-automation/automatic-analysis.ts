@@ -1,3 +1,4 @@
+import { getBusinessEntitlements } from "../billing/entitlements";
 import { createClient } from "@supabase/supabase-js";
 
 import { enqueueAnalysisJob } from "../background/analysis-queue";
@@ -22,7 +23,7 @@ export type AutomaticAnalysisResult =
       queued: false;
       skipped: true;
       jobId: null;
-      reason: "active_job";
+      reason: "active_job" | "pro_required";
     };
 
 function createWorkerSupabase() {
@@ -66,6 +67,20 @@ export async function dispatchAutomaticCustomerAnalysis(
     throw new Error(
       "Customer automation settings do not exist for this business."
     );
+  }
+
+  const entitlements = await getBusinessEntitlements(
+    supabase,
+    input.businessId
+  );
+
+  if (!entitlements.hasProAccess) {
+    return {
+      queued: false,
+      skipped: true,
+      jobId: null,
+      reason: "pro_required",
+    };
   }
 
   if (settings.active_job_id) {

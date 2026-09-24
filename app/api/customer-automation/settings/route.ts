@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { DEFAULT_CUSTOMER_AUTOMATION_SETTINGS } from "../../../lib/customer-automation/types";
 import { parseCustomerAutomationPatch } from "../../../lib/customer-automation/validation";
 import { calculateNextScanAt } from "../../../lib/customer-automation/scheduler";
+import { getBusinessEntitlements } from "../../../lib/billing/entitlements";
 
 export const dynamic = "force-dynamic";
 
@@ -182,6 +183,34 @@ export async function PATCH(request: Request) {
       context.supabase,
       context.businessId
     );
+
+    const entitlements = await getBusinessEntitlements(
+      context.supabase,
+      context.businessId
+    );
+
+    const premiumAutomationRequested =
+      (parsed.value.setup_mode !== undefined &&
+        parsed.value.setup_mode !== "manual") ||
+      parsed.value.recurring_scans_enabled === true ||
+      parsed.value.notifications_enabled === true ||
+      (parsed.value.report_frequency !== undefined &&
+        parsed.value.report_frequency !== "manual");
+
+    if (
+      premiumAutomationRequested &&
+      !entitlements.hasProAccess
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: "PRO_REQUIRED",
+          error:
+            "A PRO subscription is required to use AI setup, recurring scans, automatic reports, or notifications.",
+        },
+        { status: 403 }
+      );
+    }
 
     const updates: Record<string, unknown> = {
       ...parsed.value,

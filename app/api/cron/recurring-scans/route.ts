@@ -1,3 +1,4 @@
+import { getBusinessEntitlements } from "../../../lib/billing/entitlements";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -203,12 +204,37 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const eligibleDueSettings = [];
+
+    for (const setting of dueSettings ?? []) {
+      const entitlements = await getBusinessEntitlements(
+        supabase,
+        setting.business_id
+      );
+
+      if (entitlements.hasProAccess) {
+        eligibleDueSettings.push(setting);
+        continue;
+      }
+
+      if (!dryRun) {
+        await supabase
+          .from("customer_automation_settings")
+          .update({
+            recurring_scans_enabled: false,
+            next_scan_at: null,
+            updated_at: nowIso,
+          })
+          .eq("business_id", setting.business_id);
+      }
+    }
+
     if (dryRun) {
       return NextResponse.json(
         {
           success: true,
           dryRun: true,
-          due: dueSettings?.length ?? 0,
+          due: eligibleDueSettings.length,
         },
         {
           headers: {
@@ -227,7 +253,7 @@ export async function GET(request: NextRequest) {
       error: string;
     }> = [];
 
-    for (const setting of dueSettings ?? []) {
+    for (const setting of eligibleDueSettings) {
       const businessId = setting.business_id;
 
       try {

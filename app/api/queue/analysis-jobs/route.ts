@@ -1,6 +1,7 @@
 import { generateAndSaveCustomerReport } from "../../../lib/customer-automation/report-service";
 import { prepareCustomerReportNotification } from "../../../lib/customer-automation/notification-service";
 import { enqueueNotificationDelivery } from "../../../lib/background/notification-queue";
+import { getBusinessEntitlements } from "../../../lib/billing/entitlements";
 import { del, get } from "@vercel/blob";
 import { handleCallback } from "@vercel/queue";
 import { NextRequest } from "next/server";
@@ -330,6 +331,74 @@ export const POST = handleCallback<AnalysisJobMessage>(
       messageId: metadata.messageId,
       deliveryCount: metadata.deliveryCount,
     });
+
+    const isRecurringAutomationJob =
+      typeof job.source_path === "string" &&
+      job.source_path.startsWith("customer-scan-sources/");
+
+    if (isRecurringAutomationJob) {
+      const entitlements = await getBusinessEntitlements(
+        supabase,
+        job.business_id
+      );
+
+      if (!entitlements.hasProAccess) {
+        const stoppedAt = new Date().toISOString();
+
+        const { error: stopJobError } = await supabase
+          .from("analysis_jobs")
+          .update({
+            status: "failed",
+            progress: 0,
+            error_message:
+              "PRO subscription required for recurring automation.",
+            completed_at: stoppedAt,
+            updated_at: stoppedAt,
+            locked_at: null,
+            locked_by: null,
+          })
+          .eq("id", jobId)
+          .eq("locked_by", workerId);
+
+        if (stopJobError) {
+          throw new Error(
+            `Could not stop non-PRO recurring job: ${stopJobError.message}`
+          );
+        }
+
+        const { error: releaseError } = await supabase
+          .from("customer_automation_settings")
+          .update({
+            active_job_id: null,
+            recurring_scans_enabled: false,
+            next_scan_at: null,
+            updated_at: stoppedAt,
+          })
+          .eq("business_id", job.business_id)
+          .eq("active_job_id", jobId);
+
+        if (releaseError) {
+          logger.warn(
+            "recurring_scan.pro_required_lock_release_failed",
+            {
+              jobId,
+              businessId: job.business_id,
+              error: releaseError.message,
+            }
+          );
+        }
+
+        logger.info(
+          "analysis_job.skipped_pro_required",
+          {
+            jobId,
+            businessId: job.business_id,
+          }
+        );
+
+        return;
+      }
+    }
 
     try {
       const blobResult = await get(

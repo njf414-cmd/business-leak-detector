@@ -1,3 +1,4 @@
+import { getBusinessEntitlements } from "../billing/entitlements";
 import "server-only";
 
 import {
@@ -330,6 +331,19 @@ export async function prepareCustomerReportNotification(
 
       reason:
         "feature_disabled",
+    };
+  }
+
+  const entitlements = await getBusinessEntitlements(
+    supabase,
+    businessId
+  );
+
+  if (!entitlements.hasProAccess) {
+    return {
+      status: "skipped",
+      deliveryId: null,
+      reason: "pro_required",
     };
   }
 
