@@ -2662,7 +2662,7 @@ export default function Home() {
 
           <nav
             aria-label="Main navigation"
-            className="grid grid-cols-4 gap-1"
+            className="grid grid-cols-5 gap-1"
           >
             {(
               ["Dashboard", "Leaks", "Analytics", "Data"] as const
@@ -2681,6 +2681,12 @@ export default function Home() {
                 {tab}
               </button>
             ))}
+          <a
+            href="/reports"
+            className="border-b-2 border-transparent px-1 py-3 text-center text-sm font-semibold text-slate-400 transition-colors hover:text-white"
+          >
+            Reports
+          </a>
           </nav>
         </div>
       </header>
@@ -3535,26 +3541,6 @@ export default function Home() {
           </section>
         )}
       </div>
-
-      <a
-        href="/reports"
-        style={{
-          position: "fixed",
-          right: 20,
-          bottom: 20,
-          zIndex: 50,
-          padding: "11px 16px",
-          borderRadius: 12,
-          border: "1px solid rgba(148,163,184,0.28)",
-          background: "rgba(15,23,42,0.94)",
-          color: "#f8fafc",
-          textDecoration: "none",
-          fontWeight: 700,
-          boxShadow: "0 12px 30px rgba(0,0,0,0.28)",
-        }}
-      >
-        Reports
-      </a>
     </main>
   );
 }
